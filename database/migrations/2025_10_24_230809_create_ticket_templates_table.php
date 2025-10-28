@@ -13,13 +13,10 @@ return new class extends Migration
     {
         Schema::create('ticket_templates', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('default_title');
-            $table->text('default_description')->nullable();
+            $table->string('title');
+            $table->text('description');
             $table->foreignId('area_id')->nullable()->constrained('areas')->nullOnDelete();
-            $table->foreignId('trade_id')->nullable()->constrained('trades')->nullOnDelete();
-            $table->foreignId('status_id')->nullable()->constrained('statuses')->nullOnDelete();
-            $table->foreignId('created_by')->constrained('users')->nullOnDelete();
+            $table->foreignId('department_id')->nullable()->constrained('departments')->nullOnDelete();
             $table->timestamps();
         });
     }

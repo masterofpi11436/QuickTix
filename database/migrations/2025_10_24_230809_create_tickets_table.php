@@ -14,13 +14,17 @@ return new class extends Migration
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('description')->nullable();
-            $table->foreignId('area_id')->nullable()->constrained('areas')->nullOnDelete();
-            $table->foreignId('trade_id')->nullable()->constrained('trades')->nullOnDelete();
-            $table->foreignId('status_id')->nullable()->constrained('statuses')->nullOnDelete();
-            $table->foreignId('ticket_template_id')->nullable()->constrained('ticket_templates')->nullOnDelete();
-            $table->foreignId('created_by')->constrained('users')->nullOnDelete();
-            $table->timestamps();
+            $table->text('description');
+            $table->text('notes');
+            $table->string('submitted_by');
+            $table->string('technician')->nullable();
+            $table->string('assigned_by')->nullable();
+            $table->string('department');
+            $table->string('area');
+            $table->string('status');
+            $table->timestamp('opened');
+            $table->timestamp('assigned')->nullable();
+            $table->timestamp('completed')->nullable();
         });
     }
 
