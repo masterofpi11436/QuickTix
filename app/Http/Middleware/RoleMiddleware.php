@@ -2,8 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\UserRole;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class RoleMiddleware
@@ -11,15 +13,26 @@ class RoleMiddleware
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * Usage: ->middleware(['role:Administrator'])
      */
     public function handle(Request $request, Closure $next, ...$roles): Response
     {
-        $user = $request->user();
+        $user = Auth::user();
 
-        // Block access if user not logged in or role not allowed
-        if (! $user || ! in_array($user->role->name, $roles)) {
-            abort(403, 'Unauthorized access.');
+        // If user isn't logged in
+        if (! $user) {
+            return redirect()->route('login')
+                ->with('status', 'Please log in to continue.');
+        }
+
+        // If user's role isn't allowed
+        if (! in_array($user->role->value, $roles)) {
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return redirect()->route('login')
+                ->with('status', 'Unauthorized access. You have been logged out.');
         }
 
         return $next($request);
