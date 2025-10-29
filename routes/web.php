@@ -1,9 +1,38 @@
 <?php
 
 use App\Enums\UserRole;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::redirect('/', '/login');
+// Default Redirect
+Route::get('/', function () {
+    // If user is not logged in → go to login
+    if (!Auth::check()) {
+        return redirect()->route('login');
+    }
+
+    // Otherwise, send them to their correct dashboard
+    return match (Auth::user()->role) {
+        UserRole::Administrator => redirect()->route('admin.dashboard'),
+        UserRole::Controller => redirect()->route('controller.dashboard'),
+        UserRole::Technician => redirect()->route('technician.dashboard'),
+        default => redirect()->route('user.dashboard'),
+    };
+});
+
+// Theme Toggle
+Route::post('/user/theme', function (Request $request) {
+    $request->validate(['theme' => 'in:light,dark']);
+
+    $user = $request->user();
+    $user->theme = $request->theme;
+    $user->save();
+
+    session(['theme' => $request->theme]);
+
+    return back();
+})->middleware('auth')->name('user.theme');
 
 require __DIR__.'/auth.php';
 

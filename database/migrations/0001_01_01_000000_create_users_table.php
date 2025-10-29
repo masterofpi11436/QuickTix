@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('password');
             $table->enum('role', ['User', 'Technician', 'Controller', 'Administrator']);
             $table->string('department')->nullable();
+            $table->string('theme')->default('dark');
             $table->rememberToken();
             $table->timestamps();
         });
