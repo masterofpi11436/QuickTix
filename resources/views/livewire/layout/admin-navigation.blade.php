@@ -39,25 +39,6 @@ new class extends Component
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
 
-                <!-- Dark mode toggle -->
-                <button
-                    x-data="{ dark: document.documentElement.classList.contains('dark') }"
-                    @click="
-                        dark = !dark;
-                        document.documentElement.classList.toggle('dark', dark);
-                        localStorage.theme = dark ? 'dark' : 'light';
-                    "
-                    class="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
-                    title="Toggle dark mode"
-                >
-                    <svg x-show="!dark" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m8.66-9H21M3 12H2m15.364-7.364l.707.707M6.343 17.657l.707.707m0-12.728l-.707.707M17.657 17.657l-.707.707M12 5a7 7 0 100 14 7 7 0 000-14z" />
-                    </svg>
-                    <svg x-show="dark" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M21.752 15.002A9.718 9.718 0 0112 22C6.477 22 2 17.523 2 12c0-4.116 2.603-7.612 6.248-8.962a.75.75 0 01.935.941A8.001 8.001 0 0012 20a8.001 8.001 0 006.021-12.817.75.75 0 01.935-.941A9.718 9.718 0 0121.752 15z"/>
-                    </svg>
-                </button>
-
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
@@ -74,6 +55,26 @@ new class extends Component
                     <x-slot name="content">
                         <x-dropdown-link :href="route('admin.profile')" wire:navigate>
                             {{ __('Profile') }}
+                        </x-dropdown-link>
+
+                        <!-- Theme Toggle -->
+                        <x-dropdown-link
+                            href="#"
+                            x-data="{ theme: document.documentElement.classList.contains('dark') ? 'dark' : 'light' }"
+                            @click.prevent="
+                                const html = document.documentElement;
+                                theme = html.classList.toggle('dark') ? 'dark' : 'light';
+                                fetch('/user/theme', {
+                                    method: 'POST',
+                                    headers: {
+                                        'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content,
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({ theme }),
+                                });
+                            "
+                        >
+                            Theme: <span x-text="theme === 'dark' ? 'Dark' : 'Light'"></span>
                         </x-dropdown-link>
 
                         <!-- Authentication -->
@@ -108,26 +109,6 @@ new class extends Component
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
-
-            <!-- Dark mode toggle -->
-            <button
-                x-data="{ dark: document.documentElement.classList.contains('dark') }"
-                @click="
-                    dark = !dark;
-                    document.documentElement.classList.toggle('dark', dark);
-                    localStorage.theme = dark ? 'dark' : 'light';
-                "
-                class="p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
-                title="Toggle dark mode"
-            >
-                <svg x-show="!dark" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m8.66-9H21M3 12H2m15.364-7.364l.707.707M6.343 17.657l.707.707m0-12.728l-.707.707M17.657 17.657l-.707.707M12 5a7 7 0 100 14 7 7 0 000-14z" />
-                </svg>
-                <svg x-show="dark" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M21.752 15.002A9.718 9.718 0 0112 22C6.477 22 2 17.523 2 12c0-4.116 2.603-7.612 6.248-8.962a.75.75 0 01.935.941A8.001 8.001 0 0012 20a8.001 8.001 0 006.021-12.817.75.75 0 01.935-.941A9.718 9.718 0 0121.752 15z"/>
-                </svg>
-            </button>
-
             <div class="px-4">
                 <div class="font-medium text-base text-gray-800 dark:text-gray-200" x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name" x-on:profile-updated.window="name = $event.detail.name"></div>
                 <div class="font-medium text-sm text-gray-500">{{ auth()->user()->email }}</div>

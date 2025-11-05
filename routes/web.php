@@ -23,16 +23,10 @@ Route::get('/', function () {
 
 // Theme Toggle
 Route::post('/user/theme', function (Request $request) {
-    $request->validate(['theme' => 'in:light,dark']);
+    $request->user()->update(['theme' => $request->theme]);
+    return response()->noContent();
+})->middleware('auth');
 
-    $user = $request->user();
-    $user->theme = $request->theme;
-    $user->save();
-
-    session(['theme' => $request->theme]);
-
-    return back();
-})->middleware('auth')->name('user.theme');
 
 require __DIR__.'/auth.php';
 
