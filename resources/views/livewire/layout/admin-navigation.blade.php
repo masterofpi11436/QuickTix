@@ -74,7 +74,7 @@ new class extends Component
                                 });
                             "
                         >
-                            Theme: <span x-text="theme === 'dark' ? 'Dark' : 'Light'"></span>
+                            <span x-text="theme === 'dark' ? 'Light' : 'Dark'"></span> theme
                         </x-dropdown-link>
 
                         <!-- Authentication -->
