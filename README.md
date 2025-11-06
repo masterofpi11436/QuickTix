@@ -54,5 +54,5 @@ The application ships with no predefined areas, departments, statuses, or ticket
 
 - User
     - Creates Tickets
-    - Cancel Tickets (Will delete the tciket out of the system)
+    - Cancel Tickets (Will delete the ticket out of the system)
     
