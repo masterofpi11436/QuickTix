@@ -33,6 +33,21 @@ new class extends Component
                     <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('admin.profile')" :active="request()->routeIs('profile')" wire:navigate>
+                        {{ __('Profile') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('admin.users')" :active="request()->routeIs('users')" wire:navigate>
+                        {{ __('Users') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('admin.statuses')" :active="request()->routeIs('statuses')" wire:navigate>
+                        {{ __('Statuses') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('admin.areas')" :active="request()->routeIs('areas')" wire:navigate>
+                        {{ __('Areas') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('admin.templates')" :active="request()->routeIs('templates')" wire:navigate>
+                        {{ __('Templates') }}
+                    </x-nav-link>
                 </div>
             </div>
 

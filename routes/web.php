@@ -34,6 +34,10 @@ Route::middleware(['auth', 'role:' . UserRole::Administrator->value])
     ->group(function () {
         Route::view('/admin/dashboard', 'admin.dashboard')->name('admin.dashboard');
         Route::view('/admin/profile', 'admin.profile')->name('admin.profile');
+        Route::view('/admin/users', 'admin.profile')->name('admin.users');
+        Route::view('/admin/statuses', 'admin.profile')->name('admin.statuses');
+        Route::view('/admin/areas', 'admin.profile')->name('admin.areas');
+        Route::view('/admin/templates', 'admin.profile')->name('admin.templates');
     });
 
 Route::middleware(['auth', 'role:' . UserRole::Controller->value])
