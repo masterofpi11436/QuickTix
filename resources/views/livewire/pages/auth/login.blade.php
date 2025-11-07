@@ -1,10 +1,11 @@
 <?php
 
-use App\Livewire\Forms\LoginForm;
-use Illuminate\Support\Facades\Session;
-use Livewire\Attributes\Layout;
-use Livewire\Volt\Component;
 use App\Enums\UserRole;
+use Livewire\Volt\Component;
+use Livewire\Attributes\Layout;
+use App\Livewire\Forms\LoginForm;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 new #[Layout('layouts.guest')] class extends Component
 {
@@ -45,6 +46,7 @@ new #[Layout('layouts.guest')] class extends Component
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
     <form wire:submit="login">
+
         <!-- Email Address -->
         <div>
             <x-input-label for="email" :value="__('Email')" />
