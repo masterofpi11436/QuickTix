@@ -58,7 +58,7 @@ new class extends Component
                         </x-dropdown-link>
 
                         <!-- Theme Toggle -->
-                        <x-theme-toggle />
+                        <x-theme-toggle variant="dropdown" />
 
                         <!-- Authentication -->
                         <button wire:click="logout" class="w-full text-start">
@@ -101,6 +101,9 @@ new class extends Component
                 <x-responsive-nav-link :href="route('admin.profile')" wire:navigate>
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
+
+                <!-- Theme Toggle -->
+                <x-theme-toggle variant="responsive" />
 
                 <!-- Authentication -->
                 <button wire:click="logout" class="w-full text-start">
