@@ -4,6 +4,7 @@ use App\Enums\UserRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\StatusController;
 
 // Default Redirect
 Route::get('/', function () {
@@ -35,7 +36,17 @@ Route::middleware(['auth', 'role:' . UserRole::Administrator->value])
         Route::view('/admin/dashboard', 'admin.dashboard')->name('admin.dashboard');
         Route::view('/admin/profile', 'admin.profile')->name('admin.profile');
         Route::view('/admin/users', 'admin.profile')->name('admin.users');
-        Route::view('/admin/statuses', 'admin.profile')->name('admin.statuses');
+                
+        // -------- STATUS CRUD ROUTES --------
+        Route::prefix('/admin/statuses')->name('admin.statuses.')->group(function () {
+            Route::get('/', [StatusController::class, 'index'])->name('index');
+            Route::get('/create', [StatusController::class, 'create'])->name('create');
+            Route::post('/', [StatusController::class, 'store'])->name('store');
+            Route::get('/{status}/edit', [StatusController::class, 'edit'])->name('edit');
+            Route::put('/{status}', [StatusController::class, 'update'])->name('update');
+            Route::delete('/{status}', [StatusController::class, 'destroy'])->name('destroy');
+        });
+        
         Route::view('/admin/departments', 'admin.profile')->name('admin.departments');
         Route::view('/admin/areas', 'admin.profile')->name('admin.areas');
         Route::view('/admin/templates', 'admin.profile')->name('admin.templates');
