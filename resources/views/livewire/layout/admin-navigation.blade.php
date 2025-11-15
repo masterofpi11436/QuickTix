@@ -36,7 +36,7 @@ new class extends Component
                     <x-nav-link :href="route('admin.users')" :active="request()->routeIs('users')" wire:navigate>
                         {{ __('Users') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('admin.statuses')" :active="request()->routeIs('statuses')" wire:navigate>
+                    <x-nav-link :href="route('admin.statuses.index')" :active="request()->routeIs('statuses')" wire:navigate>
                         {{ __('Statuses') }}
                     </x-nav-link>
                     <x-nav-link :href="route('admin.departments')" :active="request()->routeIs('departments')" wire:navigate>
@@ -112,7 +112,7 @@ new class extends Component
             <x-responsive-nav-link :href="route('admin.areas')" :active="request()->routeIs('admin.areas')" wire:navigate>
                 {{ __('Areas') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('admin.statuses')" :active="request()->routeIs('admin.statuses')" wire:navigate>
+            <x-responsive-nav-link :href="route('admin.statuses.index')" :active="request()->routeIs('admin.statuses')" wire:navigate>
                 {{ __('Statuses') }}
             </x-responsive-nav-link>
         </div>
