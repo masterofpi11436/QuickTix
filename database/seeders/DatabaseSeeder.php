@@ -46,11 +46,20 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::factory()->create([
-            'first_name' => 'Johne',
+            'first_name' => 'John',
+            'last_name' => 'Smith',
+            'role' => 'ReportingUser',
+            'theme' => 'dark',
+            'email' => 'test3@example.com',
+            'password' => Hash::make('asd'),
+        ]);
+
+        User::factory()->create([
+            'first_name' => 'Jane',
             'last_name' => 'Smith',
             'role' => 'User',
             'theme' => 'dark',
-            'email' => 'test3@example.com',
+            'email' => 'test4@example.com',
             'password' => Hash::make('asd'),
         ]);
     }

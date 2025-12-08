@@ -4,7 +4,6 @@ use App\Enums\UserRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\StatusController;
 
 // Default Redirect
 Route::get('/', function () {
@@ -18,6 +17,7 @@ Route::get('/', function () {
         UserRole::Administrator => redirect()->route('admin.dashboard'),
         UserRole::Controller => redirect()->route('controller.dashboard'),
         UserRole::Technician => redirect()->route('technician.dashboard'),
+        UserRole::ReportingUser => redirect()->route('reporting-user.dashboard'),
         default => redirect()->route('user.dashboard'),
     };
 });
@@ -32,30 +32,46 @@ Route::post('/user/theme', function (Request $request) {
 require __DIR__.'/auth.php';
 
 Route::middleware(['auth', 'role:' . UserRole::Administrator->value])
+    ->prefix('admin')
+    ->name('admin.')
     ->group(function () {
-        Route::view('/admin/dashboard', 'admin.dashboard')->name('admin.dashboard');
-        Route::view('/admin/profile', 'admin.profile')->name('admin.profile');
-        Route::view('/admin/users', 'admin.profile')->name('admin.users');
-        Route::view('/admin/statuses', 'admin.profile')->name('admin.statuses');
-        Route::view('/admin/departments', 'admin.profile')->name('admin.departments');
-        Route::view('/admin/areas', 'admin.profile')->name('admin.areas');
-        Route::view('/admin/templates', 'admin.profile')->name('admin.templates');
+        Route::view('/dashboard', 'admin.dashboard')->name('dashboard');
+        Route::view('/profile', 'admin.profile')->name('profile');
+        Route::view('/users', 'admin.users')->name('users');
+        Route::view('/statuses', 'admin.statuses')->name('statuses');
+        Route::view('/departments', 'admin.departments')->name('departments');
+        Route::view('/areas', 'admin.areas')->name('areas');
+        Route::view('/templates', 'admin.templates')->name('templates');
     });
 
 Route::middleware(['auth', 'role:' . UserRole::Controller->value])
+    ->prefix('controller')
+    ->name('controller.')
     ->group(function () {
-        Route::view('/controller/dashboard', 'controller.dashboard')->name('controller.dashboard');
-        Route::view('/controller/profile', 'controller.profile')->name('controller.profile');
+        Route::view('/dashboard', 'controller.dashboard')->name('dashboard');
+        Route::view('/profile', 'controller.profile')->name('profile');
     });
 
 Route::middleware(['auth', 'role:' . UserRole::Technician->value])
+    ->prefix('technician')
+    ->name('technician.')
     ->group(function () {
-        Route::view('/technician/dashboard', 'technician.dashboard')->name('technician.dashboard');
-        Route::view('/technician/profile', 'technician.profile')->name('technician.profile');
+        Route::view('/dashboard', 'technician.dashboard')->name('dashboard');
+        Route::view('/profile', 'technician.profile')->name('profile');
+    });
+
+Route::middleware(['auth', 'role:' . UserRole::ReportingUser->value])
+    ->prefix('reporting-user')
+    ->name('reporting-user.')
+    ->group(function () {
+        Route::view('/dashboard', 'reporting-user.dashboard')->name('dashboard');
+        Route::view('/profile', 'reporting-user.profile')->name('profile');
     });
 
 Route::middleware(['auth', 'role:' . UserRole::User->value])
+    ->prefix('user')
+    ->name('user.')
     ->group(function () {
-        Route::view('/user/dashboard', 'user.dashboard')->name('user.dashboard');
-        Route::view('/user/profile', 'user.profile')->name('user.profile');
+        Route::view('/dashboard', 'user.dashboard')->name('dashboard');
+        Route::view('/profile', 'user.profile')->name('profile');
     });

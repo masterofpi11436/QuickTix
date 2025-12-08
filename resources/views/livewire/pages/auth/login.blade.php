@@ -29,6 +29,9 @@ new #[Layout('layouts.guest')] class extends Component
             case UserRole::Technician:
                 $this->redirect(route('technician.dashboard'), navigate: true);
                 break;
+            case UserRole::ReportingUser:
+                $this->redirect(route('reporting-user.dashboard'), navigate: true);
+                break;
             default:
                 $this->redirect(route('user.dashboard'), navigate: true);
                 break;
