@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->string('color')->nullable();
-            $table->boolean('is_completed')->default(false);
+            $table->boolean('is_default')->default(false); // Default status for new work orders
+            $table->boolean('is_in_progress')->default(false); // Work statuses for work in progress
+            $table->boolean('is_completed')->default(false); // Defines orders that are closed forever
             $table->timestamps();
         });
     }
