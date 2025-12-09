@@ -38,10 +38,11 @@ new class extends Component
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
+
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
-                            <div x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name" x-on:profile-updated.window="name = $event.detail.name"></div>
+                            <div x-data="{{ json_encode(['name' => trim((auth()->user()->last_name ?? '') . ', ' . (auth()->user()->first_name ?? ''), ' ,')]) }}" x-text="name" x-on:profile-updated.window="name = $event.detail.name"></div>
 
                             <div class="ms-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -55,6 +56,9 @@ new class extends Component
                         <x-dropdown-link :href="route('reporting-user.profile')" wire:navigate>
                             {{ __('Profile') }}
                         </x-dropdown-link>
+
+                        <!-- Theme Toggle -->
+                        <x-theme-toggle variant="dropdown" />
 
                         <!-- Authentication -->
                         <button wire:click="logout" class="w-full text-start">
@@ -97,6 +101,9 @@ new class extends Component
                 <x-responsive-nav-link :href="route('reporting-user.profile')" wire:navigate>
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
+
+                <!-- Theme Toggle -->
+                <x-theme-toggle variant="responsive" />
 
                 <!-- Authentication -->
                 <button wire:click="logout" class="w-full text-start">
