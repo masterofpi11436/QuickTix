@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('ticket_template_id')
+                ->nullable()
+                ->constrained('ticket_templates')
+                ->nullOnDelete();
             $table->string('title');
             $table->text('description');
             $table->text('notes');
@@ -25,6 +29,7 @@ return new class extends Migration
             $table->timestamp('opened');
             $table->timestamp('assigned')->nullable();
             $table->timestamp('completed')->nullable();
+            $table->timestamps();
         });
     }
 
