@@ -4,6 +4,11 @@ use App\Enums\UserRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\AreaController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\StatusController;
+use App\Http\Controllers\Admin\DepartmentController;
+use App\Http\Controllers\Admin\TicketTemplateController;
 
 // Default Redirect
 Route::get('/', function () {
@@ -37,11 +42,11 @@ Route::middleware(['auth', 'role:' . UserRole::Administrator->value])
     ->group(function () {
         Route::view('/dashboard', 'admin.dashboard')->name('dashboard');
         Route::view('/profile', 'admin.profile')->name('profile');
-        Route::view('/users', 'admin.users')->name('users');
-        Route::view('/statuses', 'admin.statuses')->name('statuses');
-        Route::view('/departments', 'admin.departments')->name('departments');
-        Route::view('/areas', 'admin.areas')->name('areas');
-        Route::view('/templates', 'admin.templates')->name('templates');
+        Route::resource('users', UserController::class);
+        Route::resource('statuses', StatusController::class);
+        Route::resource('departments', DepartmentController::class);
+        Route::resource('areas', AreaController::class);
+        Route::resource('tickettemplates', TicketTemplateController::class);
     });
 
 Route::middleware(['auth', 'role:' . UserRole::Controller->value])

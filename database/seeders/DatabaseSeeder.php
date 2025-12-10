@@ -3,6 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Area;
+use App\Models\Department;
+use App\Models\Status;
+use App\Enums\StatusType;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -16,8 +20,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
+        // -----------------------------
+        // Users
+        // -----------------------------
         User::factory()->create([
             'first_name' => 'Mark',
             'last_name' => 'Tuggle',
@@ -61,6 +66,44 @@ class DatabaseSeeder extends Seeder
             'theme' => 'dark',
             'email' => 'test4@example.com',
             'password' => Hash::make('asd'),
+        ]);
+
+
+        // -----------------------------
+        // Areas (3)
+        // -----------------------------
+        Area::create(['name' => 'Manufacturing']);
+        Area::create(['name' => 'Warehouse']);
+        Area::create(['name' => 'Administration']);
+
+
+        // -----------------------------
+        // Departments (3)
+        // -----------------------------
+        Department::create(['name' => 'Engineering']);
+        Department::create(['name' => 'Maintenance']);
+        Department::create(['name' => 'Quality Control']);
+
+
+        // -----------------------------
+        // Statuses (3) using enum
+        // -----------------------------
+        Status::create([
+            'name' => 'New',
+            'color' => '#3490dc', // blue
+            'status_type' => StatusType::Default,
+        ]);
+
+        Status::create([
+            'name' => 'In Progress',
+            'color' => '#f59e0b', // amber
+            'status_type' => StatusType::InProgress,
+        ]);
+
+        Status::create([
+            'name' => 'Completed',
+            'color' => '#38a169', // green
+            'status_type' => StatusType::Completed,
         ]);
     }
 }
