@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\StatusController;
 use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\TicketTemplateController;
+use App\Http\Controllers\Admin\TicketController;
 
 // Default Redirect
 Route::get('/', function () {
@@ -47,6 +48,7 @@ Route::middleware(['auth', 'role:' . UserRole::Administrator->value])
         Route::resource('departments', DepartmentController::class);
         Route::resource('areas', AreaController::class);
         Route::resource('tickettemplates', TicketTemplateController::class);
+        Route::resource('tickets', TicketController::class);
     });
 
 Route::middleware(['auth', 'role:' . UserRole::Controller->value])

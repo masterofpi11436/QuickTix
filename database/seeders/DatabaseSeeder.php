@@ -2,11 +2,13 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use Carbon\Carbon;
 use App\Models\Area;
-use App\Models\Department;
+use App\Models\User;
 use App\Models\Status;
+use App\Models\Ticket;
 use App\Enums\StatusType;
+use App\Models\Department;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -104,6 +106,57 @@ class DatabaseSeeder extends Seeder
             'name' => 'Completed',
             'color' => '#38a169', // green
             'status_type' => StatusType::Completed,
+        ]);
+
+        // -----------------------------
+        // Tickets (3)
+        // -----------------------------
+        Ticket::create([
+            'ticket_template_id' => null,
+            'title' => 'Broken Conveyor Belt',
+            'description' => 'The conveyor belt in lane 3 is jammed and producing smoke.',
+            'notes' => 'Urgent priority. Machine was shut down for safety.',
+            'submitted_by' => 'Mark Tuggle',
+            'technician' => 'Jane Dow',
+            'assigned_by' => 'John Doe',
+            'department' => 'Maintenance',
+            'area' => 'Manufacturing',
+            'status' => 'In Progress',
+            'opened' => Carbon::now()->subDays(2),
+            'assigned' => Carbon::now()->subDay(),
+            'completed' => null,
+        ]);
+
+        Ticket::create([
+            'ticket_template_id' => null,
+            'title' => 'Warehouse Lighting Failure',
+            'description' => 'Half the overhead lights in section B are not turning on.',
+            'notes' => 'Possible electrical issue. Operators are using portable lamps.',
+            'submitted_by' => 'Jane Smith',
+            'technician' => 'John Smith',
+            'assigned_by' => 'John Doe',
+            'department' => 'Engineering',
+            'area' => 'Warehouse',
+            'status' => 'In Progress',
+            'opened' => Carbon::now()->subDays(3),
+            'assigned' => Carbon::now()->subDays(2),
+            'completed' => null,
+        ]);
+
+        Ticket::create([
+            'ticket_template_id' => null,
+            'title' => 'Finished Goods Labeling Issue',
+            'description' => 'Barcodes are printing misaligned on batch #8841.',
+            'notes' => 'Recalibration done; needs verification.',
+            'submitted_by' => 'John Smith',
+            'technician' => 'Jane Dow',
+            'assigned_by' => 'Mark Tuggle',
+            'department' => 'Quality Control',
+            'area' => 'Administration',
+            'status' => 'Completed',
+            'opened' => Carbon::now()->subDays(5),
+            'assigned' => Carbon::now()->subDays(4),
+            'completed' => Carbon::now()->subDays(1),
         ]);
     }
 }
