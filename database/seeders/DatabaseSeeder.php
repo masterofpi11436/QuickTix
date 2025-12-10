@@ -74,17 +74,17 @@ class DatabaseSeeder extends Seeder
         // -----------------------------
         // Areas (3)
         // -----------------------------
-        Area::create(['name' => 'Manufacturing']);
-        Area::create(['name' => 'Warehouse']);
-        Area::create(['name' => 'Administration']);
+        Area::create(['name' => 'Manufacturing', 'description' => 'Located next to warehouse.']);
+        Area::create(['name' => 'Warehouse', 'description' => 'Next to manufactoring']);
+        Area::create(['name' => 'Administration', 'description' => 'In between the warehouse and manufactoring.']);
 
 
         // -----------------------------
         // Departments (3)
         // -----------------------------
-        Department::create(['name' => 'Engineering']);
-        Department::create(['name' => 'Maintenance']);
-        Department::create(['name' => 'Quality Control']);
+        Department::create(['name' => 'Engineering', 'description' => 'In charge of handling design']);
+        Department::create(['name' => 'Maintenance', 'description' => 'Impements the design']);
+        Department::create(['name' => 'Quality Control', 'description' => 'Checks the design']);
 
 
         // -----------------------------
