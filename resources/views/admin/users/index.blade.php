@@ -12,13 +12,7 @@
 
                     <div class="flex justify-between mb-4">
                         <h3 class="text-lg font-semibold">User List</h3>
-
-                        <a
-                            href="{{ route('admin.users.create') }}"
-                            class="px-4 py-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white rounded-md text-sm"
-                        >
-                            Create User
-                        </a>
+                        <x-custom-button href="{{ route('admin.users.create') }}" color="blue">Create User</x-custom-button>
                     </div>
 
                     <div class="overflow-x-auto">
@@ -49,12 +43,17 @@
                                         <td class="px-4 py-3">{{ $user->email }}</td>
                                         <td class="px-4 py-3">{{ $user->role }}</td>
                                         <td class="px-4 py-3 space-x-3">
-                                            <a href="{{ route('admin.users.show', $user) }}" class="text-blue-600 dark:text-blue-400 hover:underline">View</a>
-                                            <a href="{{ route('admin.users.edit', $user) }}" class="text-yellow-600 dark:text-yellow-400 hover:underline">Edit</a>
-                                            <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="inline" onsubmit="return confirm('Delete this user?');">
-                                                @csrf @method('DELETE')
-                                                <button class="text-red-600 dark:text-red-400 hover:underline">Delete</button>
-                                            </form>
+                                                <x-custom-button href="{{ route('admin.users.show', $user) }}" color="blue">View</x-custom-button>
+
+                                                <x-custom-button href="{{ route('admin.users.edit', $user) }}" color="yellow">Edit</x-custom-button>
+
+                                                <x-custom-button
+                                                    href="{{ route('admin.users.destroy', $user) }}"
+                                                    method="DELETE"
+                                                    color="red"
+                                                >
+                                                    Delete
+                                                </x-custom-button>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -81,12 +80,17 @@
                                     </div>
 
                                     <div class="flex justify-end space-x-3">
-                                        <a href="{{ route('admin.users.show', $user) }}" class="text-blue-600 dark:text-blue-400 hover:underline">View</a>
-                                        <a href="{{ route('admin.users.edit', $user) }}" class="text-yellow-600 dark:text-yellow-400 hover:underline">Edit</a>
-                                        <form action="{{ route('admin.users.destroy', $user) }}" method="POST" onsubmit="return confirm('Delete this user?');">
-                                            @csrf @method('DELETE')
-                                            <button class="text-red-600 dark:text-red-400 hover:underline">Delete</button>
-                                        </form>
+                                        <x-custom-button href="{{ route('admin.users.show', $user) }}" color="blue">View</x-custom-button>
+
+                                        <x-custom-button href="{{ route('admin.users.edit', $user) }}" color="yellow">Edit</x-custom-button>
+
+                                        <x-custom-button
+                                            href="{{ route('admin.users.destroy', $user) }}"
+                                            method="DELETE"
+                                            color="red"
+                                        >
+                                            Delete
+                                        </x-custom-button>
                                     </div>
                                 </div>
                             @empty

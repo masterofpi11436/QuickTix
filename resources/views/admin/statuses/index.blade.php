@@ -12,13 +12,7 @@
 
                     <div class="flex justify-between mb-4">
                         <h3 class="text-lg font-semibold">Status List</h3>
-
-                        <a
-                            href="{{ route('admin.statuses.create') }}"
-                            class="px-4 py-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white rounded-md text-sm"
-                        >
-                            Create Status
-                        </a>
+                        <x-custom-button href="{{ route('admin.statuses.create') }}" color="blue">Create Status</x-custom-button>
                     </div>
 
                     <div class="overflow-x-auto">
@@ -95,35 +89,19 @@
                                         </td>
 
                                         <td class="px-4 py-3 space-x-3">
-                                            <a
-                                                href="{{ route('admin.statuses.show', $status) }}"
-                                                class="text-blue-600 dark:text-blue-400 hover:underline"
-                                            >
-                                                View
-                                            </a>
+                                            <div class="flex flex-wrap gap-2">
+                                                <x-custom-button href="{{ route('admin.statuses.show', $status) }}" color="blue">View</x-custom-button>
 
-                                            <a
-                                                href="{{ route('admin.statuses.edit', $status) }}"
-                                                class="text-yellow-600 dark:text-yellow-400 hover:underline"
-                                            >
-                                                Edit
-                                            </a>
+                                                <x-custom-button href="{{ route('admin.statuses.edit', $status) }}" color="yellow">Edit</x-custom-button>
 
-                                            <form
-                                                action="{{ route('admin.statuses.destroy', $status) }}"
-                                                method="POST"
-                                                class="inline"
-                                                onsubmit="return confirm('Delete this status?');"
-                                            >
-                                                @csrf
-                                                @method('DELETE')
-                                                <button
-                                                    type="submit"
-                                                    class="text-red-600 dark:text-red-400 hover:underline"
+                                                <x-custom-button
+                                                    href="{{ route('admin.statuses.destroy', $status) }}"
+                                                    method="DELETE"
+                                                    color="red"
                                                 >
                                                     Delete
-                                                </button>
-                                            </form>
+                                                </x-custom-button>
+                                            <div>
                                         </td>
                                     </tr>
                                 @empty
@@ -197,32 +175,17 @@
                                     </div>
 
                                     <div class="flex justify-end space-x-3">
-                                        <a
-                                            href="{{ route('admin.statuses.show', $status) }}"
-                                            class="text-blue-600 dark:text-blue-400 hover:underline"
+                                        <x-custom-button href="{{ route('admin.statuses.show', $status) }}" color="blue">View</x-custom-button>
+
+                                        <x-custom-button href="{{ route('admin.statuses.edit', $status) }}" color="yellow">Edit</x-custom-button>
+
+                                        <x-custom-button
+                                            href="{{ route('admin.statuses.destroy', $status) }}"
+                                            method="DELETE"
+                                            color="red"
                                         >
-                                            View
-                                        </a>
-                                        <a
-                                            href="{{ route('admin.statuses.edit', $status) }}"
-                                            class="text-yellow-600 dark:text-yellow-400 hover:underline"
-                                        >
-                                            Edit
-                                        </a>
-                                        <form
-                                            action="{{ route('admin.statuses.destroy', $status) }}"
-                                            method="POST"
-                                            onsubmit="return confirm('Delete this status?');"
-                                        >
-                                            @csrf
-                                            @method('DELETE')
-                                            <button
-                                                type="submit"
-                                                class="text-red-600 dark:text-red-400 hover:underline"
-                                            >
-                                                Delete
-                                            </button>
-                                        </form>
+                                            Delete
+                                        </x-custom-button>
                                     </div>
                                 </div>
                             @empty

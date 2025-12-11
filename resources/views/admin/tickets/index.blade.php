@@ -12,13 +12,7 @@
 
                     <div class="flex justify-between mb-4">
                         <h3 class="text-lg font-semibold">Ticket List</h3>
-
-                        <a
-                            href="{{ route('admin.tickets.create') }}"
-                            class="px-4 py-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white rounded-md text-sm"
-                        >
-                            Create Ticket
-                        </a>
+                        <x-custom-button href="{{ route('admin.tickets.create') }}" color="blue">Create Ticket</x-custom-button>
                     </div>
 
                     <div class="overflow-x-auto">
@@ -57,12 +51,19 @@
                                         <td class="px-4 py-3">{{ $ticket->department }}</td>
                                         <td class="px-4 py-3">{{ $ticket->status }}</td>
                                         <td class="px-4 py-3 space-x-3">
-                                            <a href="{{ route('admin.tickets.show', $ticket) }}" class="text-blue-600 dark:text-blue-400 hover:underline">View</a>
-                                            <a href="{{ route('admin.tickets.edit', $ticket) }}" class="text-yellow-600 dark:text-yellow-400 hover:underline">Edit</a>
-                                            <form action="{{ route('admin.tickets.destroy', $ticket) }}" method="POST" class="inline" onsubmit="return confirm('Delete this ticket?');">
-                                                @csrf @method('DELETE')
-                                                <button class="text-red-600 dark:text-red-400 hover:underline">Delete</button>
-                                            </form>
+                                            <div class="flex flex-wrap gap-2">
+                                                <x-custom-button href="{{ route('admin.tickets.show', $ticket) }}" color="blue">View</x-custom-button>
+
+                                                <x-custom-button href="{{ route('admin.tickets.edit', $ticket) }}" color="yellow">Edit</x-custom-button>
+
+                                                <x-custom-button
+                                                    href="{{ route('admin.tickets.destroy', $ticket) }}"
+                                                    method="DELETE"
+                                                    color="red"
+                                                >
+                                                    Delete
+                                                </x-custom-button>
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -94,12 +95,17 @@
                                     </div>
 
                                     <div class="flex justify-end space-x-3">
-                                        <a href="{{ route('admin.tickets.show', $ticket) }}" class="text-blue-600 dark:text-blue-400 hover:underline">View</a>
-                                        <a href="{{ route('admin.tickets.edit', $ticket) }}" class="text-yellow-600 dark:text-yellow-400 hover:underline">Edit</a>
-                                        <form action="{{ route('admin.tickets.destroy', $ticket) }}" method="POST" onsubmit="return confirm('Delete this ticket?');">
-                                            @csrf @method('DELETE')
-                                            <button class="text-red-600 dark:text-red-400 hover:underline">Delete</button>
-                                        </form>
+                                        <x-custom-button href="{{ route('admin.tickets.show', $ticket) }}" color="blue">View</x-custom-button>
+
+                                        <x-custom-button href="{{ route('admin.tickets.edit', $ticket) }}" color="yellow">Edit</x-custom-button>
+
+                                        <x-custom-button
+                                            href="{{ route('admin.tickets.destroy', $ticket) }}"
+                                            method="DELETE"
+                                            color="red"
+                                        >
+                                            Delete
+                                        </x-custom-button>
                                     </div>
                                 </div>
                             @empty
