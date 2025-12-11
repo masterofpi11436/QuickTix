@@ -17,9 +17,9 @@
     <body class="font-sans text-white bg-gray-700 antialiased">
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-700 text-white">
         <div>
-            <a href="/" wire:navigate>
-            <x-application-logo class="w-20 h-20 fill-current text-gray-300 hover:text-gray-100 transition" />
-            </a>
+            <span class="font-bold text-3xl text-white">
+                QuickTix
+            </span>
         </div>
 
         <div class="w-full sm:max-w-md mt-6 px-6 py-6 bg-gray-900 border border-gray-800 shadow-lg sm:rounded-xl">
