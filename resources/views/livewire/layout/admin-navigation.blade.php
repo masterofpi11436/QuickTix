@@ -100,11 +100,14 @@ new class extends Component
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.index')" wire:navigate>
+            <x-responsive-nav-link :href="route('admin.tickets.index')" :active="request()->routeIs('admin.tickets.index')" wire:navigate>
                 {{ __('Tickes') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.index')" wire:navigate>
                 {{ __('Users') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin.statuses.index')" :active="request()->routeIs('admin.statuses.index')" wire:navigate>
+                {{ __('Statuses') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('admin.departments.index')" :active="request()->routeIs('admin.departments.index')" wire:navigate>
                 {{ __('Departments') }}
@@ -112,8 +115,8 @@ new class extends Component
             <x-responsive-nav-link :href="route('admin.areas.index')" :active="request()->routeIs('admin.areas.index')" wire:navigate>
                 {{ __('Areas') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('admin.statuses.index')" :active="request()->routeIs('admin.statuses.index')" wire:navigate>
-                {{ __('Statuses') }}
+            <x-responsive-nav-link :href="route('admin.tickettemplates.index')" :active="request()->routeIs('admin.tickettemplates.index')" wire:navigate>
+                {{ __('Templates') }}
             </x-responsive-nav-link>
         </div>
 
