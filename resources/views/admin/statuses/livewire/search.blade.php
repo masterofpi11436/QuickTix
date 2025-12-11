@@ -1,0 +1,228 @@
+<div class="py-12">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="p-6 text-gray-900 dark:text-gray-100">
+
+                {{-- Header + Search + Create --}}
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-3">
+                    <h3 class="text-lg font-semibold">Status List</h3>
+
+                    <div class="flex flex-col sm:flex-row gap-2 sm:items-center">
+                        <input
+                            type="text"
+                            wire:model.live="search"
+                            placeholder="Search statuses..."
+                            class="w-full sm:w-64 px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm focus:outline-none focus:ring focus:ring-blue-500/40"
+                        >
+
+                        <x-custom-button href="{{ route('admin.statuses.create') }}" color="blue">
+                            Create Status
+                        </x-custom-button>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+
+                    {{-- TABLE (sm and up) --}}
+                    <table class="hidden sm:table min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                        <thead class="bg-gray-50 dark:bg-gray-700">
+                            <tr>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-200 uppercase tracking-wider">
+                                    Name
+                                </th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-200 uppercase tracking-wider">
+                                    Color
+                                </th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-200 uppercase tracking-wider">
+                                    Status Type
+                                </th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-200 uppercase tracking-wider">
+                                    Actions
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                            @forelse ($statuses as $status)
+                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                                    {{-- Name --}}
+                                    <td class="px-4 py-3">
+                                        {{ $status->name }}
+                                    </td>
+
+                                    {{-- Color --}}
+                                    <td class="px-4 py-3">
+                                        @if ($status->color)
+                                            <span class="inline-flex items-center space-x-2">
+                                                <span
+                                                    class="inline-block w-3 h-3 rounded-full border border-gray-300 dark:border-gray-600"
+                                                    style="background-color: {{ $status->color }};"
+                                                ></span>
+                                                <span class="text-sm text-gray-700 dark:text-gray-200">
+                                                    {{ $status->color }}
+                                                </span>
+                                            </span>
+                                        @else
+                                            <span class="text-sm text-gray-400 dark:text-gray-500">
+                                                N/A
+                                            </span>
+                                        @endif
+                                    </td>
+
+                                    {{-- Status Type --}}
+                                    <td class="px-4 py-3">
+                                        @switch($status->status_type)
+                                            @case(\App\Enums\StatusType::Default)
+                                                <span class="px-2 py-1 text-xs font-semibold rounded bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-100">
+                                                    Default
+                                                </span>
+                                                @break
+
+                                            @case(\App\Enums\StatusType::InProgress)
+                                                <span class="px-2 py-1 text-xs font-semibold rounded bg-blue-200 text-blue-800 dark:bg-blue-700 dark:text-blue-100">
+                                                    In Progress
+                                                </span>
+                                                @break
+
+                                            @case(\App\Enums\StatusType::Completed)
+                                                <span class="px-2 py-1 text-xs font-semibold rounded bg-green-200 text-green-800 dark:bg-green-700 dark:text-green-100">
+                                                    Completed
+                                                </span>
+                                                @break
+
+                                            @default
+                                                <span class="px-2 py-1 text-xs font-semibold rounded bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-100">
+                                                    {{ ucfirst(str_replace('_', ' ', $status->status_type->value ?? 'unknown')) }}
+                                                </span>
+                                        @endswitch
+                                    </td>
+
+                                    {{-- Actions --}}
+                                    <td class="px-4 py-3">
+                                        <div class="flex flex-wrap gap-2">
+                                            <x-custom-button href="{{ route('admin.statuses.show', $status) }}" color="blue">
+                                                View
+                                            </x-custom-button>
+
+                                            <x-custom-button href="{{ route('admin.statuses.edit', $status) }}" color="yellow">
+                                                Edit
+                                            </x-custom-button>
+
+                                            <x-custom-button
+                                                href="{{ route('admin.statuses.destroy', $status) }}"
+                                                method="DELETE"
+                                                color="red"
+                                            >
+                                                Delete
+                                            </x-custom-button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="4" class="px-4 py-4 text-center text-gray-500 dark:text-gray-400">
+                                        No statuses found.
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+
+                    {{-- MOBILE CARD VIEW (< sm) --}}
+                    <div class="sm:hidden space-y-4">
+                        @forelse ($statuses as $status)
+                            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 shadow-sm">
+                                {{-- Name --}}
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-sm text-gray-500 dark:text-gray-400">Name:</span>
+                                    <span class="font-medium text-gray-900 dark:text-gray-100">
+                                        {{ $status->name }}
+                                    </span>
+                                </div>
+
+                                {{-- Color --}}
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-sm text-gray-500 dark:text-gray-400">Color:</span>
+                                    <span class="flex items-center space-x-2">
+                                        @if ($status->color)
+                                            <span
+                                                class="inline-block w-3 h-3 rounded-full border border-gray-300 dark:border-gray-600"
+                                                style="background-color: {{ $status->color }};"
+                                            ></span>
+                                            <span class="font-medium text-gray-900 dark:text-gray-100">
+                                                {{ $status->color }}
+                                            </span>
+                                        @else
+                                            <span class="font-medium text-gray-500 dark:text-gray-400">
+                                                N/A
+                                            </span>
+                                        @endif
+                                    </span>
+                                </div>
+
+                                {{-- Status Type --}}
+                                <div class="flex justify-between mb-3">
+                                    <span class="text-sm text-gray-500 dark:text-gray-400">Status Type:</span>
+                                    <span>
+                                        @switch($status->status_type)
+                                            @case(\App\Enums\StatusType::Default)
+                                                <span class="px-2 py-1 text-xs font-semibold rounded bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-100">
+                                                    Default
+                                                </span>
+                                                @break
+
+                                            @case(\App\Enums\StatusType::InProgress)
+                                                <span class="px-2 py-1 text-xs font-semibold rounded bg-blue-200 text-blue-800 dark:bg-blue-700 dark:text-blue-100">
+                                                    In Progress
+                                                </span>
+                                                @break
+
+                                            @case(\App\Enums\StatusType::Completed)
+                                                <span class="px-2 py-1 text-xs font-semibold rounded bg-green-200 text-green-800 dark:bg-green-700 dark:text-green-100">
+                                                    Completed
+                                                </span>
+                                                @break
+
+                                            @default
+                                                <span class="px-2 py-1 text-xs font-semibold rounded bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-100">
+                                                    {{ ucfirst(str_replace('_', ' ', $status->status_type->value ?? 'unknown')) }}
+                                                </span>
+                                        @endswitch
+                                    </span>
+                                </div>
+
+                                {{-- Actions --}}
+                                <div class="flex flex-wrap justify-end gap-2">
+                                    <x-custom-button href="{{ route('admin.statuses.show', $status) }}" color="blue">
+                                        View
+                                    </x-custom-button>
+
+                                    <x-custom-button href="{{ route('admin.statuses.edit', $status) }}" color="yellow">
+                                        Edit
+                                    </x-custom-button>
+
+                                    <x-custom-button
+                                        href="{{ route('admin.statuses.destroy', $status) }}"
+                                        method="DELETE"
+                                        color="red"
+                                    >
+                                        Delete
+                                    </x-custom-button>
+                                </div>
+                            </div>
+                        @empty
+                            <p class="text-center text-gray-500 dark:text-gray-400">
+                                No statuses found.
+                            </p>
+                        @endforelse
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    {{ $statuses->links() }}
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
