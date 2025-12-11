@@ -31,7 +31,7 @@
                                     Email
                                 </th>
                                 <th class="px-4 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-200 uppercase tracking-wider">
-                                    Created
+                                    Role
                                 </th>
                                 <th class="px-4 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-200 uppercase tracking-wider">
                                     Actions
@@ -43,7 +43,7 @@
                                 <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
                                     <td class="px-4 py-3">{{ $user->first_name }} {{ $user->last_name }}</td>
                                     <td class="px-4 py-3">{{ $user->email }}</td>
-                                    <td class="px-4 py-3">{{ $user->created_at->format('Y-m-d') }}</td>
+                                    <td class="px-4 py-3">{{ $user->role->label() }}</td>
                                     <td class="px-4 py-3">
                                         <div class="flex flex-wrap gap-2">
                                             <x-custom-button href="{{ route('admin.users.show', $user) }}" color="blue">View</x-custom-button>
