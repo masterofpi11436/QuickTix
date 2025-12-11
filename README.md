@@ -14,28 +14,11 @@ The application ships with no predefined areas, departments, statuses, or ticket
 
 - Administrators
     - Perform C.R.U.D. on users and reset passwords if the user cannot figure out how to click the reset password button.
-        - C.R.U.D. fields for Users:
-            - First Name (required)
-            - Middle Initial 
-            - Last Name (required)
-            - Email (required)
-            - Phone
-            - Department
+        - C.R.U.D. fields for Users
         - C.R.U.D. for Departments (defines the type of work IT, Maintenance, etc)
-            - Name (required)
-            - Description
         - C.R.U.D. for Areas (defines the areas a user can submit a ticket for. Office A, B, C, etc)
-            - Name (required)
-            - Description
         - C.R.U.D. for Statuses (defines the types of statuses tickets can have Open, Assigned, Closed, Pending, etc)
-            - Name (required)
-            - Color (required) (color for graphs and div cards in web page. Stored in Hex Value)
-            - Is Completed (Ticket is marked as finished, done, closed, denied, duplicate etc)
         - C.R.U.D. for Ticket Templates (Must have at least 1 User, Department, Area, and Status to create)
-            - Title (required)
-            - Description (required)
-            - Area (required)
-            - Department (required)
     - View Reports
         - Report Types (sorted data by trade, area, technician, and status):
             - All Time
