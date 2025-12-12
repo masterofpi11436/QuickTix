@@ -33,18 +33,6 @@ new class extends Component
                     <x-nav-link :href="route('admin.tickets.index')" :active="request()->routeIs('admin.tickets.index')" wire:navigate>
                         {{ __('Tickets') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.index')" wire:navigate>
-                        {{ __('Users') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('admin.statuses.index')" :active="request()->routeIs('admin.statuses.index')" wire:navigate>
-                        {{ __('Statuses') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('admin.departments.index')" :active="request()->routeIs('admin.departments.index')" wire:navigate>
-                        {{ __('Departments') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('admin.areas.index')" :active="request()->routeIs('admin.areas.index')" wire:navigate>
-                        {{ __('Areas') }}
-                    </x-nav-link>
                     <x-nav-link :href="route('admin.tickettemplates.index')" :active="request()->routeIs('admin.tickettemplates.index')" wire:navigate>
                         {{ __('Templates') }}
                     </x-nav-link>
@@ -70,6 +58,10 @@ new class extends Component
                     <x-slot name="content">
                         <x-dropdown-link :href="route('admin.profile')" wire:navigate>
                             {{ __('Profile') }}
+                        </x-dropdown-link>
+
+                        <x-dropdown-link :href="route('admin.administration')" wire:navigate>
+                            {{ __('Administration') }}
                         </x-dropdown-link>
 
                         <!-- Theme Toggle -->

@@ -44,11 +44,14 @@ Route::middleware(['auth', 'role:' . UserRole::Administrator->value])
         Route::view('/dashboard', 'admin.dashboard')->name('dashboard');
         Route::view('/profile', 'admin.profile')->name('profile');
         Route::resource('users', UserController::class);
+        Route::resource('tickettemplates', TicketTemplateController::class);
+        Route::resource('tickets', TicketController::class);
+
+        // Administrative pages
+        Route::view('/administration', 'admin.administration')->name('administration');
         Route::resource('statuses', StatusController::class);
         Route::resource('departments', DepartmentController::class);
         Route::resource('areas', AreaController::class);
-        Route::resource('tickettemplates', TicketTemplateController::class);
-        Route::resource('tickets', TicketController::class);
     });
 
 Route::middleware(['auth', 'role:' . UserRole::Controller->value])

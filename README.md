@@ -26,7 +26,6 @@ The application ships with no predefined areas, departments, statuses, or ticket
             - Monthly
     - Same privileges as Controller.
 - Controllers
-    - Similar to Administrators, but can only perform C.R.U.D. on users.
     - This account is primarily used to assign technicians tickets.
     - Same privileges as Technician
 
