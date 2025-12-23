@@ -21,7 +21,7 @@ class AreaController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.areas.create');
     }
 
     /**
