@@ -3,7 +3,7 @@
         <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 text-gray-900 dark:text-gray-100">
 
-{{-- Header + Search + Create Button --}}
+                {{-- Header + Search + Create Button --}}
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-3">
                     <h3 class="text-lg font-semibold">Department List</h3>
 
@@ -39,14 +39,14 @@
                             <input
                                 type="text"
                                 wire:model.live="search"
-                                placeholder="Search areas..."
+                                placeholder="Search departments..."
                                 class="w-full sm:w-64 px-3 py-2 rounded-md border
                                     border-gray-300 dark:border-gray-700
                                     bg-white dark:bg-gray-900 text-sm
                                     focus:outline-none focus:ring focus:ring-blue-500/40"
                             >
 
-                            <x-custom-button href="{{ route('admin.areas.create') }}" color="blue">
+                            <x-custom-button href="{{ route('admin.departments.create') }}" color="blue">
                                 Create Department
                             </x-custom-button>
                         </div>

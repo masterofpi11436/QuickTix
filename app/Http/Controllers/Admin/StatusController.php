@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Status;
-use Illuminate\Http\Request;
 
 class StatusController extends Controller
 {
@@ -13,9 +12,7 @@ class StatusController extends Controller
      */
     public function index()
     {
-        $statuses = Status::paginate(15);
-
-        return view('admin.statuses.index', compact('statuses'));
+        return view('admin.statuses.index');
     }
 
     /**
@@ -23,46 +20,26 @@ class StatusController extends Controller
      */
     public function create()
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        return view('admin.statuses.create');
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Status $status)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+        return view('admin.statuses.edit', compact('status'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Status $status)
     {
-        //
+        $status->delete();
+
+        return redirect()
+            ->route('admin.statuses.index')
+            ->with('create-edit-delete-message', 'Status deleted!');
     }
 }
