@@ -12,7 +12,7 @@ class Form extends Component
 
     public string $name = '';
     public ?string $color = null;
-    public ?string $status_type = null;
+    public ?string $status_type = 'default';
 
     public function mount($id = null): void
     {
