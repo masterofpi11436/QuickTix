@@ -27,47 +27,57 @@ class DatabaseSeeder extends Seeder
         // -----------------------------
         User::factory()->create([
             'first_name' => 'Mark',
+            'middle_initial' => 'A',
             'last_name' => 'Tuggle',
             'role' => 'Administrator',
             'theme' => 'dark',
             'email' => 'test@example.com',
             'password' => Hash::make('asd'),
+            'last_logged_in_at' => now(),
         ]);
 
         User::factory()->create([
             'first_name' => 'John',
+            'middle_initial' => 'A',
             'last_name' => 'Doe',
             'role' => 'Controller',
             'theme' => 'dark',
             'email' => 'test1@example.com',
             'password' => Hash::make('asd'),
+            'last_logged_in_at' => now(),
         ]);
 
         User::factory()->create([
             'first_name' => 'Jane',
-            'last_name' => 'Dow',
+            'middle_initial' => 'A',
+            'last_name' => 'Doe',
             'role' => 'Technician',
             'theme' => 'dark',
             'email' => 'test2@example.com',
             'password' => Hash::make('asd'),
+            'last_logged_in_at' => now(),
         ]);
 
         User::factory()->create([
             'first_name' => 'John',
+            'middle_initial' => 'A',
             'last_name' => 'Smith',
             'role' => 'Reporting User',
             'theme' => 'dark',
             'email' => 'test3@example.com',
             'password' => Hash::make('asd'),
+            'last_logged_in_at' => now(),
         ]);
 
         User::factory()->create([
             'first_name' => 'Jane',
+            'middle_initial' => 'A',
             'last_name' => 'Smith',
             'role' => 'User',
             'theme' => 'dark',
             'email' => 'test4@example.com',
             'password' => Hash::make('asd'),
+            'last_logged_in_at' => now(),
         ]);
 
 
