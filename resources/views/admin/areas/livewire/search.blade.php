@@ -10,6 +10,9 @@
                     <div class="flex flex-col items-end gap-2">
                         @if (session()->has('create-edit-delete-message'))
                             <div
+                                x-data="{ show: true }"
+                                x-show="show"
+                                x-init="setTimeout(() => show = false, 3000)"
                                 class="flex items-center gap-2 rounded-md border
                                     bg-transparent dark:bg-transparent
                                     border-green-600 dark:border-green-400
@@ -50,7 +53,6 @@
                     </div>
                 </div>
 
-
                 {{-- Table --}}
                 <div class="overflow-x-auto">
                     <table class="hidden sm:table min-w-full divide-y divide-gray-200 dark:divide-gray-700">
@@ -76,10 +78,6 @@
 
                                     <td class="px-4 py-3">
                                         <div class="flex flex-wrap gap-2">
-                                            <x-custom-button href="{{ route('admin.areas.show', $area) }}" color="blue">
-                                                View
-                                            </x-custom-button>
-
                                             <x-custom-button href="{{ route('admin.areas.edit', $area) }}" color="yellow">
                                                 Edit
                                             </x-custom-button>
@@ -120,10 +118,6 @@
                                 </div>
 
                                 <div class="flex flex-wrap justify-end gap-2 mt-3">
-                                    <x-custom-button href="{{ route('admin.areas.show', $area) }}" color="blue">
-                                        View
-                                    </x-custom-button>
-
                                     <x-custom-button href="{{ route('admin.areas.edit', $area) }}" color="yellow">
                                         Edit
                                     </x-custom-button>
