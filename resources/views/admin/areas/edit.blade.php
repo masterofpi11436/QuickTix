@@ -11,5 +11,5 @@
         </div>
     </x-slot>
 
-    @livewire('admin.areas.form')
+    @livewire('admin.areas.form', ['id' => $area->id])
 </x-admin-app-layout>

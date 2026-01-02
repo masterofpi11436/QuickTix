@@ -60,7 +60,7 @@ class Form extends Component
 
         session()->flash(
             'create-edit-delete-message',
-            $this->areaId ? 'Area updated successfully!' : 'Area created successfully!'
+            $this->areaId ? 'Area updated!' : 'Area created!'
         );
 
         return redirect()->route('admin.areas.index');
