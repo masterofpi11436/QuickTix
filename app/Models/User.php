@@ -36,6 +36,7 @@ class User extends Authenticatable
         'department_id',
         'theme',
         'password',
+        'last_logged_in_at',
     ];
 
     /**

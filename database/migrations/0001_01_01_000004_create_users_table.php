@@ -25,6 +25,7 @@ return new class extends Migration
                 ->constrained('departments')
                 ->nullOnDelete();
             $table->string('theme')->default('dark');
+            $table->timestamp('last_logged_in_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

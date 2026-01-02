@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Illuminate\Auth\Events\Login;
+use App\Listeners\UpdateLastLoginAt;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
