@@ -31,9 +31,9 @@ class DatabaseSeeder extends Seeder
             'last_name' => 'Tuggle',
             'role' => 'Administrator',
             'theme' => 'dark',
-            'email' => 'test@example.com',
+            'email' => 'admin@example.com',
             'password' => Hash::make('asd'),
-            'last_logged_in_at' => now(),
+            'last_logged_in_at' => null,
         ]);
 
         User::factory()->create([
@@ -42,9 +42,42 @@ class DatabaseSeeder extends Seeder
             'last_name' => 'Doe',
             'role' => 'Controller',
             'theme' => 'dark',
-            'email' => 'test1@example.com',
+            'email' => 'cont1@example.com',
             'password' => Hash::make('asd'),
-            'last_logged_in_at' => now(),
+            'last_logged_in_at' => null,
+        ]);
+
+        User::factory()->create([
+            'first_name' => 'Michael',
+            'middle_initial' => '',
+            'last_name' => 'Shumaker',
+            'role' => 'Controller',
+            'theme' => 'dark',
+            'email' => 'cont2@example.com',
+            'password' => Hash::make('asd'),
+            'last_logged_in_at' => null,
+        ]);
+
+        User::factory()->create([
+            'first_name' => 'Michael',
+            'middle_initial' => 'D',
+            'last_name' => 'Johnson',
+            'role' => 'Technician',
+            'theme' => 'dark',
+            'email' => 'tech1@example.com',
+            'password' => Hash::make('asd'),
+            'last_logged_in_at' => null,
+        ]);
+
+        User::factory()->create([
+            'first_name' => 'Samuel',
+            'middle_initial' => 'L',
+            'last_name' => 'Jackson',
+            'role' => 'Technician',
+            'theme' => 'dark',
+            'email' => 'tech2@example.com',
+            'password' => Hash::make('asd'),
+            'last_logged_in_at' => null,
         ]);
 
         User::factory()->create([
@@ -53,9 +86,9 @@ class DatabaseSeeder extends Seeder
             'last_name' => 'Doe',
             'role' => 'Technician',
             'theme' => 'dark',
-            'email' => 'test2@example.com',
+            'email' => 'tech3@example.com',
             'password' => Hash::make('asd'),
-            'last_logged_in_at' => now(),
+            'last_logged_in_at' => null,
         ]);
 
         User::factory()->create([
@@ -64,9 +97,9 @@ class DatabaseSeeder extends Seeder
             'last_name' => 'Smith',
             'role' => 'Reporting User',
             'theme' => 'dark',
-            'email' => 'test3@example.com',
+            'email' => 'ruser@example.com',
             'password' => Hash::make('asd'),
-            'last_logged_in_at' => now(),
+            'last_logged_in_at' => null,
         ]);
 
         User::factory()->create([
@@ -75,26 +108,34 @@ class DatabaseSeeder extends Seeder
             'last_name' => 'Smith',
             'role' => 'User',
             'theme' => 'dark',
-            'email' => 'test4@example.com',
+            'email' => 'user@example.com',
             'password' => Hash::make('asd'),
-            'last_logged_in_at' => now(),
+            'last_logged_in_at' => null,
         ]);
 
 
         // -----------------------------
-        // Areas (3)
+        // Areas (9)
         // -----------------------------
-        Area::create(['name' => 'Manufacturing', 'description' => 'Located next to warehouse.']);
-        Area::create(['name' => 'Warehouse', 'description' => 'Next to manufactoring']);
-        Area::create(['name' => 'Administration', 'description' => 'In between the warehouse and manufactoring.']);
+        Area::create(['name' => 'Area A', 'description' => 'Admin Area']);
+        Area::create(['name' => 'Area B', 'description' => 'Staff Parking Lot']);
+        Area::create(['name' => 'Area C', 'description' => 'Warehouse']);
+        Area::create(['name' => 'Area D', 'description' => 'Lobby']);
+        Area::create(['name' => 'Area E', 'description' => 'Mens Toilet']);
+        Area::create(['name' => 'Area F', 'description' => 'Gym']);
+        Area::create(['name' => 'Area G', 'description' => 'Security Booth']);
+        Area::create(['name' => 'Area H', 'description' => 'Nurse Station']);
+        Area::create(['name' => 'Area I', 'description' => 'Office Supply Closet']);
 
 
         // -----------------------------
-        // Departments (3)
+        // Departments (5)
         // -----------------------------
-        Department::create(['name' => 'Engineering', 'description' => 'In charge of handling design']);
-        Department::create(['name' => 'Maintenance', 'description' => 'Impements the design']);
-        Department::create(['name' => 'Quality Control', 'description' => 'Checks the design']);
+        Department::create(['name' => 'Engineering', 'description' => 'Design and test new ideas.']);
+        Department::create(['name' => 'Maintenance', 'description' => 'Fixes lights, toilets, and TVs']);
+        Department::create(['name' => 'Quality Control', 'description' => 'Spot checks outgoing shipments']);
+        Department::create(['name' => 'Information Technology', 'description' => 'Fixes Computers']);
+        Department::create(['name' => 'Human Resource', 'description' => 'Hires and fires people. Looks out for the company, not the employee(s)']);
 
 
         // -----------------------------
@@ -116,57 +157,6 @@ class DatabaseSeeder extends Seeder
             'name' => 'Completed',
             'color' => '#38a169', // green
             'status_type' => StatusType::Completed,
-        ]);
-
-        // -----------------------------
-        // Tickets (3)
-        // -----------------------------
-        Ticket::create([
-            'ticket_template_id' => null,
-            'title' => 'Broken Conveyor Belt',
-            'description' => 'The conveyor belt in lane 3 is jammed and producing smoke.',
-            'notes' => 'Urgent priority. Machine was shut down for safety.',
-            'submitted_by' => 'Mark Tuggle',
-            'technician' => 'Jane Dow',
-            'assigned_by' => 'John Doe',
-            'department' => 'Maintenance',
-            'area' => 'Manufacturing',
-            'status' => 'In Progress',
-            'opened' => Carbon::now()->subDays(2),
-            'assigned' => Carbon::now()->subDay(),
-            'completed' => null,
-        ]);
-
-        Ticket::create([
-            'ticket_template_id' => null,
-            'title' => 'Warehouse Lighting Failure',
-            'description' => 'Half the overhead lights in section B are not turning on.',
-            'notes' => 'Possible electrical issue. Operators are using portable lamps.',
-            'submitted_by' => 'Jane Smith',
-            'technician' => 'John Smith',
-            'assigned_by' => 'John Doe',
-            'department' => 'Engineering',
-            'area' => 'Warehouse',
-            'status' => 'In Progress',
-            'opened' => Carbon::now()->subDays(3),
-            'assigned' => Carbon::now()->subDays(2),
-            'completed' => null,
-        ]);
-
-        Ticket::create([
-            'ticket_template_id' => null,
-            'title' => 'Finished Goods Labeling Issue',
-            'description' => 'Barcodes are printing misaligned on batch #8841.',
-            'notes' => 'Recalibration done; needs verification.',
-            'submitted_by' => 'John Smith',
-            'technician' => 'Jane Dow',
-            'assigned_by' => 'Mark Tuggle',
-            'department' => 'Quality Control',
-            'area' => 'Administration',
-            'status' => 'Completed',
-            'opened' => Carbon::now()->subDays(5),
-            'assigned' => Carbon::now()->subDays(4),
-            'completed' => Carbon::now()->subDays(1),
         ]);
     }
 }
