@@ -12,7 +12,7 @@ use Livewire\Form;
 
 class LoginForm extends Form
 {
-    #[Validate('required|string|email|regex:/@example\.com/i')]
+    #[Validate('required|string|email')]
     public string $email = '';
 
     #[Validate('required|string')]
