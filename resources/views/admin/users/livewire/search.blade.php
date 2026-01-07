@@ -70,7 +70,7 @@
                                     Department
                                 </th>
                                 <th class="px-4 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-200 uppercase tracking-wider">
-                                    Last Loggin In
+                                    Last Log In
                                 </th>
                                 <th class="px-4 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-200 uppercase tracking-wider">
                                     Actions
@@ -87,8 +87,6 @@
                                     <td class="px-4 py-3">{{ $user->last_logged_in_at }}</td>
                                     <td class="px-4 py-3">
                                         <div class="flex flex-wrap gap-2">
-                                            <x-custom-button href="{{ route('admin.users.show', $user) }}" color="blue">View</x-custom-button>
-
                                             <x-custom-button href="{{ route('admin.users.edit', $user) }}" color="yellow">Edit</x-custom-button>
 
                                             <x-custom-button

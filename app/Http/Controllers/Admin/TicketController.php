@@ -23,7 +23,7 @@ class TicketController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.tickets.create-ticket');
     }
 
     /**
