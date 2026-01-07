@@ -29,7 +29,8 @@ class Search extends Component
             $query->where(function ($q) use ($s) {
                 $q->where('first_name', 'like', $s)
                     ->orWhere('last_name', 'like', $s)
-                    ->orWhere('email', 'like', $s);
+                    ->orWhere('email', 'like', $s)
+                    ->orWhere('role', 'like', $s);
             });
         }
 
