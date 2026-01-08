@@ -26,7 +26,6 @@ return new class extends Migration
             $table->string('department');
             $table->string('area');
             $table->string('status');
-            $table->timestamp('opened');
             $table->timestamp('assigned')->nullable();
             $table->timestamp('completed')->nullable();
             $table->timestamps();

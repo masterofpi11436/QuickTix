@@ -5,8 +5,8 @@
                 {{ __('Create a Ticket') }}
             </h2>
 
-            <x-custom-button href="" color="green">
-                Placeholder
+            <x-custom-button href="{{ route('admin.tickets.index') }}" color="green">
+                Back
             </x-custom-button>
         </div>
     </x-slot>

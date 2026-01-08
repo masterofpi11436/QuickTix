@@ -17,13 +17,11 @@ class Ticket extends Model
         'department',
         'area',
         'status',
-        'opened',
         'assigned',
         'completed',
     ];
 
     protected $casts = [
-        'opened'     => 'datetime',
         'assigned'   => 'datetime',
         'completed'  => 'datetime',
     ];
