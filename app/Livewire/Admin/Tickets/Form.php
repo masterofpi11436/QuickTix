@@ -15,13 +15,15 @@ class Form extends Component
 {
     public ?int $ticket_template_id = null;
 
+    // Updated by User
     public string $title = '';
     public string $description = '';
-
-    // Stored as strings (name columns)
     public string $department = '';
     public string $area = '';
     public string $status = '';
+
+    // Automatically submitted
+
 
     protected function rules(): array
     {
@@ -44,27 +46,42 @@ class Form extends Component
         $validated = $this->validate();
 
         $user = Auth::user();
-        if (! $user) {
-            abort(403);
-        }
+        abort_if(! $user, 403);
 
+        // Optional: validate chosen strings exist in their tables
         if (! Department::where('name', $validated['department'])->exists()) {
             $this->addError('department', 'Selected department is invalid.');
             return;
         }
-
         if (! Area::where('name', $validated['area'])->exists()) {
             $this->addError('area', 'Selected area is invalid.');
             return;
         }
 
-        $validated['submitted_by'] = $user->name ?? $user->email ?? (string) $user->id;
+        $payload = [
+            'ticket_template_id' => $validated['ticket_template_id'] ?? null,
+            'title' => $validated['title'],
+            'description' => $validated['description'],
+            'department' => $validated['department'],
+            'area' => $validated['area'],
+            'status' => $validated['status'],
 
-        $ticket = Ticket::create($validated);
+            // force submitted_by from logged in user
+            'submitted_by' => $user->name ?? $user->email ?? (string) $user->id,
+
+            // explicitly null these (since your form doesn't fill them)
+            'notes' => $validated['notes'] ?? null,
+            'technician' => $validated['technician'] ?? null,
+            'assigned_by' => $validated['assigned_by'] ?? null,
+            'assigned' => null,
+            'completed' => null,
+        ];
+
+        $ticket = Ticket::create($payload);
 
         session()->flash('success', 'Ticket created.');
 
-        return redirect()->route('admin.tickets.show', $ticket);
+        return redirect()->route('admin.tickets.index');
     }
 
     public function render()

@@ -19,7 +19,7 @@ return new class extends Migration
                 ->nullOnDelete();
             $table->string('title');
             $table->text('description');
-            $table->text('notes');
+            $table->text('notes')->nullable();
             $table->string('submitted_by');
             $table->string('technician')->nullable();
             $table->string('assigned_by')->nullable();
