@@ -21,7 +21,7 @@ class Search extends Component
 
     public function render()
     {
-        $query = User::query();
+        $query = User::query()->with('department');
 
         if ($this->search) {
             $s = '%' . $this->search . '%';
