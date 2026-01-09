@@ -69,16 +69,35 @@
                         @error('role') <p class="text-sm text-red-500 mt-1">{{ $message }}</p> @enderror
                     </div>
 
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Department</label>
-                        <select wire:model="department_id" class="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700
-                                bg-white dark:bg-gray-900 focus:ring focus:ring-blue-500/40">
-                            <option value="">-- None --</option>
-                            @foreach($departments as $dept)
-                                <option value="{{ $dept->id }}">{{ $dept->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                    @if($role === 'Controller' || $role === 'Administrator')
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Controller Coverage (Departments)</label>
+                            <select
+                                wire:model="covered_department_ids"
+                                multiple
+                                class="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700
+                                    bg-white dark:bg-gray-900 focus:ring focus:ring-blue-500/40"
+                            >
+                                @foreach($departments as $dept)
+                                    <option value="{{ $dept->id }}">{{ $dept->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('covered_department_ids') <p class="text-sm text-red-500 mt-1">{{ $message }}</p> @enderror
+                            @error('covered_department_ids.*') <p class="text-sm text-red-500 mt-1">{{ $message }}</p> @enderror
+                            <p class="text-xs text-gray-500 mt-1">Hold Ctrl/⌘ to select multiple.</p>
+                        </div>
+                    @else
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Department</label>
+                            <select wire:model="department_id" class="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700
+                                    bg-white dark:bg-gray-900 focus:ring focus:ring-blue-500/40">
+                                <option value="">-- None --</option>
+                                @foreach($departments as $dept)
+                                    <option value="{{ $dept->id }}">{{ $dept->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @endif
 
                     <div class="flex justify-end gap-2 pt-4">
                         <a href="{{ route('admin.users.index') }}"

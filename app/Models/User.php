@@ -66,4 +66,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Department::class);
     }
+
+    public function coveredDepartments()
+    {
+        return $this->belongsToMany(Department::class, 'department_user');
+    }
 }

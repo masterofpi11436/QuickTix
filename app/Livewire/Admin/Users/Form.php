@@ -18,6 +18,7 @@ class Form extends Component
     public string $password;
     public ?string $role = 'User';
     public ?int $department_id = null;
+    public array $covered_department_ids = [];
 
     public function mount($id = null): void
     {
@@ -29,7 +30,7 @@ class Form extends Component
 
     public function loadUser(): void
     {
-        $user = User::findOrFail($this->userId);
+        $user = User::with('coveredDepartments')->findOrFail($this->userId);
 
         $this->first_name = $user->first_name;
         $this->middle_initial = $user->middle_initial;
@@ -37,6 +38,8 @@ class Form extends Component
         $this->email = $user->email;
         $this->role = $user->role?->value;
         $this->department_id = $user->department_id;
+
+        $this->covered_department_ids = $user->coveredDepartments->pluck('id')->all();
     }
 
     protected function rules(): array
@@ -66,6 +69,10 @@ class Form extends Component
             ],
             'role' => ['string', Rule::in(['User', 'Reporting User', 'Technician', 'Controller', 'Administrator'])],
             'department_id' => ['nullable', 'integer', Rule::exists('departments', 'id')],
+
+            // pivot selection
+            'covered_department_ids' => ['array'],
+            'covered_department_ids.*' => ['integer', Rule::exists('departments', 'id')],
         ];
     }
 
@@ -88,6 +95,13 @@ class Form extends Component
 
         $user->fill($validated);
         $user->save();
+
+        // Only Controllers get coverage departments; otherwise clear pivot
+        if (($validated['role'] ?? null) === 'Controller') {
+            $user->coveredDepartments()->sync($validated['covered_department_ids'] ?? []);
+        } else {
+            $user->coveredDepartments()->sync([]);
+        }
 
         session()->flash(
             'create-edit-delete-message',
