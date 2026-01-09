@@ -21,16 +21,22 @@ class Search extends Component
 
     public function render()
     {
-        $query = User::query()->with('department');
+        $query = User::query()->with(['department', 'coveredDepartments']);
 
         if ($this->search) {
             $s = '%' . $this->search . '%';
 
             $query->where(function ($q) use ($s) {
                 $q->where('first_name', 'like', $s)
-                    ->orWhere('last_name', 'like', $s)
-                    ->orWhere('email', 'like', $s)
-                    ->orWhere('role', 'like', $s);
+                  ->orWhere('last_name', 'like', $s)
+                  ->orWhere('email', 'like', $s)
+                  ->orWhere('role', 'like', $s)
+                  ->orWhereHas('department', function ($dq) use ($s) {
+                      $dq->where('name', 'like', $s);
+                  })
+                  ->orWhereHas('coveredDepartments', function ($dq) use ($s) {
+                      $dq->where('name', 'like', $s);
+                  });
             });
         }
 

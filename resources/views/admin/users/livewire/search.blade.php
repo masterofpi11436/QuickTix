@@ -83,7 +83,17 @@
                                     <td class="px-4 py-3">{{ $user->first_name }} {{ $user->last_name }}</td>
                                     <td class="px-4 py-3">{{ $user->email }}</td>
                                     <td class="px-4 py-3">{{ $user->role->label() }}</td>
-                                    <td class="px-4 py-3">{{ $user->department->name ?? '-' }}</td>
+                                    <td class="px-4 py-3">
+                                        <div>
+                                            @if($user->coveredDepartments->isNotEmpty())
+                                                <div>
+                                                   {{ $user->coveredDepartments->pluck('name')->join(', ') }}
+                                                </div>
+                                            @else
+                                                <div>{{ $user->department->name ?? '-' }}</div>
+                                            @endif
+                                        </div>
+                                    </td>
                                     <td class="px-4 py-3">{{ $user->last_logged_in_at }}</td>
                                     <td class="px-4 py-3">
                                         <div class="flex flex-wrap gap-2">
