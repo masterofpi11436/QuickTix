@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->text('notes')->nullable();
-            $table->string('submitted_by');
+            $table->string('submitted_by_user_id');
             $table->string('technician')->nullable();
             $table->string('assigned_by')->nullable();
             $table->string('department');

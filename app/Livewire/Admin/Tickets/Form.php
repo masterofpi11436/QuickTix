@@ -68,8 +68,7 @@ class Form extends Component
             'department' => $validated['department'],
             'area' => $validated['area'],
             'status' => $validated['status'],
-
-            'submitted_by' => $user->name ?? $user->email ?? (string) $user->id,
+            'submitted_by_user_id' => $user->id,
 
             // all these null by requirement
             'notes' => null,

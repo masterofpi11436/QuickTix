@@ -13,7 +13,7 @@ class TicketController extends Controller
      */
     public function index()
     {
-        $tickets = Ticket::paginate(15);
+        $tickets = Ticket::with('submittedBy')->paginate(15);
 
         return view('admin.tickets.index', compact('tickets'));
     }

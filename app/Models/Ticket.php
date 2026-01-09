@@ -11,7 +11,7 @@ class Ticket extends Model
         'title',
         'description',
         'notes',
-        'submitted_by',
+        'submitted_by_user_id',
         'technician',
         'assigned_by',
         'department',
@@ -29,5 +29,10 @@ class Ticket extends Model
     public function ticketTemplate()
     {
         return $this->belongsTo(TicketTemplate::class);
+    }
+
+    public function submittedBy()
+    {
+        return $this->belongsTo(User::class, 'submitted_by_user_id');
     }
 }
