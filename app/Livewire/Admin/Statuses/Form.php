@@ -41,7 +41,7 @@ class Form extends Component
                 Rule::unique('statuses', 'name')->ignore($this->statusId),
             ],
             'color' => ['nullable', 'string'],
-            'status_type' => ['nullable', Rule::in(['default', 'in_progress', 'completed'])],
+            'status_type' => ['required', Rule::in(['default', 'in_progress', 'completed'])],
         ];
     }
 
@@ -52,6 +52,9 @@ class Form extends Component
 
     public function submitForm()
     {
+
+        $this->name = trim(preg_replace('/\s+/', ' ', $this->name));
+
         $validated = $this->validate();
 
         $status = $this->statusId
