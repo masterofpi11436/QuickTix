@@ -18,6 +18,7 @@ class Form extends Component
     public string $password;
     public ?string $role = 'User';
     public ?int $department_id = null;
+    public bool $has_multi_department_coverage = false;
     public array $covered_department_ids = [];
 
     public function mount($id = null): void
@@ -31,6 +32,7 @@ class Form extends Component
     public function loadUser(): void
     {
         $user = User::with('coveredDepartments')->findOrFail($this->userId);
+        $this->has_multi_department_coverage = $user->coveredDepartments()->exists();
 
         $this->first_name = $user->first_name;
         $this->middle_initial = $user->middle_initial;
