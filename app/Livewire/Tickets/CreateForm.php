@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Admin\Tickets;
+namespace App\Livewire\Tickets;
 
 use Livewire\Component;
 use App\Models\Ticket;
@@ -10,7 +10,7 @@ use App\Models\Area;
 use App\Models\Status;
 use Illuminate\Support\Facades\Auth;
 
-class Form extends Component
+class CreateForm extends Component
 {
     public ?int $ticket_template_id = null;
 
