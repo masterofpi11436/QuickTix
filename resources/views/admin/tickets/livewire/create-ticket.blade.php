@@ -91,7 +91,7 @@
                     </div>
 
                     <div class="flex justify-end gap-2 pt-4">
-                        <a href="#"
+                        <a href="{{route('admin.tickets.index')}}"
                            class="inline-flex items-center px-4 py-2 rounded-md border border-gray-300 dark:border-gray-700">
                             Cancel
                         </a>
