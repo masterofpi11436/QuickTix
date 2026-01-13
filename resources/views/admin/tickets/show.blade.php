@@ -125,7 +125,7 @@
                                 Assign Ticket
                             </h3>
                             <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                                Choose an eligible user (Admin / Controller / Technician).
+                                Choose an eligible user (Technician / Controller / Admin).
                             </p>
 
                             <form method="POST" action="{{ route('admin.tickets.assign', $ticket) }}" class="mt-4 space-y-3">
@@ -175,15 +175,6 @@
                                     @enderror
                                 </div>
 
-                                {{-- Current Assignee (optional display) --}}
-                                @if (!empty($ticket->assigned_to))
-                                    <div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/30 px-3 py-2 text-sm text-gray-700 dark:text-gray-300">
-                                        <span class="font-medium">Currently assigned:</span>
-                                        {{ optional($assignees->firstWhere('id', $ticket->assigned_to))->first_name }}
-                                        {{ optional($assignees->firstWhere('id', $ticket->assigned_to))->last_name }}
-                                    </div>
-                                @endif
-
                                 <div>
                                     <form method="POST" action="{{ route('admin.tickets.assign', $ticket) }}">
                                         @csrf
@@ -219,7 +210,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

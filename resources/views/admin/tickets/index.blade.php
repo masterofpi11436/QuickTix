@@ -12,7 +12,7 @@
 
                     {{-- Header + Search + Create Button --}}
                     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-3">
-                        <h3 class="text-lg font-semibold">Status List</h3>
+                        <h3 class="text-lg font-semibold">All Tickets</h3>
 
                         <div class="flex flex-col items-end gap-2">
                             @if (session()->has('create-edit-delete-message'))
@@ -103,8 +103,6 @@
                                             <div class="flex flex-wrap gap-2">
                                                 <x-custom-button href="{{ route('admin.tickets.show', $ticket) }}" color="blue">View</x-custom-button>
 
-                                                <x-custom-button href="{{ route('admin.tickets.edit', $ticket) }}" color="yellow">Edit</x-custom-button>
-
                                                 <x-custom-button
                                                     href="{{ route('admin.tickets.destroy', $ticket) }}"
                                                     method="DELETE"
@@ -124,7 +122,7 @@
                             @forelse ($tickets as $ticket)
                                 <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 shadow-sm">
                                     <div class="flex justify-between mb-2">
-                                        <span class="text-sm text-gray-500 dark:text-gray-400">Name:</span>
+                                        <span class="text-sm text-gray-500 dark:text-gray-400">Title:</span>
                                         <span class="font-medium text-gray-900 dark:text-gray-100">{{ $ticket->title }}</span>
                                     </div>
 
