@@ -63,32 +63,22 @@ class TicketController extends Controller
             'assigned_to' => ['required', 'exists:users,id'],
         ]);
 
-        $assignees = User::query()
-            ->whereIn('role', [
-                UserRole::Technician->value,
-                UserRole::Administrator->value,
-            ])
-            ->orderByRaw("
-                CASE role
-                    WHEN 'Technician' THEN 1
-                    WHEN 'Administrator' THEN 3
-                    ELSE 4
-                END
-            ")
-            ->orderBy('first_name')
-            ->orderBy('last_name')
-            ->get(['id', 'first_name', 'last_name', 'role']);
+        $assignee = User::findOrFail($data['assigned_to']);
+
+        if (! in_array($assignee->role, [
+            UserRole::Technician,
+            UserRole::Controller,
+            UserRole::Administrator,
+        ], true)) {
+            abort(403);
+        }
 
         $assignedByUser = Auth::user();
 
-        // Store strings in your columns (because schema uses string)
-        $ticket->technician = trim($assignees->first_name . ' ' . $assignees->last_name);
+        $ticket->technician  = trim($assignee->first_name . ' ' . $assignee->last_name);
         $ticket->assigned_by = trim($assignedByUser->first_name . ' ' . $assignedByUser->last_name);
+        $ticket->assigned    = now();
 
-        // Timestamp when assigned
-        $ticket->assigned = now();
-
-        // Optional: set status if you want
         if ($ticket->status === 'New' || empty($ticket->status)) {
             $ticket->status = 'In Progress';
         }
