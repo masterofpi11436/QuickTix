@@ -47,6 +47,8 @@ Route::middleware(['auth', 'role:' . UserRole::Administrator->value])
         Route::resource('users', UserController::class);
         Route::resource('tickettemplates', TicketTemplateController::class);
         Route::resource('tickets', TicketController::class);
+        Route::put('tickets/{ticket}/assign', [TicketController::class, 'assign'])
+            ->name('tickets.assign');
 
         // Administrative pages
         Route::view('/administration', 'admin.administration')->name('administration');
