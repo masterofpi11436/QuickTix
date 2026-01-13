@@ -7,13 +7,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AreaController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\StatusController;
+use App\Http\Controllers\Admin\TicketController;
+use App\Http\Controllers\Admin\ReportsController;
 use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\TicketTemplateController;
-use App\Http\Controllers\Admin\TicketController;
 
 // Default Redirect
 Route::get('/', function () {
-    // If user is not logged in → go to login
+    // If user is not logged in -> go to login
     if (!Auth::check()) {
         return redirect()->route('login');
     }
@@ -52,6 +53,9 @@ Route::middleware(['auth', 'role:' . UserRole::Administrator->value])
         Route::resource('statuses', StatusController::class);
         Route::resource('departments', DepartmentController::class);
         Route::resource('areas', AreaController::class);
+
+        // Reoprt pages
+        Route::resource('reports', ReportsController::class);
     });
 
 Route::middleware(['auth', 'role:' . UserRole::Controller->value])

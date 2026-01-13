@@ -36,6 +36,9 @@ new class extends Component
                     <x-nav-link :href="route('admin.tickettemplates.index')" :active="request()->routeIs('admin.tickettemplates.index')" wire:navigate>
                         {{ __('Templates') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('admin.reports.index')" :active="request()->routeIs('admin.reports.index')" wire:navigate>
+                        {{ __('Reports') }}
+                    </x-nav-link>
                 </div>
             </div>
 
