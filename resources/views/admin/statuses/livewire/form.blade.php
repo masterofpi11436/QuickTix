@@ -67,7 +67,7 @@
                             class="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700
                                 bg-white dark:bg-gray-900 focus:ring focus:ring-blue-500/40"
                         >
-                            <option value="default">Default</option>
+                            <option value="">-- Select a Status Type --</option>
                             <option value="in_progress">In progress</option>
                             <option value="completed">Completed</option>
                         </select>
