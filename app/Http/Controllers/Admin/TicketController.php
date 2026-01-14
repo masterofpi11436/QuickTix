@@ -86,7 +86,7 @@ class TicketController extends Controller
         $ticket->save();
 
         return redirect()
-            ->route('admin.tickets.show', $ticket)
+            ->route('admin.tickets.index', $ticket)
             ->with('success', 'Ticket assigned.');
     }
 

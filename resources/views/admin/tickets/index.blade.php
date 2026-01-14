@@ -12,6 +12,13 @@
 
                     {{-- Header + Search + Create Button --}}
                     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-3">
+
+                        @if (session('success'))
+                            <div class="mb-4 rounded border border-green-300 bg-green-50 p-3 text-green-800 dark:border-green-700 dark:bg-gray-800 dark:text-green-700">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+
                         <h3 class="text-lg font-semibold">All Tickets</h3>
 
                         <div class="flex flex-col items-end gap-2">

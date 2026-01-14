@@ -7,12 +7,6 @@
                     Create Ticket
                 </h3>
 
-                @if (session('success'))
-                    <div class="mb-4 rounded border border-green-300 bg-green-50 p-3 text-green-800">
-                        {{ session('success') }}
-                    </div>
-                @endif
-
                 <form wire:submit.prevent="save" class="space-y-4">
 
                     {{-- Template (optional) --}}

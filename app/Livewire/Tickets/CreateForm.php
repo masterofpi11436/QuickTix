@@ -126,7 +126,7 @@ class CreateForm extends Component
         return view('admin.tickets.livewire.create-ticket', [
             'templates' => TicketTemplate::query()->orderBy('id', 'desc')->get(),
             'departments' => Department::query()->orderBy('name')->get(),
-            'areas' => $areas, // NOTE: this is now the filtered list
+            'areas' => $areas,
             'statuses' => Status::query()->orderBy('name')->get(),
         ]);
     }
