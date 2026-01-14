@@ -1,6 +1,6 @@
 <x-admin-app-layout>
     <x-slot name="header">
-        <div class="flex items-center justify-between">
+        <div class="flex items-center justify-between bg-gray-100 dark:bg-gray-900">
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 {{ __('Create a Ticket') }}
             </h2>

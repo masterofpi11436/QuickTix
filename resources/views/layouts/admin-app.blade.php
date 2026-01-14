@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
-      class="{{ auth()->check() && auth()->user()->theme === 'dark' ? 'dark' : '' }}">
+      class="bg-gray-100 dark:bg-gray-900 {{ auth()->check() && auth()->user()->theme === 'dark' ? 'dark' : '' }}">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,8 +12,8 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @livewireScripts
     </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+    <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 min-h-dvh">
+        <div class="min-h-dvh bg-gray-100 dark:bg-gray-900">
             <livewire:layout.admin-navigation />
 
             <!-- Page Heading -->
@@ -26,7 +26,7 @@
             @endif
 
             <!-- Page Content -->
-            <main>
+            <main class="min-h-dvh">
                 {{ $slot }}
             </main>
         </div>
