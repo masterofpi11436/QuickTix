@@ -96,7 +96,7 @@
 
                             @if($show_area_dropdown)
                                 <div
-                                    class="absolute z-20 mt-1 w-full rounded-md border border-gray-200 dark:border-gray-700
+                                    class="absolute z-20 bottom-full mb-1 w-full rounded-md border border-gray-200 dark:border-gray-700
                                         bg-white dark:bg-gray-900 shadow-lg
                                         max-h-48 sm:max-h-60 overflow-y-auto overscroll-contain"
                                 >
@@ -124,7 +124,6 @@
                                 </div>
                             @endif
                         </div>
-
                     </div>
 
                     <div class="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 pt-4">
