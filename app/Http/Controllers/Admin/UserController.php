@@ -40,6 +40,6 @@ class UserController extends Controller
 
         return redirect()
             ->route('admin.users.index')
-            ->with('create-edit-delete-message', 'User deleted!');
+            ->with('success', 'User deleted!');
     }
 }

@@ -40,6 +40,6 @@ class StatusController extends Controller
 
         return redirect()
             ->route('admin.statuses.index')
-            ->with('create-edit-delete-message', 'Status deleted!');
+            ->with('success', 'Status deleted!');
     }
 }

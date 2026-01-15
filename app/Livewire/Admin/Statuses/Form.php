@@ -65,7 +65,7 @@ class Form extends Component
         $status->save();
 
         session()->flash(
-            'create-edit-delete-message',
+            'success',
             $this->statusId ? 'Status updated!' : 'Status created!'
         );
 

@@ -106,7 +106,7 @@ class Form extends Component
         }
 
         session()->flash(
-            'create-edit-delete-message',
+            'success',
             $this->userId ? 'User updated!' : 'User created!'
         );
 

@@ -30,5 +30,7 @@
                 {{ $slot }}
             </main>
         </div>
+
+        <script src="{{ asset('javascript/flash-message-expiry.js') }}"></script>
     </body>
 </html>

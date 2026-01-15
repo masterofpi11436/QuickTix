@@ -59,7 +59,7 @@ class Form extends Component
         $department->save();
 
         session()->flash(
-            'create-edit-delete-message',
+            'success',
             $this->departmentId ? 'Department updated!' : 'Department created!'
         );
 

@@ -40,6 +40,6 @@ class DepartmentController extends Controller
 
         return redirect()
             ->route('admin.departments.index')
-            ->with('create-edit-delete-message', 'Department deleted!');
+            ->with('success', 'Department deleted!');
     }
 }

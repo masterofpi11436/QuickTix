@@ -11,5 +11,8 @@
         </div>
     </x-slot>
 
+    <!-- Flash Message -->
+    <x-flash-message/>
+
     @livewire('admin.statuses.search')
 </x-admin-app-layout>

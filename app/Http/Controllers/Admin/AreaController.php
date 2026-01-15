@@ -40,6 +40,6 @@ class AreaController extends Controller
 
         return redirect()
             ->route('admin.areas.index')
-            ->with('create-edit-delete-message', 'Area deleted!');
+            ->with('success', 'Area deleted!');
     }
 }

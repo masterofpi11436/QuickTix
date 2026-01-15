@@ -59,7 +59,7 @@ class Form extends Component
         $area->save();
 
         session()->flash(
-            'create-edit-delete-message',
+            'success',
             $this->areaId ? 'Area updated!' : 'Area created!'
         );
 

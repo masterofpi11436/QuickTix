@@ -8,33 +8,6 @@
                     <h3 class="text-lg font-semibold">Department List</h3>
 
                     <div class="flex flex-col items-end gap-2">
-                        @if (session()->has('create-edit-delete-message'))
-                            <div
-                                x-data="{ show: true }"
-                                x-show="show"
-                                x-init="setTimeout(() => show = false, 3000)"
-                                class="flex items-center gap-2 rounded-md border
-                                    bg-transparent dark:bg-transparent
-                                    border-green-600 dark:border-green-400
-                                    text-green-700 dark:text-green-400
-                                    px-6 py-2"
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="1.5"
-                                    stroke="currentColor"
-                                    class="w-4 h-4 shrink-0">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="m4.5 12.75 6 6 9-13.5" />
-                                </svg>
-
-                                <span class="text-sm font-medium">
-                                    {{ session('create-edit-delete-message') }}
-                                </span>
-                            </div>
-                        @endif
-
                         <div class="flex flex-col sm:flex-row gap-2 sm:items-center">
                             <input
                                 type="text"
