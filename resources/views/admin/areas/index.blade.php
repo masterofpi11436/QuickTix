@@ -12,7 +12,7 @@
     </x-slot>
 
     <!-- Flash Message -->
-    <x-flash-message/>
+    <x-flash-message type="success" />
 
     @livewire('admin.areas.search')
 </x-admin-app-layout>

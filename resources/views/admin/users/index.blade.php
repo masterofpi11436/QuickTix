@@ -11,8 +11,8 @@
         </div>
     </x-slot>
 
-    <!-- Flash Message -->
-    <x-flash-message/>
+    {{-- Flash Messages --}}
+    <x-flash-message type="success" />
 
     @livewire('admin.users.search')
 </x-admin-app-layout>

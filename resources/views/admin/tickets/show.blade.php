@@ -23,11 +23,7 @@
             <div class="bg-white dark:bg-gray-800 shadow-sm ring-1 ring-gray-200 dark:ring-gray-700 rounded-2xl p-6 sm:p-8 space-y-8">
 
                 {{-- Flash Messages --}}
-                @if (session('success'))
-                    <div class="rounded-xl border border-green-200 dark:border-green-900/50 bg-green-50 dark:bg-green-900/20 px-4 py-3 text-green-800 dark:text-green-200">
-                        {{ session('success') }}
-                    </div>
-                @endif
+                <x-flash-message type="success" />
 
                 @if ($errors->any())
                     <div class="rounded-xl border border-red-200 dark:border-red-900/50 bg-red-50 dark:bg-red-900/20 px-4 py-3 text-red-800 dark:text-red-200">

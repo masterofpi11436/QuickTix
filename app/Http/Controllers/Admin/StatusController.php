@@ -36,6 +36,14 @@ class StatusController extends Controller
      */
     public function destroy(Status $status)
     {
+        $count = Status::where('status_type', $status->status_type)->count();
+
+        if ($count <= 1) {
+            return redirect()
+                ->route('admin.statuses.index')
+                ->with('error', 'You must keep at least one status for each type.');
+        }
+
         $status->delete();
 
         return redirect()

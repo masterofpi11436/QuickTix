@@ -12,7 +12,8 @@
     </x-slot>
 
     <!-- Flash Message -->
-    <x-flash-message/>
+    <x-flash-message type="success" />
+    <x-flash-message type="error" />
 
     @livewire('admin.statuses.search')
 </x-admin-app-layout>
