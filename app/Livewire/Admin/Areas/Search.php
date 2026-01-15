@@ -33,7 +33,7 @@ class Search extends Component
         }
 
         $areas = $query
-            ->orderBy('created_at', 'desc')
+            ->orderBy('name', 'asc')
             ->paginate(15);
 
         return view('admin.areas.livewire.search', [
