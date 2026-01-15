@@ -2,11 +2,8 @@
 
 namespace Database\Seeders;
 
-use Carbon\Carbon;
-use App\Models\Area;
 use App\Models\User;
 use App\Models\Status;
-use App\Models\Ticket;
 use App\Enums\StatusType;
 use App\Models\Department;
 use Illuminate\Database\Seeder;
@@ -23,7 +20,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // -----------------------------
-        // Users
+        // Administrator
         // -----------------------------
         User::factory()->create([
             'first_name' => 'Mark',
@@ -36,6 +33,9 @@ class DatabaseSeeder extends Seeder
             'last_logged_in_at' => null,
         ]);
 
+        // -----------------------------
+        // Controllers
+        // -----------------------------
         User::factory()->create([
             'first_name' => 'John',
             'middle_initial' => 'A',
@@ -58,6 +58,9 @@ class DatabaseSeeder extends Seeder
             'last_logged_in_at' => null,
         ]);
 
+        // -----------------------------
+        // Technicians
+        // -----------------------------
         User::factory()->create([
             'first_name' => 'Michael',
             'middle_initial' => 'D',
@@ -91,6 +94,9 @@ class DatabaseSeeder extends Seeder
             'last_logged_in_at' => null,
         ]);
 
+        // -----------------------------
+        // Reporting User
+        // -----------------------------
         User::factory()->create([
             'first_name' => 'John',
             'middle_initial' => 'A',
@@ -102,6 +108,9 @@ class DatabaseSeeder extends Seeder
             'last_logged_in_at' => null,
         ]);
 
+        // -----------------------------
+        // User
+        // -----------------------------
         User::factory()->create([
             'first_name' => 'Jane',
             'middle_initial' => 'A',
@@ -112,21 +121,6 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('asd'),
             'last_logged_in_at' => null,
         ]);
-
-
-        // -----------------------------
-        // Areas (9)
-        // -----------------------------
-        Area::create(['name' => 'Area A', 'description' => 'Admin Area']);
-        Area::create(['name' => 'Area B', 'description' => 'Staff Parking Lot']);
-        Area::create(['name' => 'Area C', 'description' => 'Warehouse']);
-        Area::create(['name' => 'Area D', 'description' => 'Lobby']);
-        Area::create(['name' => 'Area E', 'description' => 'Mens Toilet']);
-        Area::create(['name' => 'Area F', 'description' => 'Gym']);
-        Area::create(['name' => 'Area G', 'description' => 'Security Booth']);
-        Area::create(['name' => 'Area H', 'description' => 'Nurse Station']);
-        Area::create(['name' => 'Area I', 'description' => 'Office Supply Closet']);
-
 
         // -----------------------------
         // Departments (5)
