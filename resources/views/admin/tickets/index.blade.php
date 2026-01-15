@@ -148,8 +148,6 @@
                                     <div class="flex justify-end space-x-3">
                                         <x-custom-button href="{{ route('admin.tickets.show', $ticket) }}" color="blue">View</x-custom-button>
 
-                                        <x-custom-button href="{{ route('admin.tickets.edit', $ticket) }}" color="yellow">Edit</x-custom-button>
-
                                         <x-custom-button
                                             href="{{ route('admin.tickets.destroy', $ticket) }}"
                                             method="DELETE"

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
+use App\Models\Status;
 use App\Models\Ticket;
 use App\Enums\UserRole;
 use Illuminate\Http\Request;
@@ -54,13 +55,23 @@ class TicketController extends Controller
             ->orderBy('last_name')
             ->get(['id', 'first_name', 'last_name', 'role']);
 
-        return view('admin.tickets.show', compact('ticket', 'assignees'));
+        $completedStatuses = Status::query()
+            ->where('status_type', 'completed')
+            ->orderBy('name')
+            ->get(['id', 'name']);
+
+        $ticketStatusType = Status::where('name', $ticket->status)
+            ->value('status_type');
+
+        return view('admin.tickets.show', compact('ticket', 'assignees', 'completedStatuses', 'ticketStatusType'));
     }
+
 
     public function assign(Request $request, Ticket $ticket)
     {
         $data = $request->validate([
             'assigned_to' => ['required', 'exists:users,id'],
+            'notes' => ['nullable', 'string', 'max:5000'],
         ]);
 
         $assignee = User::findOrFail($data['assigned_to']);
@@ -75,6 +86,7 @@ class TicketController extends Controller
 
         $assignedByUser = Auth::user();
 
+        $ticket->notes       = $data['notes'] ?? $ticket->notes;
         $ticket->technician  = trim($assignee->first_name . ' ' . $assignee->last_name);
         $ticket->assigned_by = trim($assignedByUser->first_name . ' ' . $assignedByUser->last_name);
         $ticket->assigned    = now();
@@ -86,7 +98,7 @@ class TicketController extends Controller
         $ticket->save();
 
         return redirect()
-            ->route('admin.tickets.index', $ticket)
+            ->route('admin.tickets.index')
             ->with('success', 'Ticket assigned.');
     }
 
@@ -101,9 +113,26 @@ class TicketController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Ticket $ticket)
     {
-        //
+        $data = $request->validate([
+            'completed_status_id' => ['required', 'integer', 'exists:statuses,id'],
+            'notes' => ['nullable', 'string', 'max:5000'],
+        ]);
+
+        // Only allow picking from statuses that are actually "completed"
+        $status = Status::query()
+            ->whereKey($data['completed_status_id'])
+            ->where('status_type', 'completed')
+            ->firstOrFail();
+
+        $ticket->status = $status->name;              // store STRING
+        $ticket->notes  = $data['notes'] ?? null;     // update notes
+        $ticket->save();
+
+        return redirect()
+            ->route('admin.tickets.show', $ticket)
+            ->with('success', 'Ticket completed.');
     }
 
     /**

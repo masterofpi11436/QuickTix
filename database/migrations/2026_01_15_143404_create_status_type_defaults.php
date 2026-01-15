@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('statuses', function (Blueprint $table) {
-            $table->id();
-            $table->string('name')->unique();
-            $table->string('color')->nullable();
-            $table->enum('status_type', ['new', 'in_progress', 'completed']);
+        Schema::create('status_type_defaults', function (Blueprint $table) {
+            $table->enum('status_type', ['new', 'in_progress', 'completed'])->primary();
+            $table->foreignId('status_id')->constrained('statuses')->restrictOnDelete();
             $table->timestamps();
         });
     }
@@ -25,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('statuses');
+        Schema::dropIfExists('status_type_defaults');
     }
 };

@@ -13,22 +13,48 @@ return new class extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
+
             $table->foreignId('ticket_template_id')
                 ->nullable()
                 ->constrained('ticket_templates')
                 ->nullOnDelete();
+
             $table->string('title');
             $table->text('description');
             $table->text('notes')->nullable();
-            $table->string('submitted_by_user_id');
-            $table->string('technician')->nullable();
-            $table->string('assigned_by')->nullable();
+
+            $table->foreignId('submitted_by_user_id')
+                ->nullable()
+                ->constrained('users')
+                ->nullOnDelete();
+            $table->string('submitted_by_name');
+
+            $table->foreignId('assigned_to_user_id')
+                ->nullable()
+                ->constrained('users')
+                ->nullOnDelete();
+            $table->string('assigned_to_name')->nullable();
+
+            $table->foreignId('assigned_by_user_id')
+                ->nullable()
+                ->constrained('users')
+                ->nullOnDelete();
+            $table->string('assigned_by_name')->nullable();
+
             $table->string('department');
             $table->string('area');
-            $table->string('status');
-            $table->timestamp('assigned')->nullable();
-            $table->timestamp('completed')->nullable();
+
+            // This is your reporting field
+            $table->enum('status_type', ['new', 'in_progress', 'completed'])->default('new');
+
+            $table->timestamp('assigned_at')->nullable();
+            $table->timestamp('completed_at')->nullable();
+
             $table->timestamps();
+
+            // indexes for reporting
+            $table->index('status_type');
+            $table->index(['status_type', 'area']);
         });
     }
 

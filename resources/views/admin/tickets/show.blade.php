@@ -24,6 +24,7 @@
 
                 {{-- Flash Messages --}}
                 <x-flash-message type="success" />
+                <x-flash-message type="error" />
 
                 @if ($errors->any())
                     <div class="rounded-xl border border-red-200 dark:border-red-900/50 bg-red-50 dark:bg-red-900/20 px-4 py-3 text-red-800 dark:text-red-200">
@@ -79,24 +80,90 @@
 
                         {{-- Description --}}
                         <div class="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5">
-                            <div class="flex items-center justify-between gap-3">
-                                <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Description</p>
-                            </div>
+                            <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Description</p>
 
                             <div class="mt-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/30 p-4 text-gray-800 dark:text-gray-200 whitespace-pre-wrap">
-                                {{ $ticket->description }}
+                                {{ trim($ticket->description ?? '') }}
                             </div>
                         </div>
 
-                        {{-- Notes --}}
+                        {{-- Notes / Completion --}}
                         <div class="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5">
-                            <div class="flex items-center justify-between gap-3">
-                                <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Notes</p>
-                            </div>
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                                Notes
+                            </h3>
 
-                            <div class="mt-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/30 p-4 text-gray-800 dark:text-gray-200 whitespace-pre-wrap">
-                                {{ $ticket->notes }}
-                            </div>
+                            @if ($ticketStatusType === 'completed')
+                                {{-- Read-only notes --}}
+                                <div class="mt-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/30 p-4
+                                            text-gray-800 dark:text-gray-200 whitespace-pre-wrap">
+                                    {{ trim($ticket->notes ?? 'No notes provided.') }}
+                                </div>
+                            @else
+                                {{-- Editable notes + completion --}}
+                                <form method="POST" action="{{ route('admin.tickets.update', $ticket) }}" class="mt-4 space-y-4">
+                                    @csrf
+                                    @method('PUT')
+
+                                    <div>
+                                        <label for="notes" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                            Notes
+                                        </label>
+                                        <textarea
+                                            id="notes"
+                                            name="notes"
+                                            rows="5"
+                                            class="mt-2 w-full rounded-xl border border-gray-300 dark:border-gray-600
+                                                bg-white dark:bg-gray-800 px-3 py-2.5
+                                                text-gray-900 dark:text-gray-100 shadow-sm
+                                                focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                                        >{{ old('notes', $ticket->notes) }}</textarea>
+                                        @error('notes')
+                                            <div class="mt-2 text-sm text-red-600">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div>
+                                        <label for="completed_status_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                            Completed status
+                                        </label>
+                                        <select
+                                            id="completed_status_id"
+                                            name="completed_status_id"
+                                            required
+                                            class="mt-2 w-full rounded-xl border border-gray-300 dark:border-gray-600
+                                                bg-white dark:bg-gray-800 px-3 py-2.5
+                                                text-gray-900 dark:text-gray-100 shadow-sm
+                                                focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                                        >
+                                            <option value="">-- Select completed status --</option>
+                                            @foreach ($completedStatuses as $s)
+                                                <option value="{{ $s->id }}">
+                                                    {{ $s->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('completed_status_id')
+                                            <div class="mt-2 text-sm text-red-600">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <button
+                                        type="submit"
+                                        class="w-full inline-flex items-center justify-center rounded-lg
+                                            bg-transparent dark:bg-transparent
+                                            border border-green-600 dark:border-green-400
+                                            px-4 py-2 text-sm font-semibold
+                                            text-green-700 dark:text-green-400
+                                            shadow-sm
+                                            hover:bg-green-50 dark:hover:bg-green-900
+                                            focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2
+                                            dark:focus:ring-offset-gray-800"
+                                    >
+                                        Complete Ticket
+                                    </button>
+                                </form>
+                            @endif
                         </div>
 
                         {{-- Timestamps Footer --}}
@@ -124,7 +191,7 @@
                                 Choose an eligible user (Technician / Controller / Admin).
                             </p>
 
-                            <form method="POST" action="{{ route('admin.tickets.assign', $ticket) }}" class="mt-4 space-y-3">
+                            <form method="POST" action="{{ route('admin.tickets.assign', $ticket) }}" class="mt-4 space-y-4">
                                 @csrf
                                 @method('PUT')
 
@@ -136,34 +203,35 @@
                                     <select
                                         id="assigned_to"
                                         name="assigned_to"
-                                        class="mt-2 w-full rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2.5 text-gray-900 dark:text-gray-100
-                                               shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        class="mt-2 w-full rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2.5
+                                               text-gray-900 dark:text-gray-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                     >
                                         <option value="">-- Select user --</option>
-                                            @php
-                                                $grouped = $assignees->groupBy(fn ($u) => $u->role->value);
-                                            @endphp
 
-                                            @foreach (['Technician', 'Controller', 'Administrator'] as $group)
-                                                @if ($grouped->has($group))
-                                                    <option disabled class="font-semibold text-gray-500">
-                                                        — {{ $group }}s —
+                                        @php
+                                            $grouped = $assignees->groupBy(fn ($u) => $u->role->value);
+                                        @endphp
+
+                                        @foreach (['Technician', 'Controller', 'Administrator'] as $group)
+                                            @if ($grouped->has($group))
+                                                <option disabled class="font-semibold text-gray-500">
+                                                    — {{ $group }}s —
+                                                </option>
+
+                                                @foreach ($grouped[$group] as $user)
+                                                    @php
+                                                        $userName = $user->first_name . ' ' . $user->last_name;
+                                                    @endphp
+
+                                                    <option
+                                                        value="{{ $user->id }}"
+                                                        @selected(old('assigned_to') == $user->id)
+                                                    >
+                                                        {{ $userName }}
                                                     </option>
-
-                                                    @foreach ($grouped[$group] as $user)
-                                                        @php
-                                                            $userName = $user->first_name . ' ' . $user->last_name;
-                                                        @endphp
-
-                                                        <option
-                                                            value="{{ $user->id }}"
-                                                            @selected(old('assigned_to', $ticket->technician) === $userName)
-                                                        >
-                                                            {{ $userName }}
-                                                        </option>
-                                                    @endforeach
-                                                @endif
-                                            @endforeach
+                                                @endforeach
+                                            @endif
+                                        @endforeach
                                     </select>
 
                                     @error('assigned_to')
@@ -171,46 +239,50 @@
                                     @enderror
                                 </div>
 
-                                <div>
-                                    <form method="POST" action="{{ route('admin.tickets.assign', $ticket) }}">
-                                        @csrf
-                                        @method('PUT')
-
-                                        <button
-                                            type="submit"
-                                            class="w-full inline-flex items-center justify-center rounded-lg
-                                                bg-transparent dark:bg-transparent
-                                                border border-green-600 dark:border-green-400
-                                                px-4 py-2 text-sm font-semibold
-                                                text-green-700 dark:text-green-400
-                                                shadow-sm
-                                                hover:bg-green-50 dark:hover:bg-green-900
-                                                focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2
-                                                dark:focus:ring-offset-gray-800"
-                                        >
-                                            Assign
-                                        </button>
-                                    </form>
-                                </div>
+                                <button
+                                    type="submit"
+                                    class="w-full inline-flex items-center justify-center rounded-lg
+                                           bg-transparent dark:bg-transparent
+                                           border border-blue-600 dark:border-blue-400
+                                           px-4 py-2 text-sm font-semibold
+                                           text-blue-700 dark:text-blue-400
+                                           shadow-sm
+                                           hover:bg-blue-50 dark:hover:bg-blue-900
+                                           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+                                           dark:focus:ring-offset-gray-800"
+                                >
+                                    Assign
+                                </button>
                             </form>
                         </div>
 
-                        {{-- Quick Actions (optional) --}}
+                        {{-- Delete Ticket --}}
                         <div class="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5">
-                            <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">Actions</p>
-                            <div class="mt-3 flex flex-col gap-2">
-                                <x-custom-button
-                                    href="{{ route('admin.tickets.destroy', $ticket) }}"
-                                    method="DELETE"
-                                    color="red"
-                                    class="w-full justify-center"
+                            <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">Danger zone</p>
+
+                            <form method="POST" action="{{ route('admin.tickets.destroy', $ticket) }}" class="mt-3">
+                                @csrf
+                                @method('DELETE')
+
+                                <button
+                                    type="submit"
+                                    class="w-full inline-flex items-center justify-center rounded-lg
+                                           bg-transparent dark:bg-transparent
+                                           border border-red-600 dark:border-red-400
+                                           px-4 py-2 text-sm font-semibold
+                                           text-red-700 dark:text-red-400
+                                           shadow-sm
+                                           hover:bg-red-50 dark:hover:bg-red-900
+                                           focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2
+                                           dark:focus:ring-offset-gray-800"
                                 >
                                     Delete Ticket
-                                </x-custom-button>
-                            </div>
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
