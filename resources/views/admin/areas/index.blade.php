@@ -14,5 +14,5 @@
     <!-- Flash Message -->
     <x-flash-message type="success" />
 
-    @livewire('admin.areas.search')
+    @livewire('Admin.Areas.Search')
 </x-admin-app-layout>

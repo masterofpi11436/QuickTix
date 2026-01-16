@@ -15,5 +15,5 @@
     <x-flash-message type="success" />
     <x-flash-message type="error" />
 
-    @livewire('admin.statuses.search')
+    @livewire('Admin.Statuses.Search')
 </x-admin-app-layout>

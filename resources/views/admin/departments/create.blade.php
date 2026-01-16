@@ -11,5 +11,5 @@
         </div>
     </x-slot>
 
-    @livewire('admin.departments.form')
+    @livewire('Admin.Departments.Form')
 </x-admin-app-layout>

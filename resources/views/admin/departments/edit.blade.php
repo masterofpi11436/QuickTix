@@ -11,5 +11,5 @@
         </div>
     </x-slot>
 
-    @livewire('admin.departments.form', ['id' => $department->id])
+    @livewire('Admin.Departments.Form', ['id' => $department->id])
 </x-admin-app-layout>

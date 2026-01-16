@@ -11,5 +11,5 @@
         </div>
     </x-slot>
 
-    @livewire('admin.statuses.form', ['id' => $status->id])
+    @livewire('Admin.Statuses.Form', ['id' => $status->id])
 </x-admin-app-layout>
