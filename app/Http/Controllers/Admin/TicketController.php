@@ -19,13 +19,23 @@ class TicketController extends Controller
      */
     public function index()
     {
-        $tickets = Ticket::with('submittedBy')->paginate(15);
+        $openTickets = Ticket::with(['submittedBy'])
+            ->whereIn('status_type', ['new', 'in_progress'])
+            ->latest()
+            ->get();
 
-        $statusLabels = StatusTypeDefault::with('status')
-            ->get()
-            ->mapWithKeys(fn ($row) => [$row->status_type => $row->status->name]);
+        $completedTickets = Ticket::with(['submittedBy'])
+            ->where('status_type', 'completed')
+            ->latest('completed_at') // or 'updated_at'
+            ->limit(25)               // ← change this number
+            ->get();
 
-        return view('admin.tickets.index', compact('tickets', 'statusLabels'));
+        $ticketsByType = collect()
+            ->merge($openTickets)
+            ->merge($completedTickets)
+            ->groupBy('status_type');
+
+        return view('admin.tickets.index', compact('ticketsByType'));
     }
 
     /**
@@ -179,7 +189,7 @@ class TicketController extends Controller
         $ticket->save();
 
         return redirect()
-            ->route('admin.tickets.show', $ticket)
+            ->route('admin.tickets.index', $ticket)
             ->with('success', 'Ticket completed.');
     }
 
