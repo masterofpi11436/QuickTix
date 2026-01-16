@@ -69,7 +69,7 @@
                         </div>
 
                         <div class="relative">
-                            <label class="block text-sm font-medium mb-1" title="Start typing area name (min 2 letters)">Area</label>
+                            <label class="block text-sm font-medium mb-1" title="Start typing area name (min 2 letters)">Area or Title</label>
 
                             <input
                                 type="text"
@@ -78,8 +78,8 @@
                                 wire:keydown.escape="closeAreaDropdown"
                                 class="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700
                                     bg-white dark:bg-gray-900 focus:ring focus:ring-blue-500/40"
-                                placeholder="Start typing area name (min 2 chars)..."
-                                title="Start typing area name (min 2 letters)"
+                                placeholder="Search for area or title (min 2 chars)..."
+                                title="Search for area or title (min 2 letters)"
                                 autocomplete="off"
                             />
 
