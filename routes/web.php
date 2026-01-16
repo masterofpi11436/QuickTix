@@ -49,6 +49,8 @@ Route::middleware(['auth', 'role:' . UserRole::Administrator->value])
         Route::resource('tickets', TicketController::class);
         Route::put('tickets/{ticket}/assign', [TicketController::class, 'assign'])
             ->name('tickets.assign');
+        Route::put('status-type-defaults/{statusType}', [TicketController::class, 'updateStatusTypeDefault'])
+            ->name('status-type-defaults.update');
 
         // Administrative pages
         Route::view('/administration', 'admin.administration')->name('administration');

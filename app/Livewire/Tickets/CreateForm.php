@@ -7,7 +7,7 @@ use App\Models\Ticket;
 use App\Models\TicketTemplate;
 use App\Models\Department;
 use App\Models\Area;
-use App\Models\Status;
+use App\Enums\StatusType;
 use Illuminate\Support\Facades\Auth;
 
 class CreateForm extends Component
@@ -18,13 +18,8 @@ class CreateForm extends Component
     public string $description = '';
     public string $department = '';
 
-    // user types here
     public string $area_search = '';
-
-    // what gets saved (keep as string name like your current schema)
     public string $area = '';
-
-    // dropdown state
     public bool $show_area_dropdown = false;
 
     protected function rules(): array
@@ -33,28 +28,16 @@ class CreateForm extends Component
             'ticket_template_id' => ['nullable', 'integer', 'exists:ticket_templates,id'],
             'title' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
-
             'department' => ['required', 'string', 'max:255'],
             'area' => ['required', 'string', 'max:255'],
-
-            'status' => ['required', 'string', 'max:255', 'exists:statuses,name'],
         ];
     }
 
-    public string $status = 'New';
-
-    public function mount(): void
-    {
-        $this->status = 'New';
-    }
-
-    // When typing, clear the selected area if user edits text
-    public function updatedAreaSearch($value): void
+    public function updatedAreaSearch(): void
     {
         $this->show_area_dropdown = true;
 
-        // If they type something different, make them re-pick a valid area
-        if ($this->area !== $value) {
+        if ($this->area !== $this->area_search) {
             $this->area = '';
         }
     }
@@ -82,26 +65,33 @@ class CreateForm extends Component
             return;
         }
 
-        // Enforce that the selected area is one that exists (by name)
         if (! Area::where('name', $validated['area'])->exists()) {
             $this->addError('area', 'Selected area is invalid.');
             return;
         }
 
         Ticket::create([
-            'ticket_template_id' => null,
+            'ticket_template_id' => $validated['ticket_template_id'],
             'title' => $validated['title'],
             'description' => $validated['description'],
+            'notes' => null,
+
+            'submitted_by_user_id' => $user?->id,
+            'submitted_by_name' => trim(($user->first_name ?? '') . ' ' . ($user->last_name ?? '')) ?: ($user->email ?? 'Unknown'),
+
+            'assigned_to_user_id' => null,
+            'assigned_to_name' => null,
+
+            'assigned_by_user_id' => null,
+            'assigned_by_name' => null,
+
             'department' => $validated['department'],
             'area' => $validated['area'],
-            'status' => $validated['status'],
-            'submitted_by_user_id' => $user->id,
 
-            'notes' => null,
-            'technician' => null,
-            'assigned_by' => null,
-            'assigned' => null,
-            'completed' => null,
+            'status_type' => StatusType::New, // always new on create
+
+            'assigned_at' => null,
+            'completed_at' => null,
         ]);
 
         session()->flash('success', 'Ticket created.');
@@ -112,9 +102,8 @@ class CreateForm extends Component
     {
         $areas = collect();
 
-        // Only query when user has typed 1-2 chars (you choose)
         if (mb_strlen(trim($this->area_search)) >= 2) {
-            $term = '%' . trim($this->area_search) . '%'; // Change with $term = trim($this->area_search) . '%'; if slow search results
+            $term = '%' . trim($this->area_search) . '%';
 
             $areas = Area::query()
                 ->where('name', 'like', $term)
@@ -127,7 +116,6 @@ class CreateForm extends Component
             'templates' => TicketTemplate::query()->orderBy('id', 'desc')->get(),
             'departments' => Department::query()->orderBy('name')->get(),
             'areas' => $areas,
-            'statuses' => Status::query()->orderBy('name')->get(),
         ]);
     }
 }

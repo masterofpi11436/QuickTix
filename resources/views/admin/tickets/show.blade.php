@@ -41,7 +41,9 @@
 
                     <div class="rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/30 p-4">
                         <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Status</p>
-                        <p class="mt-1 font-semibold text-gray-900 dark:text-gray-100">{{ $ticket->status }}</p>
+                        <p class="mt-1 font-semibold text-gray-900 dark:text-gray-100">
+                            {{ $statusLabels[$ticket->status_type->value] ?? $ticket->status_type->label() }}
+                        </p>
                     </div>
 
                     <div class="rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/30 p-4">
@@ -87,85 +89,6 @@
                             </div>
                         </div>
 
-                        {{-- Notes / Completion --}}
-                        <div class="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5">
-                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                                Notes
-                            </h3>
-
-                            @if ($ticketStatusType === 'completed')
-                                {{-- Read-only notes --}}
-                                <div class="mt-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/30 p-4
-                                            text-gray-800 dark:text-gray-200 whitespace-pre-wrap">
-                                    {{ trim($ticket->notes ?? 'No notes provided.') }}
-                                </div>
-                            @else
-                                {{-- Editable notes + completion --}}
-                                <form method="POST" action="{{ route('admin.tickets.update', $ticket) }}" class="mt-4 space-y-4">
-                                    @csrf
-                                    @method('PUT')
-
-                                    <div>
-                                        <label for="notes" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                            Notes
-                                        </label>
-                                        <textarea
-                                            id="notes"
-                                            name="notes"
-                                            rows="5"
-                                            class="mt-2 w-full rounded-xl border border-gray-300 dark:border-gray-600
-                                                bg-white dark:bg-gray-800 px-3 py-2.5
-                                                text-gray-900 dark:text-gray-100 shadow-sm
-                                                focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                                        >{{ old('notes', $ticket->notes) }}</textarea>
-                                        @error('notes')
-                                            <div class="mt-2 text-sm text-red-600">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-
-                                    <div>
-                                        <label for="completed_status_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                            Completed status
-                                        </label>
-                                        <select
-                                            id="completed_status_id"
-                                            name="completed_status_id"
-                                            required
-                                            class="mt-2 w-full rounded-xl border border-gray-300 dark:border-gray-600
-                                                bg-white dark:bg-gray-800 px-3 py-2.5
-                                                text-gray-900 dark:text-gray-100 shadow-sm
-                                                focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                                        >
-                                            <option value="">-- Select completed status --</option>
-                                            @foreach ($completedStatuses as $s)
-                                                <option value="{{ $s->id }}">
-                                                    {{ $s->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        @error('completed_status_id')
-                                            <div class="mt-2 text-sm text-red-600">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-
-                                    <button
-                                        type="submit"
-                                        class="w-full inline-flex items-center justify-center rounded-lg
-                                            bg-transparent dark:bg-transparent
-                                            border border-green-600 dark:border-green-400
-                                            px-4 py-2 text-sm font-semibold
-                                            text-green-700 dark:text-green-400
-                                            shadow-sm
-                                            hover:bg-green-50 dark:hover:bg-green-900
-                                            focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2
-                                            dark:focus:ring-offset-gray-800"
-                                    >
-                                        Complete Ticket
-                                    </button>
-                                </form>
-                            @endif
-                        </div>
-
                         {{-- Timestamps Footer --}}
                         <div class="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5">
                             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-sm text-gray-600 dark:text-gray-400">
@@ -184,79 +107,222 @@
                     {{-- Right: Assign Panel --}}
                     <div class="space-y-6">
                         <div class="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5">
-                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                                Assign Ticket
-                            </h3>
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Actions</h3>
                             <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                                Choose an eligible user (Technician / Controller / Admin).
+                                Assign the ticket, add/update notes, or mark it completed.
                             </p>
 
-                            <form method="POST" action="{{ route('admin.tickets.assign', $ticket) }}" class="mt-4 space-y-4">
-                                @csrf
-                                @method('PUT')
-
-                                <div>
-                                    <label for="assigned_to" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                        Assign to
-                                    </label>
-
-                                    <select
-                                        id="assigned_to"
-                                        name="assigned_to"
-                                        class="mt-2 w-full rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2.5
-                                               text-gray-900 dark:text-gray-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                    >
-                                        <option value="">-- Select user --</option>
-
-                                        @php
-                                            $grouped = $assignees->groupBy(fn ($u) => $u->role->value);
-                                        @endphp
-
-                                        @foreach (['Technician', 'Controller', 'Administrator'] as $group)
-                                            @if ($grouped->has($group))
-                                                <option disabled class="font-semibold text-gray-500">
-                                                    — {{ $group }}s —
-                                                </option>
-
-                                                @foreach ($grouped[$group] as $user)
-                                                    @php
-                                                        $userName = $user->first_name . ' ' . $user->last_name;
-                                                    @endphp
-
-                                                    <option
-                                                        value="{{ $user->id }}"
-                                                        @selected(old('assigned_to') == $user->id)
-                                                    >
-                                                        {{ $userName }}
-                                                    </option>
-                                                @endforeach
-                                            @endif
-                                        @endforeach
-                                    </select>
-
-                                    @error('assigned_to')
-                                        <div class="mt-2 text-sm text-red-600">{{ $message }}</div>
-                                    @enderror
+                            {{-- If completed: show read-only --}}
+                            @if ($ticket->status_type === \App\Enums\StatusType::Completed)
+                                <div class="mt-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/30 p-4">
+                                    <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">This ticket is completed.</p>
+                                    <p class="mt-2 text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
+                                        {{ trim($ticket->notes ?? 'No notes provided.') }}
+                                    </p>
                                 </div>
+                            @else
+                                {{-- ONE form that handles assign + notes --}}
+                                <form method="POST" action="{{ route('admin.tickets.assign', $ticket) }}" class="mt-4 space-y-4">
+                                    @csrf
+                                    @method('PUT')
 
-                                <button
-                                    type="submit"
-                                    class="w-full inline-flex items-center justify-center rounded-lg
-                                           bg-transparent dark:bg-transparent
-                                           border border-blue-600 dark:border-blue-400
-                                           px-4 py-2 text-sm font-semibold
-                                           text-blue-700 dark:text-blue-400
-                                           shadow-sm
-                                           hover:bg-blue-50 dark:hover:bg-blue-900
-                                           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
-                                           dark:focus:ring-offset-gray-800"
-                                >
-                                    Assign
-                                </button>
-                            </form>
+                                    <div>
+                                        <label for="assigned_to" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                            Assign to
+                                        </label>
+
+                                        <select
+                                            id="assigned_to"
+                                            name="assigned_to"
+                                            class="mt-2 w-full rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2.5
+                                                text-gray-900 dark:text-gray-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        >
+                                            <option value="">-- Select user --</option>
+
+                                            @php
+                                                $grouped = $assignees->groupBy(function ($u) {
+                                                    return $u->role instanceof \App\Enums\UserRole ? $u->role->value : (string) $u->role;
+                                                });
+
+                                                $roleOrder = [
+                                                    \App\Enums\UserRole::Technician->value => 'Technician',
+                                                    \App\Enums\UserRole::Controller->value => 'Controller',
+                                                    \App\Enums\UserRole::Administrator->value => 'Administrator',
+                                                ];
+                                            @endphp
+
+                                            @foreach ($roleOrder as $roleValue => $label)
+                                                @if ($grouped->has($roleValue))
+                                                    <option disabled class="font-semibold text-gray-500">— {{ $label }}s —</option>
+
+                                                    @foreach ($grouped[$roleValue] as $user)
+                                                        @php $userName = trim($user->first_name.' '.$user->last_name); @endphp
+
+                                                        <option
+                                                            value="{{ $user->id }}"
+                                                            @selected(old('assigned_to', $ticket->assigned_to_user_id) == $user->id)
+                                                        >
+                                                            {{ $userName }}
+                                                        </option>
+                                                    @endforeach
+                                                @endif
+                                            @endforeach
+                                        </select>
+
+                                        @error('assigned_to')
+                                            <div class="mt-2 text-sm text-red-600">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div>
+                                        <label for="technical_notes" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                            Technical Notes (optional)
+                                        </label>
+                                        <textarea
+                                            id="technical_notes"
+                                            name="technical_notes"
+                                            rows="5"
+                                            class="mt-2 w-full rounded-xl border border-gray-300 dark:border-gray-600
+                                                bg-white dark:bg-gray-800 px-3 py-2.5 text-gray-900 dark:text-gray-100"
+                                        >{{ old('technical_notes', $ticket->technical_notes) }}</textarea>
+
+                                        @error('notes')
+                                            <div class="mt-2 text-sm text-red-600">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <button
+                                        type="submit"
+                                        class="w-full inline-flex items-center justify-center rounded-lg
+                                            bg-transparent dark:bg-transparent
+                                            border border-blue-600 dark:border-blue-400
+                                            px-4 py-2 text-sm font-semibold
+                                            text-blue-700 dark:text-blue-400
+                                            shadow-sm hover:bg-blue-50 dark:hover:bg-blue-900"
+                                    >
+                                        Save Assignment / Notes
+                                    </button>
+                                </form>
+
+                                {{-- Separate form for completion (uses the same notes field name, but separate request) --}}
+                                @if ($ticket->status_type === \App\Enums\StatusType::InProgress)
+                                <form method="POST" action="{{ route('admin.tickets.update', $ticket) }}" class="mt-6 space-y-4">
+                                    @csrf
+                                    @method('PUT')
+
+                                    <div>
+                                        <label for="completed_status_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                            Completed status
+                                        </label>
+                                        <select
+                                            id="completed_status_id"
+                                            name="completed_status_id"
+                                            required
+                                            class="mt-2 w-full rounded-xl border border-gray-300 dark:border-gray-600
+                                                bg-white dark:bg-gray-800 px-3 py-2.5
+                                                text-gray-900 dark:text-gray-100 shadow-sm
+                                                focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                                        >
+                                            <option value="">-- Select completed status --</option>
+                                            @foreach ($completedStatuses as $s)
+                                                <option value="{{ $s->id }}" @selected(old('completed_status_id') == $s->id)>
+                                                    {{ $s->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+
+                                        @error('completed_status_id')
+                                            <div class="mt-2 text-sm text-red-600">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div>
+                                        <label for="complete_notes" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                            Notes (optional)
+                                        </label>
+                                        <textarea
+                                            id="complete_notes"
+                                            name="notes"
+                                            rows="4"
+                                            class="mt-2 w-full rounded-xl border border-gray-300 dark:border-gray-600
+                                                bg-white dark:bg-gray-800 px-3 py-2.5 text-gray-900 dark:text-gray-100"
+                                        >{{ old('notes', $ticket->notes) }}</textarea>
+
+                                        @error('notes')
+                                            <div class="mt-2 text-sm text-red-600">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <button
+                                        type="submit"
+                                        class="w-full inline-flex items-center justify-center rounded-lg
+                                            bg-transparent dark:bg-transparent
+                                            border border-green-600 dark:border-green-400
+                                            px-4 py-2 text-sm font-semibold
+                                            text-green-700 dark:text-green-400
+                                            shadow-sm hover:bg-green-50 dark:hover:bg-green-900"
+                                    >
+                                        Complete Ticket
+                                    </button>
+                                </form>
+                                @endif
+                            @endif
+
+                            {{-- Optional: jargon editor) --}}
+                            @php
+                                $role = auth()->user()?->role instanceof \App\Enums\UserRole
+                                    ? auth()->user()->role->value
+                                    : (string) (auth()->user()?->role ?? '');
+
+                                $canEditJargon = in_array($role, [
+                                    \App\Enums\UserRole::Administrator->value,
+                                    \App\Enums\UserRole::Controller->value,
+                                    \App\Enums\UserRole::Technician->value,
+                                ], true);
+
+                                $isCompleted = $ticket->status_type === \App\Enums\StatusType::Completed;
+                            @endphp
+
+                            @if ($canEditJargon && ! $isCompleted)
+                                <div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+                                    <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">Status</p>
+                                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                                        Changes the default label shown for this status type.
+                                    </p>
+
+                                    <form method="POST" action="{{ route('admin.status-type-defaults.update', $ticket->status_type->value) }}" class="mt-3 space-y-3">
+                                        @csrf
+                                        @method('PUT')
+
+                                        <select
+                                            name="status_id"
+                                            class="w-full rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2.5
+                                                text-gray-900 dark:text-gray-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        >
+                                            @foreach(($statusesByType[$ticket->status_type->value] ?? collect()) as $s)
+                                                <option value="{{ $s->id }}">
+                                                    {{ $s->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+
+                                        <button
+                                            type="submit"
+                                            class="w-full inline-flex items-center justify-center rounded-lg
+                                                bg-transparent dark:bg-transparent
+                                                border border-gray-300 dark:border-gray-600
+                                                px-4 py-2 text-sm font-semibold
+                                                text-gray-800 dark:text-gray-200
+                                                hover:bg-gray-50 dark:hover:bg-gray-900"
+                                        >
+                                            Update Status
+                                        </button>
+                                    </form>
+                                </div>
+                            @endif
                         </div>
 
-                        {{-- Delete Ticket --}}
+                        {{-- Delete Ticket stays separate --}}
                         <div class="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5">
                             <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">Danger zone</p>
 
@@ -267,14 +333,11 @@
                                 <button
                                     type="submit"
                                     class="w-full inline-flex items-center justify-center rounded-lg
-                                           bg-transparent dark:bg-transparent
-                                           border border-red-600 dark:border-red-400
-                                           px-4 py-2 text-sm font-semibold
-                                           text-red-700 dark:text-red-400
-                                           shadow-sm
-                                           hover:bg-red-50 dark:hover:bg-red-900
-                                           focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2
-                                           dark:focus:ring-offset-gray-800"
+                                        bg-transparent dark:bg-transparent
+                                        border border-red-600 dark:border-red-400
+                                        px-4 py-2 text-sm font-semibold
+                                        text-red-700 dark:text-red-400
+                                        shadow-sm hover:bg-red-50 dark:hover:bg-red-900"
                                 >
                                     Delete Ticket
                                 </button>

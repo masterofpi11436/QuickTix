@@ -9,11 +9,15 @@ class Status extends Model
 {
     protected $fillable = [
         'name',
-        'color',
         'status_type',
     ];
 
     protected $casts = [
         'status_type' => StatusType::class,
     ];
+
+    public function defaults()
+    {
+        return $this->hasMany(StatusTypeDefault::class);
+    }
 }

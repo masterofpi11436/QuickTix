@@ -83,11 +83,6 @@
                                 autocomplete="off"
                             />
 
-                            {{-- store the actual selected value for validation/save --}}
-                            <input type="hidden" wire:model="area">
-
-                            @error('area') <p class="text-sm text-red-500 mt-1">{{ $message }}</p> @enderror
-
                             @if($show_area_dropdown)
                                 <div
                                     class="absolute z-20 bottom-full mb-1 w-full rounded-md border border-gray-200 dark:border-gray-700

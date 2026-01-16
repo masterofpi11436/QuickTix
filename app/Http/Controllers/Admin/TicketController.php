@@ -6,7 +6,9 @@ use App\Models\User;
 use App\Models\Status;
 use App\Models\Ticket;
 use App\Enums\UserRole;
+use App\Enums\StatusType;
 use Illuminate\Http\Request;
+use App\Models\StatusTypeDefault;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,7 +21,11 @@ class TicketController extends Controller
     {
         $tickets = Ticket::with('submittedBy')->paginate(15);
 
-        return view('admin.tickets.index', compact('tickets'));
+        $statusLabels = StatusTypeDefault::with('status')
+            ->get()
+            ->mapWithKeys(fn ($row) => [$row->status_type => $row->status->name]);
+
+        return view('admin.tickets.index', compact('tickets', 'statusLabels'));
     }
 
     /**
@@ -56,49 +62,86 @@ class TicketController extends Controller
             ->get(['id', 'first_name', 'last_name', 'role']);
 
         $completedStatuses = Status::query()
-            ->where('status_type', 'completed')
+            ->where('status_type', StatusType::Completed->value)
             ->orderBy('name')
             ->get(['id', 'name']);
 
-        $ticketStatusType = Status::where('name', $ticket->status)
-            ->value('status_type');
+        $statusLabels = StatusTypeDefault::with('status')
+            ->get()
+            ->mapWithKeys(fn ($row) => [$row->status_type => $row->status->name]);
 
-        return view('admin.tickets.show', compact('ticket', 'assignees', 'completedStatuses', 'ticketStatusType'));
+        $statusesByType = Status::query()
+            ->orderBy('name')
+            ->get(['id','name','status_type'])
+            ->groupBy('status_type');
+
+        return view('admin.tickets.show', compact('ticket', 'assignees', 'completedStatuses', 'statusLabels', 'statusesByType'));
     }
 
+    public function updateStatusTypeDefault(Request $request, string $statusType)
+    {
+        $data = $request->validate([
+            'status_id' => ['required', 'integer', 'exists:statuses,id'],
+        ]);
+
+        // enforce that the selected status matches the statusType we’re updating
+        Status::query()
+            ->whereKey($data['status_id'])
+            ->where('status_type', $statusType)
+            ->firstOrFail();
+
+        StatusTypeDefault::query()
+            ->where('status_type', $statusType)
+            ->update(['status_id' => $data['status_id']]);
+
+        return back()->with('success', 'Status Updated.');
+    }
 
     public function assign(Request $request, Ticket $ticket)
     {
         $data = $request->validate([
-            'assigned_to' => ['required', 'exists:users,id'],
-            'notes' => ['nullable', 'string', 'max:5000'],
+            'assigned_to' => ['required', 'integer', 'exists:users,id'],
+            'technical_notes' => ['nullable', 'string', 'max:5000'],
         ]);
 
         $assignee = User::findOrFail($data['assigned_to']);
 
-        if (! in_array($assignee->role, [
-            UserRole::Technician,
-            UserRole::Controller,
-            UserRole::Administrator,
-        ], true)) {
+        $allowedRoles = [
+            UserRole::Technician->value,
+            UserRole::Controller->value,
+            UserRole::Administrator->value,
+        ];
+
+        $assigneeRoleValue = $assignee->role instanceof UserRole ? $assignee->role->value : (string) $assignee->role;
+
+        if (! in_array($assigneeRoleValue, $allowedRoles, true)) {
             abort(403);
         }
 
         $assignedByUser = Auth::user();
 
-        $ticket->notes       = $data['notes'] ?? $ticket->notes;
-        $ticket->technician  = trim($assignee->first_name . ' ' . $assignee->last_name);
-        $ticket->assigned_by = trim($assignedByUser->first_name . ' ' . $assignedByUser->last_name);
-        $ticket->assigned    = now();
+        if (array_key_exists('technical_notes', $data)) {
+            $ticket->technical_notes = $data['technical_notes']; // allow clearing by submitting empty string
+        }
 
-        if ($ticket->status === 'New' || empty($ticket->status)) {
-            $ticket->status = 'In Progress';
+        $ticket->assigned_to_user_id = $assignee->id;
+        $ticket->assigned_to_name = trim($assignee->first_name . ' ' . $assignee->last_name);
+
+        $ticket->assigned_by_user_id = $assignedByUser?->id;
+        $ticket->assigned_by_name = $assignedByUser
+            ? trim($assignedByUser->first_name . ' ' . $assignedByUser->last_name)
+            : null;
+
+        $ticket->assigned_at = now();
+
+        if ($ticket->status_type === StatusType::New || empty($ticket->status_type)) {
+            $ticket->status_type = StatusType::InProgress;
         }
 
         $ticket->save();
 
         return redirect()
-            ->route('admin.tickets.index')
+            ->route('admin.tickets.show', $ticket)
             ->with('success', 'Ticket assigned.');
     }
 
@@ -120,14 +163,19 @@ class TicketController extends Controller
             'notes' => ['nullable', 'string', 'max:5000'],
         ]);
 
-        // Only allow picking from statuses that are actually "completed"
-        $status = Status::query()
+        // Ensure chosen status is a "completed" jargon option
+        Status::query()
             ->whereKey($data['completed_status_id'])
-            ->where('status_type', 'completed')
+            ->where('status_type', StatusType::Completed->value)
             ->firstOrFail();
 
-        $ticket->status = $status->name;              // store STRING
-        $ticket->notes  = $data['notes'] ?? null;     // update notes
+        $ticket->status_type = StatusType::Completed;
+        $ticket->completed_at = now();
+
+        if (array_key_exists('notes', $data)) {
+            $ticket->notes = $data['notes'];
+        }
+
         $ticket->save();
 
         return redirect()

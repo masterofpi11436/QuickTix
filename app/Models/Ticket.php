@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Enums\StatusType;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Ticket extends Model
 {
@@ -11,28 +13,48 @@ class Ticket extends Model
         'title',
         'description',
         'notes',
+
         'submitted_by_user_id',
-        'technician',
-        'assigned_by',
+        'submitted_by_name',
+
+        'assigned_to_user_id',
+        'assigned_to_name',
+
+        'assigned_by_user_id',
+        'assigned_by_name',
+
         'department',
         'area',
-        'status',
-        'assigned',
-        'completed',
+
+        'status_type',
+
+        'assigned_at',
+        'completed_at',
     ];
 
     protected $casts = [
-        'assigned'   => 'datetime',
-        'completed'  => 'datetime',
+        'status_type'  => StatusType::class,
+        'assigned_at'  => 'datetime',
+        'completed_at' => 'datetime',
     ];
 
-    public function ticketTemplate()
+    public function ticketTemplate(): BelongsTo
     {
         return $this->belongsTo(TicketTemplate::class);
     }
 
-    public function submittedBy()
+    public function submittedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'submitted_by_user_id');
+    }
+
+    public function assignedTo(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'assigned_to_user_id');
+    }
+
+    public function assignedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'assigned_by_user_id');
     }
 }

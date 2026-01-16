@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->text('notes')->nullable();
+            $table->text('technical_notes')->nullable();
 
             $table->foreignId('submitted_by_user_id')
                 ->nullable()
