@@ -1,176 +1,181 @@
-HU1 Classroom 1
-HU1 Classroom 2
-HU1 Hallway
-HU1 Visitation (Visitor)
-HU1 Visitation (Inmate)
-HU1 Kitchen
-HU1 Spare Office
-HU1 Case Manager Office
-HU1 Sgt Office
-HU1 Unit Manager Office
-HU1 Clerical
-HU1 Unit Control
-HU1 Pod A
-HU1 Pod B
-HU1 Pod CA
-HU1 Pod CB
-HU1 Pod CC
-HU1 Pod CD
-HU1 Pod D
-HU1 Pod E
-HU2 Classroom 1
-HU2 Classroom 2
-HU2 Hallway
-HU2 Visitation (Visitor)
-HU2 Visitation (Inmate)
-HU2 Kitchen
-HU2 Spare Office
-HU2 Case Manager Office
-HU2 Sgt Office
-HU2 Unit Manager Office
-HU2 Clerical
-HU2 Unit Control
-HU2 Pod A
-HU2 Pod B
-HU2 Pod CA
-HU2 Pod CB
-HU2 Pod CC
-HU2 Pod CD
-HU2 Pod D
-HU2 Pod E
-HU3 Classroom 1
-HU3 Classroom 2
-HU3 Hallway
-HU3 Visitation (Visitor)
-HU3 Visitation (Inmate)
-HU3 Kitchen
-HU3 Spare Office
-HU3 Case Manager Office
-HU3 Sgt Office
-HU3 Unit Manager Office
-HU3 Clerical
-HU3 Unit Control
-HU3 Pod A
-HU3 Pod B
-HU3 Pod C
-HU3 Pod D
-HU3 Pod E
-HU4 Classroom 1
-HU4 Classroom 2
-HU4 Hallway
-HU4 Visitation (Visitor)
-HU4 Visitation (Inmate)
-HU4 Kitchen
-HU4 Spare Office
-HU4 Case Manager Office
-HU4 Sgt Office
-HU4 Unit Manager Office
-HU4 Clerical
-HU4 Unit Control
-HU4 Pod A
-HU4 Pod B
-HU4 Pod C
-HU4 Pod D
-HU4 Pod E
-HU5 Classroom 1
-HU5 Classroom 2
-HU5 Hallway
-HU5 Visitation (Visitor)
-HU5 Visitation (Inmate)
-HU5 Kitchen
-HU5 Spare Office
-HU5 Case Manager Office
-HU5 Sgt Office
-HU5 Unit Manager Office
-HU5 Clerical
-HU5 Unit Control
-HU5 Pod A
-HU5 Pod B
-HU5 Pod CA
-HU5 Pod CB
-HU5 Pod CC
-HU5 Pod CD
-HU5 Pod D
-HU5 Pod E
-HU6 Work Release Office
-HU6 Classroom
-HU6 Cheif Magistrate Office
-HU6 Lobby
-HU6 Visitation (Visitor)
-HU6 Visitation (Inmate)
-HU6 Sgt Office
-HU6 Weekender Office
-HU6 Spare Office
-HU6 Supervisor Office
-HU6 Unit Manager Office
-HU6 Clerical
-HU6 Primary Control
-HU6 A Unit
-HU6 AA Pod
-HU6 AB Pod
-HU6 AC Pod
-HU6 AD Pod
-HU6 BD Unit
-HU6 BA Pod
-HU6 BB Pod
-HU6 BC Pod
-HU6 DA Pod
-HU6 DB Pod
-HU6 DC Pod
-MH1 Officer Station
-MH1 Cell 1
-MH1 Cell 2
-MH1 Cell 3
-MH1 Cell 4
-MH1 Cell 5
-MH1 Cell 6
-MH1 Cell 7
-MH1 Cell 8
-MH1 Cell 9
-MH1 Cell 10
-MH1 Cell 11
-MH1 Cell 12
-MH1 Cell 13
-MH1 Cell 14
-MH1 Dayroom A
-MH1 Dayroom A Cell 1
-MH1 Dayroom A Cell 2
-MH1 Dayroom A Cell 3
-MH1 Dayroom A Cell 4
-MH1 Dayroom A Cell 5
-MH1 Dayroom B
-MH1 Dayroom B Cell 1
-MH1 Dayroom B Cell 2
-MH1 Dayroom B Cell 3
-MH1 Dayroom B Cell 4
-MH1 Dayroom B Cell 5
-MH2 Officer Station
-MH2 Cell 1
-MH2 Cell 2
-MH2 Cell 3
-MH2 Cell 4
-MH2 Cell 5
-MH2 Cell 6
-MH2 Cell 7
-MH2 Cell 8
-MH2 Cell 9
-MH2 Cell 10
-MH2 Cell 11
-MH2 Cell 12
-MH2 Cell 13
-MH2 Cell 14
-MH2 Dayroom A
-MH2 Dayroom A Cell 1
-MH2 Dayroom A Cell 2
-MH2 Dayroom A Cell 3
-MH2 Dayroom A Cell 4
-MH2 Dayroom A Cell 5
-MH2 Dayroom B
-MH2 Dayroom B Cell 1
-MH2 Dayroom B Cell 2
-MH2 Dayroom B Cell 3
-MH2 Dayroom B Cell 4
-MH2 Dayroom B Cell 5
+Housing Unit 1 (HU-1) Classroom 1
+Housing Unit 1 (HU-1) Classroom 2
+Housing Unit 1 (HU-1) Hallway
+Housing Unit 1 (HU-1) Visitation (Visitor)
+Housing Unit 1 (HU-1) Visitation (Inmate)
+Housing Unit 1 (HU-1) Kitchen
+Housing Unit 1 (HU-1) Spare Office
+Housing Unit 1 (HU-1) Case Manager Office
+Housing Unit 1 (HU-1) Sgt Office
+Housing Unit 1 (HU-1) Unit Manager Office
+Housing Unit 1 (HU-1) Clerical
+Housing Unit 1 (HU-1) Unit Control
+Housing Unit 1 (HU-1) Pod A
+Housing Unit 1 (HU-1) Pod B
+Housing Unit 1 (HU-1) Pod CA
+Housing Unit 1 (HU-1) Pod CB
+Housing Unit 1 (HU-1) Pod CC
+Housing Unit 1 (HU-1) Pod CD
+Housing Unit 1 (HU-1) Pod D
+Housing Unit 1 (HU-1) Pod E
+Housing Unit 1 (HU-1) Pod CA /CD Office
+Housing Unit 1 (HU-1) Pod CB/CC Storage
+Housing Unit 2 (HU-2) Classroom 1
+Housing Unit 2 (HU-2) Classroom 2
+Housing Unit 2 (HU-2) Hallway
+Housing Unit 2 (HU-2) Visitation (Visitor)
+Housing Unit 2 (HU-2) Visitation (Inmate)
+Housing Unit 2 (HU-2) Kitchen
+Housing Unit 2 (HU-2) Spare Office
+Housing Unit 2 (HU-2) Case Manager Office
+Housing Unit 2 (HU-2) Sgt Office
+Housing Unit 2 (HU-2) Unit Manager Office
+Housing Unit 2 (HU-2) Clerical
+Housing Unit 2 (HU-2) Unit Control
+Housing Unit 2 (HU-2) Pod A
+Housing Unit 2 (HU-2) Pod B
+Housing Unit 2 (HU-2) Pod CA
+Housing Unit 2 (HU-2) Pod CB
+Housing Unit 2 (HU-2) Pod CC
+Housing Unit 2 (HU-2) Pod CD
+Housing Unit 2 (HU-2) Pod D
+Housing Unit 2 (HU-2) Pod E
+Housing Unit 2 (HU-2) Pod CA /CD Office
+Housing Unit 2 (HU-2) Pod CB/CC Office
+Housing Unit 3 (HU-3) Classroom 1
+Housing Unit 3 (HU-3) Classroom 2
+Housing Unit 3 (HU-3) Hallway
+Housing Unit 3 (HU-3) Visitation (Visitor)
+Housing Unit 3 (HU-3) Visitation (Inmate)
+Housing Unit 3 (HU-3) Kitchen
+Housing Unit 3 (HU-3) Spare Office
+Housing Unit 3 (HU-3) Case Manager Office
+Housing Unit 3 (HU-3) Sgt Office
+Housing Unit 3 (HU-3) Unit Manager Office
+Housing Unit 3 (HU-3) Clerical
+Housing Unit 3 (HU-3) Unit Control
+Housing Unit 3 (HU-3) Pod A
+Housing Unit 3 (HU-3) Pod B
+Housing Unit 3 (HU-3) Pod C
+Housing Unit 3 (HU-3) Pod D
+Housing Unit 3 (HU-3) Pod E
+Housing Unit 4 (HU-4) Classroom 1
+Housing Unit 4 (HU-4) Classroom 2
+Housing Unit 4 (HU-4) Hallway
+Housing Unit 4 (HU-4) Visitation (Visitor)
+Housing Unit 4 (HU-4) Visitation (Inmate)
+Housing Unit 4 (HU-4) Kitchen
+Housing Unit 4 (HU-4) Spare Office
+Housing Unit 4 (HU-4) Case Manager Office
+Housing Unit 4 (HU-4) Sgt Office
+Housing Unit 4 (HU-4) Unit Manager Office
+Housing Unit 4 (HU-4) Clerical
+Housing Unit 4 (HU-4) Unit Control
+Housing Unit 4 (HU-4) Pod A
+Housing Unit 4 (HU-4) Pod B
+Housing Unit 4 (HU-4) Pod C
+Housing Unit 4 (HU-4) Pod D
+Housing Unit 4 (HU-4) Pod E
+Housing Unit 5 (HU-5) Classroom 1
+Housing Unit 5 (HU-5) Classroom 2
+Housing Unit 5 (HU-5) Hallway
+Housing Unit 5 (HU-5) Visitation (Visitor)
+Housing Unit 5 (HU-5) Visitation (Inmate)
+Housing Unit 5 (HU-5) Kitchen
+Housing Unit 5 (HU-5) Spare Office
+Housing Unit 5 (HU-5) Case Manager Office
+Housing Unit 5 (HU-5) Sgt Office
+Housing Unit 5 (HU-5) Unit Manager Office
+Housing Unit 5 (HU-5) Clerical
+Housing Unit 5 (HU-5) Unit Control
+Housing Unit 5 (HU-5) Pod A
+Housing Unit 5 (HU-5) Pod B
+Housing Unit 5 (HU-5) Pod CA
+Housing Unit 5 (HU-5) Pod CB
+Housing Unit 5 (HU-5) Pod CC
+Housing Unit 5 (HU-5) Pod CD
+Housing Unit 5 (HU-5) Pod D
+Housing Unit 5 (HU-5) Pod E
+Housing Unit 5 (HU-5) Pod CA /CD Office
+Housing Unit 5 (HU-5) Pod CB/CC Office
+Housing Unit 6 (HU-6) Work Release Office
+Housing Unit 6 (HU-6) Classroom
+Housing Unit 6 (HU-6) Cheif Magistrate Office
+Housing Unit 6 (HU-6) Lobby
+Housing Unit 6 (HU-6) Visitation (Visitor)
+Housing Unit 6 (HU-6) Visitation (Inmate)
+Housing Unit 6 (HU-6) Sgt Office
+Housing Unit 6 (HU-6) Weekender Office
+Housing Unit 6 (HU-6) Spare Office
+Housing Unit 6 (HU-6) Supervisor Office
+Housing Unit 6 (HU-6) Unit Manager Office
+Housing Unit 6 (HU-6) Clerical
+Housing Unit 6 (HU-6) Primary Control
+Housing Unit 6 (HU-6) A Unit
+Housing Unit 6 (HU-6) AA Pod
+Housing Unit 6 (HU-6) AB Pod
+Housing Unit 6 (HU-6) AC Pod
+Housing Unit 6 (HU-6) AD Pod
+Housing Unit 6 (HU-6) BD Unit
+Housing Unit 6 (HU-6) BA Pod
+Housing Unit 6 (HU-6) BB Pod
+Housing Unit 6 (HU-6) BC Pod
+Housing Unit 6 (HU-6) DA Pod
+Housing Unit 6 (HU-6) DB Pod
+Housing Unit 6 (HU-6) DC Pod
+Medical Housing 1 (MH-1) Officer Station
+Medical Housing 1 (MH-1) Cell 1
+Medical Housing 1 (MH-1) Cell 2
+Medical Housing 1 (MH-1) Cell 3
+Medical Housing 1 (MH-1) Cell 4
+Medical Housing 1 (MH-1) Cell 5
+Medical Housing 1 (MH-1) Cell 6
+Medical Housing 1 (MH-1) Cell 7
+Medical Housing 1 (MH-1) Cell 8
+Medical Housing 1 (MH-1) Cell 9
+Medical Housing 1 (MH-1) Cell 10
+Medical Housing 1 (MH-1) Cell 11
+Medical Housing 1 (MH-1) Cell 12
+Medical Housing 1 (MH-1) Dayroom A
+Medical Housing 1 (MH-1) Dayroom A Cell 13
+Medical Housing 1 (MH-1) Dayroom A Cell 14
+Medical Housing 1 (MH-1) Dayroom A Cell 15
+Medical Housing 1 (MH-1) Dayroom A Cell 16
+Medical Housing 1 (MH-1) Dayroom A Cell 17
+Medical Housing 1 (MH-1) Dayroom A Cell 18
+Medical Housing 1 (MH-1) Dayroom B
+Medical Housing 1 (MH-1) Dayroom B Cell 19
+Medical Housing 1 (MH-1) Dayroom B Cell 20
+Medical Housing 1 ((MH-1)) Dayroom B Cell 21
+Medical Housing 1 ((MH-1)) Dayroom B Cell 22
+Medical Housing 1 ((MH-1)) Dayroom B Cell 23
+Medical Housing 1 ((MH-1)) Dayroom B Cell 24
+Medical Housing 2 (MH-2) Officer Station
+Medical Housing 2 (MH-2) Nurses Station
+Medical Housing 2 (MH-2) Cell 25
+Medical Housing 2 (MH-2) Cell 26
+Medical Housing 2 (MH-2) Cell 27
+Medical Housing 2 (MH-2) Cell 28
+Medical Housing 2 (MH-2) Cell 29
+Medical Housing 2 (MH-2) Cell 30
+Medical Housing 2 (MH-2) Cell 31
+Medical Housing 2 (MH-2) Cell 32
+Medical Housing 2 (MH-2) Cell 33
+Medical Housing 2 (MH-2) Cell 34
+Medical Housing 2 (MH-2) Dayroom C
+Medical Housing 2 (MH-2) Dayroom C Cell 35
+Medical Housing 2 (MH-2) Dayroom C Cell 36
+Medical Housing 2 (MH-2) Dayroom C Cell 37
+Medical Housing 2 (MH-2) Dayroom C Cell 38
+Medical Housing 2 (MH-2) Dayroom C Cell 39
+Medical Housing 2 (MH-2) Dayroom C Cell 40
+Medical Housing 2 (MH-2) Dayroom D
+Medical Housing 2 (MH-2) Dayroom D Cell 41
+Medical Housing 2 (MH-2) Dayroom D Cell 42
+Medical Housing 2 (MH-2) Dayroom D Cell 43
+Medical Housing 2 (MH-2) Dayroom D Cell 44
+Medical Housing 2 (MH-2) Dayroom D Cell 45
+Medical Housing 2 (MH-2) Dayroom D Cell 46
 SHU A
 SHU A Officer Station
 SHU A Cell 1
@@ -276,6 +281,12 @@ Booking Cell 7
 Booking Cell 8
 Property Office
 Property Main Area
+OPR Manager Office
+OPR Toilet
+OPR Interview Room
+OPR Common Area
+OPR Sgt Office
+OPR Gang Specialist Office
 Records Clerical
 Records File Room
 Records Archive Room
@@ -346,3 +357,46 @@ Exterior Gate 3
 Exterior Gate 4
 Exterior Water Tower
 Exterior Landscape Office
+Administration
+Admin Mens Toilet
+Admin Womens Toilet
+Admin Major's Office
+Admin Director of Admin Services
+Admin Kitchenette
+Admin Inmate Accounts Technician 1
+Admin Inmate Accounts Technician 2
+Admin Inmate Accounts Manager
+Admin Purchasing Technician
+Admin Purchasing Manager
+Admin Human Resource (HR) Technician
+Admin Human Resource (HR) Manager
+Admin Assistant Director of Admin Services
+Admin Mailroom
+Admin Receptionist Office
+Admin Boardroom
+Admin Boardroom Kitchen
+C-Suite Waiting Area
+C-Suite Superintendents Office
+C-Suite Superintendents Toilet
+C-Suite Superintendents Conference Room
+C-Suite Assistant Superintendents Office 1
+C-Suite Assistant Superintendents Office 2
+C-Suite Assistant Superintendents Office 3
+C-Suite Superintendents Administrative Assistant Office
+Lobby Mens Toilet
+Lobby Womens Toilet
+Lobby Front Desk
+Lobby
+Training Roll Call Room
+Training Classroom
+Training Lt. Office
+Training Sgt. Office 1
+Training Wating Area
+Training Storage
+Training Sgt Office 2
+Staff Break Area
+Staff Gym
+Staff Locker Room Men
+Staff Locker Room Women
+Staff Dining Sitting Area
+Staff Dining Kitchen

@@ -1,3 +1,6 @@
+*** To Do List ***
+1. Area on create a ticket can be manually entered as well.
+
 *** Ideas ***
 1. Add a email domain check to only allow certain domains to register and login with those domains only.
-2. Mobile menu for all pages
+2. Guided Tour pages for new users
