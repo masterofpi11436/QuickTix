@@ -326,7 +326,12 @@
                         <div class="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5">
                             <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">Danger zone</p>
 
-                            <form method="POST" action="{{ route('admin.tickets.destroy', $ticket) }}" class="mt-3">
+                            <form
+                                method="POST"
+                                action="{{ route('admin.tickets.destroy', $ticket) }}"
+                                class="mt-3"
+                                onsubmit="return confirm('Are you sure you want to permanently delete this ticket? This action cannot be undone.')"
+                            >
                                 @csrf
                                 @method('DELETE')
 
@@ -345,7 +350,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
