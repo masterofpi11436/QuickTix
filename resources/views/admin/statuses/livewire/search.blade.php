@@ -63,9 +63,6 @@
                                     Name
                                 </th>
                                 <th class="px-4 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-200 uppercase tracking-wider">
-                                    Color
-                                </th>
-                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-200 uppercase tracking-wider">
                                     Status Type
                                 </th>
                                 <th class="px-4 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-200 uppercase tracking-wider">
@@ -82,51 +79,11 @@
                                         {{ $status->name }}
                                     </td>
 
-                                    {{-- Color --}}
-                                    <td class="px-4 py-3">
-                                        @if ($status->color)
-                                            <span class="inline-flex items-center space-x-2">
-                                                <span
-                                                    class="inline-block w-3 h-3 rounded-full border border-gray-300 dark:border-gray-600"
-                                                    style="background-color: {{ $status->color }};"
-                                                ></span>
-                                                <span class="text-sm text-gray-700 dark:text-gray-200">
-                                                    {{ $status->color }}
-                                                </span>
-                                            </span>
-                                        @else
-                                            <span class="text-sm text-gray-400 dark:text-gray-500">
-                                                N/A
-                                            </span>
-                                        @endif
-                                    </td>
-
                                     {{-- Status Type --}}
                                     <td class="px-4 py-3">
-                                        @switch($status->status_type)
-                                            @case(\App\Enums\StatusType::Default)
-                                                <span class="px-2 py-1 text-xs font-semibold rounded bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-100">
-                                                    Default
-                                                </span>
-                                                @break
-
-                                            @case(\App\Enums\StatusType::InProgress)
-                                                <span class="px-2 py-1 text-xs font-semibold rounded bg-blue-200 text-blue-800 dark:bg-blue-700 dark:text-blue-100">
-                                                    In Progress
-                                                </span>
-                                                @break
-
-                                            @case(\App\Enums\StatusType::Completed)
-                                                <span class="px-2 py-1 text-xs font-semibold rounded bg-green-200 text-green-800 dark:bg-green-700 dark:text-green-100">
-                                                    Completed
-                                                </span>
-                                                @break
-
-                                            @default
-                                                <span class="px-2 py-1 text-xs font-semibold rounded bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-100">
-                                                    {{ ucfirst(str_replace('_', ' ', $status->status_type->value ?? 'unknown')) }}
-                                                </span>
-                                        @endswitch
+                                        <span class="inline-flex items-center px-2.5 py-1 text-sm font-semibold rounded {{ $status->status_type->badgeColors() }}">
+                                            {{ $status->status_type->label() }}
+                                        </span>
                                     </td>
 
                                     {{-- Actions --}}
@@ -168,56 +125,12 @@
                                     </span>
                                 </div>
 
-                                {{-- Color --}}
-                                <div class="flex justify-between mb-2">
-                                    <span class="text-sm text-gray-500 dark:text-gray-400">Color:</span>
-                                    <span class="flex items-center space-x-2">
-                                        @if ($status->color)
-                                            <span
-                                                class="inline-block w-3 h-3 rounded-full border border-gray-300 dark:border-gray-600"
-                                                style="background-color: {{ $status->color }};"
-                                            ></span>
-                                            <span class="font-medium text-gray-900 dark:text-gray-100">
-                                                {{ $status->color }}
-                                            </span>
-                                        @else
-                                            <span class="font-medium text-gray-500 dark:text-gray-400">
-                                                N/A
-                                            </span>
-                                        @endif
-                                    </span>
-                                </div>
-
                                 {{-- Status Type --}}
-                                <div class="flex justify-between mb-3">
-                                    <span class="text-sm text-gray-500 dark:text-gray-400">Status Type:</span>
-                                    <span>
-                                        @switch($status->status_type)
-                                            @case(\App\Enums\StatusType::Default)
-                                                <span class="px-2 py-1 text-xs font-semibold rounded bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-100">
-                                                    Default
-                                                </span>
-                                                @break
-
-                                            @case(\App\Enums\StatusType::InProgress)
-                                                <span class="px-2 py-1 text-xs font-semibold rounded bg-blue-200 text-blue-800 dark:bg-blue-700 dark:text-blue-100">
-                                                    In Progress
-                                                </span>
-                                                @break
-
-                                            @case(\App\Enums\StatusType::Completed)
-                                                <span class="px-2 py-1 text-xs font-semibold rounded bg-green-200 text-green-800 dark:bg-green-700 dark:text-green-100">
-                                                    Completed
-                                                </span>
-                                                @break
-
-                                            @default
-                                                <span class="px-2 py-1 text-xs font-semibold rounded bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-100">
-                                                    {{ ucfirst(str_replace('_', ' ', $status->status_type->value ?? 'unknown')) }}
-                                                </span>
-                                        @endswitch
+                                <td class="px-4 py-3">
+                                    <span class="inline-flex items-center px-2 py-1 text-xs font-semibold rounded {{ $status->status_type->badgeColors() }}">
+                                        {{ $status->status_type->label() }}
                                     </span>
-                                </div>
+                                </td>
 
                                 {{-- Actions --}}
                                 <div class="flex flex-wrap justify-end gap-2">

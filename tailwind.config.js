@@ -10,6 +10,14 @@ export default {
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
     ],
+      safelist: [
+        // New
+        "bg-blue-200","text-blue-800","dark:bg-blue-700","dark:text-blue-100",
+        // In Progress
+        "bg-yellow-200","text-yellow-800","dark:bg-yellow-600","dark:text-yellow-100",
+        // Completed
+        "bg-green-200","text-green-800","dark:bg-green-700","dark:text-green-100",
+    ],
 
     theme: {
         extend: {

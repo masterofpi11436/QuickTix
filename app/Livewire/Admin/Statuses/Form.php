@@ -11,7 +11,6 @@ class Form extends Component
     public ?int $statusId = null;
 
     public string $name = '';
-    public ?string $color = null;
     public ?string $status_type = 'default';
 
     public function mount($id = null): void
@@ -27,7 +26,6 @@ class Form extends Component
         $status = Status::findOrFail($this->statusId);
 
         $this->name = $status->name;
-        $this->color = $status->color;
         $this->status_type = $status->status_type?->value;
     }
 
@@ -40,7 +38,6 @@ class Form extends Component
                 'max:255',
                 Rule::unique('statuses', 'name')->ignore($this->statusId),
             ],
-            'color' => ['nullable', 'string'],
             'status_type' => ['required', Rule::in(['default', 'in_progress', 'completed'])],
         ];
     }

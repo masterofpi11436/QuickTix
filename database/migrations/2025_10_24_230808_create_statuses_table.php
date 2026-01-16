@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('statuses', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->string('color')->nullable();
             $table->enum('status_type', ['new', 'in_progress', 'completed']);
             $table->timestamps();
         });
