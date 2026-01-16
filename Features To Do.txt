@@ -1,6 +1,9 @@
 *** To Do List ***
 1. Area on create a ticket can be manually entered as well.
+2. New, In Progress, and Completed tickets for the Tickets pages.
 
 *** Ideas ***
 1. Add a email domain check to only allow certain domains to register and login with those domains only.
-2. Guided Tour pages for new users
+2. Guided Tour pages for new users (Help Menu).
+3. Registration for new hires.
+4. Accounts not used in 1 year are deactivated (or after a set amount of time).
