@@ -138,19 +138,16 @@ class DatabaseSeeder extends Seeder
         // -----------------------------
         $new = Status::create([
             'name' => 'New',
-            'color' => '#3490dc',
             'status_type' => StatusType::New,
         ]);
 
         $inProgress = Status::create([
             'name' => 'In Progress',
-            'color' => '#f59e0b',
             'status_type' => StatusType::InProgress,
         ]);
 
         $completed = Status::create([
             'name' => 'Completed',
-            'color' => '#38a169',
             'status_type' => StatusType::Completed,
         ]);
 
