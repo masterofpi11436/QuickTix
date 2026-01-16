@@ -12,9 +12,16 @@ use App\Http\Controllers\Admin\ReportsController;
 use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\TicketTemplateController;
 
-// Default Redirect
+Route::post('/logout', function (Request $request) {
+    Auth::logout();
+
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    return redirect()->route('login'); // or redirect('/login')
+})->middleware('auth')->name('logout');
+
 Route::get('/', function () {
-    // If user is not logged in -> go to login
     if (!Auth::check()) {
         return redirect()->route('login');
     }
