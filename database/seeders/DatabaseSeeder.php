@@ -7,6 +7,7 @@ use App\Models\Status;
 use App\Enums\StatusType;
 use App\Models\Department;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
@@ -133,24 +134,43 @@ class DatabaseSeeder extends Seeder
 
 
         // -----------------------------
-        // Statuses (3) using enum
+        // Statuses
         // -----------------------------
-        Status::create([
+        $new = Status::create([
             'name' => 'New',
-            'color' => '#3490dc', // blue
-            'status_type' => StatusType::Default,
+            'color' => '#3490dc',
+            'status_type' => StatusType::New,
         ]);
 
-        Status::create([
+        $inProgress = Status::create([
             'name' => 'In Progress',
-            'color' => '#f59e0b', // amber
+            'color' => '#f59e0b',
             'status_type' => StatusType::InProgress,
         ]);
 
-        Status::create([
+        $completed = Status::create([
             'name' => 'Completed',
-            'color' => '#38a169', // green
+            'color' => '#38a169',
             'status_type' => StatusType::Completed,
         ]);
+
+        // -----------------------------
+        // Status type defaults
+        // -----------------------------
+        DB::table('status_type_defaults')->updateOrInsert(
+            ['status_type' => StatusType::New->value],
+            ['status_id' => $new->id, 'created_at' => now(), 'updated_at' => now()]
+        );
+
+        DB::table('status_type_defaults')->updateOrInsert(
+            ['status_type' => StatusType::InProgress->value],
+            ['status_id' => $inProgress->id, 'created_at' => now(), 'updated_at' => now()]
+        );
+
+        DB::table('status_type_defaults')->updateOrInsert(
+            ['status_type' => StatusType::Completed->value],
+            ['status_id' => $completed->id, 'created_at' => now(), 'updated_at' => now()]
+        );
+
     }
 }
