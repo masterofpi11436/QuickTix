@@ -115,7 +115,7 @@
                             {{-- If completed: show read-only --}}
                             @if ($ticket->status_type === \App\Enums\StatusType::Completed)
                                 <div class="mt-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/30 p-4">
-                                    <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">This ticket is completed.</p>
+                                    <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">This ticket is complete.</p>
                                     <p class="mt-2 text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
                                         {{ trim($ticket->notes ?? 'No notes provided.') }}
                                     </p>
@@ -301,7 +301,30 @@
                                         >
                                             @foreach(($statusesByType[$ticket->status_type->value] ?? collect()) as $s)
                                                 <option value="{{ $s->id }}">
-                                                    {{ $s->name }}
+                                                    {{ $s->name }}{{-- Ticket Meta Cards --}}
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/30 p-4">
+                        <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Ticket ID</p>
+                        <p class="mt-1 font-semibold text-gray-900 dark:text-gray-100">#{{ $ticket->id }}</p>
+                    </div>
+
+                    <div class="rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/30 p-4">
+                        <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Status</p>
+                        <p class="mt-1 font-semibold text-gray-900 dark:text-gray-100">
+                            {{ $statusLabels[$ticket->status_type->value] ?? $ticket->status_type->label() }}
+                        </p>
+                    </div>
+
+                    <div class="rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/30 p-4">
+                        <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Area</p>
+                        <p class="mt-1 font-semibold text-gray-900 dark:text-gray-100">{{ $ticket->area }}</p>
+                    </div>
+
+                    <div class="rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/30 p-4">
+                        <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Department</p>
+                        <p class="mt-1 font-semibold text-gray-900 dark:text-gray-100">{{ $ticket->department }}</p>
+                    </div>
+                </div>
                                                 </option>
                                             @endforeach
                                         </select>

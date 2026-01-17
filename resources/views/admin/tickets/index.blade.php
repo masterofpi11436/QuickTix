@@ -29,7 +29,7 @@
 
                     <div class="overflow-x-auto">
 
-                        {{-- TABLE (shown on sm and up) --}}
+                        {{-- TABLE (Tablets and Desktops) --}}
                         @php
                             $sections = [
                                 'new' => 'New',
@@ -48,7 +48,7 @@
                                     </h3>
                                 </div>
 
-                                {{-- TABLE (sm and up) --}}
+                                {{-- TABLE (Tablets and Desktops) --}}
                                 <table class="hidden sm:table min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                     <thead class="bg-gray-50 dark:bg-gray-700">
                                         <tr>
@@ -72,7 +72,16 @@
                                                 <td class="px-4 py-3">
                                                     <div class="flex flex-wrap gap-2">
                                                         <x-custom-button href="{{ route('admin.tickets.show', $ticket) }}" color="blue">View</x-custom-button>
-                                                        <x-custom-button href="{{ route('admin.tickets.destroy', $ticket) }}" method="DELETE" color="red">Delete</x-custom-button>
+
+                                                        @if (($ticket->status_type->value ?? $ticket->status_type) !== 'completed')
+                                                            <x-custom-button
+                                                                href="{{ route('admin.tickets.destroy', $ticket) }}"
+                                                                method="DELETE"
+                                                                color="red"
+                                                            >
+                                                                Delete
+                                                            </x-custom-button>
+                                                        @endif
                                                     </div>
                                                 </td>
                                             </tr>
@@ -107,7 +116,15 @@
 
                                             <div class="flex justify-end space-x-3">
                                                 <x-custom-button href="{{ route('admin.tickets.show', $ticket) }}" color="blue">View</x-custom-button>
-                                                <x-custom-button href="{{ route('admin.tickets.destroy', $ticket) }}" method="DELETE" color="red">Delete</x-custom-button>
+                                                @if (($ticket->status_type->value ?? $ticket->status_type) !== 'completed')
+                                                    <x-custom-button
+                                                        href="{{ route('admin.tickets.destroy', $ticket) }}"
+                                                        method="DELETE"
+                                                        color="red"
+                                                    >
+                                                        Delete
+                                                    </x-custom-button>
+                                                @endif
                                             </div>
                                         </div>
                                     @empty

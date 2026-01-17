@@ -26,8 +26,8 @@ class TicketController extends Controller
 
         $completedTickets = Ticket::with(['submittedBy'])
             ->where('status_type', 'completed')
-            ->latest('completed_at') // or 'updated_at'
-            ->limit(25)               // ← change this number
+            ->latest('completed_at')
+            ->limit(10)
             ->get();
 
         $ticketsByType = collect()
