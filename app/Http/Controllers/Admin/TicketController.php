@@ -80,12 +80,13 @@ class TicketController extends Controller
             ->get()
             ->mapWithKeys(fn ($row) => [$row->status_type => $row->status->name]);
 
-        $statusesByType = Status::query()
+        $pendingStatus = Status::query()
+            ->select(['id', 'name', 'status_type'])
             ->orderBy('name')
-            ->get(['id','name','status_type'])
+            ->get()
             ->groupBy('status_type');
 
-        return view('admin.tickets.show', compact('ticket', 'assignees', 'completedStatuses', 'statusLabels', 'statusesByType'));
+        return view('admin.tickets.show', compact('ticket', 'assignees', 'completedStatuses', 'statusLabels', 'pendingStatus'));
     }
 
     public function updateStatusTypeDefault(Request $request, string $statusType)
@@ -153,14 +154,6 @@ class TicketController extends Controller
         return redirect()
             ->route('admin.tickets.index', $ticket)
             ->with('success', 'Ticket assigned.');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
     }
 
     /**

@@ -84,9 +84,7 @@
                         <div class="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5">
                             <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Description</p>
 
-                            <div class="mt-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/30 p-4 text-gray-800 dark:text-gray-200 whitespace-pre-wrap">
-                                {{ trim($ticket->description ?? '') }}
-                            </div>
+                            <div class="mt-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/30 p-4 text-gray-800 dark:text-gray-200 whitespace-pre-wrap">{{ trim($ticket->description) }}</div>
                         </div>
 
                         {{-- Timestamps Footer --}}
@@ -106,23 +104,18 @@
 
                     {{-- Right: Assign Panel --}}
                     <div class="space-y-6">
-                        <div class="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5">
-                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Actions</h3>
-                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                                Assign the ticket, add/update notes, or mark it completed.
-                            </p>
 
-                            {{-- If completed: show read-only --}}
+                        {{-- Assign to / Technical Notes --}}
+                        <div class="rounded-2xl border border-blue-200 dark:border-blue-700 bg-white dark:bg-gray-800 p-5">
                             @if ($ticket->status_type === \App\Enums\StatusType::Completed)
-                                <div class="mt-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/30 p-4">
+                                <div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/30 p-4">
                                     <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">This ticket is complete.</p>
                                     <p class="mt-2 text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
                                         {{ trim($ticket->notes ?? 'No notes provided.') }}
                                     </p>
                                 </div>
                             @else
-                                {{-- ONE form that handles assign + notes --}}
-                                <form method="POST" action="{{ route('admin.tickets.assign', $ticket) }}" class="mt-4 space-y-4">
+                                <form method="POST" action="{{ route('admin.tickets.assign', $ticket) }}" class="space-y-4">
                                     @csrf
                                     @method('PUT')
 
@@ -186,7 +179,7 @@
                                                 bg-white dark:bg-gray-800 px-3 py-2.5 text-gray-900 dark:text-gray-100"
                                         >{{ old('technical_notes', $ticket->technical_notes) }}</textarea>
 
-                                        @error('notes')
+                                        @error('technical_notes')
                                             <div class="mt-2 text-sm text-red-600">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -203,16 +196,68 @@
                                         Save Assignment / Notes
                                     </button>
                                 </form>
+                            @endif
+                        </div>
 
-                                {{-- Separate form for completion (uses the same notes field name, but separate request) --}}
-                                @if ($ticket->status_type === \App\Enums\StatusType::InProgress)
-                                <form method="POST" action="{{ route('admin.tickets.update', $ticket) }}" class="mt-6 space-y-4">
+                        {{-- Status --}}
+                        @php
+                            $role = auth()->user()?->role instanceof \App\Enums\UserRole
+                                ? auth()->user()->role->value
+                                : (string) (auth()->user()?->role ?? '');
+
+                            $canEditJargon = in_array($role, [
+                                \App\Enums\UserRole::Administrator->value,
+                                \App\Enums\UserRole::Controller->value,
+                                \App\Enums\UserRole::Technician->value,
+                            ], true);
+
+                            $isCompleted = $ticket->status_type === \App\Enums\StatusType::Completed;
+                            $isPending = $ticket->status_type === \App\Enums\StatusType::InProgress;
+                        @endphp
+
+                        @if ($canEditJargon && ! $isCompleted && $isPending)
+                            <div class="rounded-2xl border border-yellow-200 dark:yellow-gray-700 bg-white dark:bg-gray-800 p-5">
+                                <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">Status</p>
+
+                                <form method="POST" action="{{ route('admin.status-type-defaults.update', $ticket->status_type->value) }}" class="mt-3 space-y-3">
+                                    @csrf
+                                    @method('PUT')
+
+                                    <select
+                                        name="status_id"
+                                        class="w-full rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2.5
+                                            text-gray-900 dark:text-gray-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    >
+                                        @foreach(($pendingStatus[$ticket->status_type->value] ?? collect()) as $s)
+                                            <option value="{{ $s->id }}">{{ $s->name }}</option>
+                                        @endforeach
+                                    </select>
+
+                                    <button
+                                        type="submit"
+                                        class="w-full inline-flex items-center justify-center rounded-lg
+                                            bg-transparent dark:bg-transparent
+                                            border border-gray-300 dark:border-gray-600
+                                            px-4 py-2 text-sm font-semibold
+                                            text-gray-800 dark:text-gray-200
+                                            hover:bg-gray-50 dark:hover:bg-gray-900"
+                                    >
+                                        Update Status
+                                    </button>
+                                </form>
+                            </div>
+                        @endif
+
+                        {{-- Completed / Close Ticket --}}
+                        @if ($ticket->status_type === \App\Enums\StatusType::InProgress)
+                            <div class="rounded-2xl border border-green-200 dark:border-green-700 bg-white dark:bg-gray-800 p-5">
+                                <form method="POST" action="{{ route('admin.tickets.update', $ticket) }}" class="space-y-4">
                                     @csrf
                                     @method('PUT')
 
                                     <div>
                                         <label for="completed_status_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                            Completed status
+                                            Completed/Close Ticket
                                         </label>
                                         <select
                                             id="completed_status_id"
@@ -223,7 +268,6 @@
                                                 text-gray-900 dark:text-gray-100 shadow-sm
                                                 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
                                         >
-                                            <option value="">-- Select completed status --</option>
                                             @foreach ($completedStatuses as $s)
                                                 <option value="{{ $s->id }}" @selected(old('completed_status_id') == $s->id)>
                                                     {{ $s->name }}
@@ -262,91 +306,14 @@
                                             text-green-700 dark:text-green-400
                                             shadow-sm hover:bg-green-50 dark:hover:bg-green-900"
                                     >
-                                        Complete Ticket
+                                        Close/Complete Ticket
                                     </button>
                                 </form>
-                                @endif
-                            @endif
+                            </div>
+                        @endif
 
-                            {{-- Optional: jargon editor) --}}
-                            @php
-                                $role = auth()->user()?->role instanceof \App\Enums\UserRole
-                                    ? auth()->user()->role->value
-                                    : (string) (auth()->user()?->role ?? '');
-
-                                $canEditJargon = in_array($role, [
-                                    \App\Enums\UserRole::Administrator->value,
-                                    \App\Enums\UserRole::Controller->value,
-                                    \App\Enums\UserRole::Technician->value,
-                                ], true);
-
-                                $isCompleted = $ticket->status_type === \App\Enums\StatusType::Completed;
-                            @endphp
-
-                            @if ($canEditJargon && ! $isCompleted)
-                                <div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-                                    <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">Status</p>
-                                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                                        Changes the default label shown for this status type.
-                                    </p>
-
-                                    <form method="POST" action="{{ route('admin.status-type-defaults.update', $ticket->status_type->value) }}" class="mt-3 space-y-3">
-                                        @csrf
-                                        @method('PUT')
-
-                                        <select
-                                            name="status_id"
-                                            class="w-full rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2.5
-                                                text-gray-900 dark:text-gray-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        >
-                                            @foreach(($statusesByType[$ticket->status_type->value] ?? collect()) as $s)
-                                                <option value="{{ $s->id }}">
-                                                    {{ $s->name }}{{-- Ticket Meta Cards --}}
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div class="rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/30 p-4">
-                        <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Ticket ID</p>
-                        <p class="mt-1 font-semibold text-gray-900 dark:text-gray-100">#{{ $ticket->id }}</p>
-                    </div>
-
-                    <div class="rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/30 p-4">
-                        <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Status</p>
-                        <p class="mt-1 font-semibold text-gray-900 dark:text-gray-100">
-                            {{ $statusLabels[$ticket->status_type->value] ?? $ticket->status_type->label() }}
-                        </p>
-                    </div>
-
-                    <div class="rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/30 p-4">
-                        <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Area</p>
-                        <p class="mt-1 font-semibold text-gray-900 dark:text-gray-100">{{ $ticket->area }}</p>
-                    </div>
-
-                    <div class="rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/30 p-4">
-                        <p class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Department</p>
-                        <p class="mt-1 font-semibold text-gray-900 dark:text-gray-100">{{ $ticket->department }}</p>
-                    </div>
-                </div>
-                                                </option>
-                                            @endforeach
-                                        </select>
-
-                                        <button
-                                            type="submit"
-                                            class="w-full inline-flex items-center justify-center rounded-lg
-                                                bg-transparent dark:bg-transparent
-                                                border border-gray-300 dark:border-gray-600
-                                                px-4 py-2 text-sm font-semibold
-                                                text-gray-800 dark:text-gray-200
-                                                hover:bg-gray-50 dark:hover:bg-gray-900"
-                                        >
-                                            Update Status
-                                        </button>
-                                    </form>
-                                </div>
-                            @endif
-                        </div>
-
-                        {{-- Delete Ticket stays separate --}}
-                        <div class="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5">
+                        {{-- Danger zone --}}
+                        <div class="rounded-2xl border border-red-200 dark:border-red-700 bg-white dark:bg-gray-800 p-5">
                             <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">Danger zone</p>
 
                             <form
@@ -372,6 +339,7 @@
                             </form>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>

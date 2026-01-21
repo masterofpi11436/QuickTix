@@ -1,6 +1,7 @@
 *** To Do List ***
 1. Area on create a ticket can be manually entered as well.
 2. New, In Progress, and Completed tickets for the Tickets pages.
+3. Ticket Templates.
 
 *** Ideas ***
 1. Add a email domain check to only allow certain domains to register and login with those domains only.
