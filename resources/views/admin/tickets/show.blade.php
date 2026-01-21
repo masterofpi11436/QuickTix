@@ -110,9 +110,7 @@
                             @if ($ticket->status_type === \App\Enums\StatusType::Completed)
                                 <div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/30 p-4">
                                     <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">This ticket is complete.</p>
-                                    <p class="mt-2 text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
-                                        {{ trim($ticket->notes ?? 'No notes provided.') }}
-                                    </p>
+                                    <p class="mt-2 text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{{ trim($ticket->notes ?? 'No notes submitted by technician.') }}</p>
                                 </div>
                             @else
                                 <form method="POST" action="{{ route('admin.tickets.assign', $ticket) }}" class="space-y-4">
@@ -212,10 +210,9 @@
                             ], true);
 
                             $isCompleted = $ticket->status_type === \App\Enums\StatusType::Completed;
-                            $isPending = $ticket->status_type === \App\Enums\StatusType::InProgress;
                         @endphp
 
-                        @if ($canEditJargon && ! $isCompleted && $isPending)
+                        @if ($canEditJargon && ! $isCompleted)
                             <div class="rounded-2xl border border-yellow-200 dark:yellow-gray-700 bg-white dark:bg-gray-800 p-5">
                                 <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">Status</p>
 
@@ -339,7 +336,6 @@
                             </form>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
