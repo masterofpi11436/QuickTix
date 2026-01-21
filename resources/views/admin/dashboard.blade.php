@@ -12,6 +12,24 @@
                     {{ __("Administrator logged in!") }}
                 </div>
             </div>
+
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mt-6">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
+                    {{ __("Add some alerts here") }}
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mt-6">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
+                    {{ __("Users not logged in for over a year?!!?") }}
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mt-6">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
+                    {{ __("Display new tickets assigned to this user logged in") }}
+                </div>
+            </div>
         </div>
     </div>
 </x-admin-app-layout>

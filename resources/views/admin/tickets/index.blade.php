@@ -88,7 +88,7 @@
                                         @empty
                                             <tr>
                                                 <td colspan="6" class="px-4 py-6 text-center text-gray-500 dark:text-gray-400">
-                                                    No tickets in {{ strtolower($title) }}.
+                                                    No Tickets to Display
                                                 </td>
                                             </tr>
                                         @endforelse
@@ -128,7 +128,7 @@
                                             </div>
                                         </div>
                                     @empty
-                                        <p class="text-center text-gray-500 dark:text-gray-400">No tickets in {{ strtolower($title) }}.</p>
+                                        <p class="text-center text-gray-500 dark:text-gray-400">No Tickets to Display</p>
                                     @endforelse
                                 </div>
                             </div>
