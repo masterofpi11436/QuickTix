@@ -191,7 +191,7 @@
                                             text-blue-700 dark:text-blue-400
                                             shadow-sm hover:bg-blue-50 dark:hover:bg-blue-900"
                                     >
-                                        Save Assignment / Notes
+                                        Assign Technician / Update Notes
                                     </button>
                                 </form>
                             @endif
@@ -214,7 +214,7 @@
 
                         @if ($canEditJargon && ! $isCompleted)
                             <div class="rounded-2xl border border-yellow-200 dark:yellow-gray-700 bg-white dark:bg-gray-800 p-5">
-                                <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">Status</p>
+                                <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">Change Pending Status</p>
 
                                 <form method="POST" action="{{ route('admin.status-type-defaults.update', $ticket->status_type->value) }}" class="mt-3 space-y-3">
                                     @csrf
@@ -225,6 +225,7 @@
                                         class="w-full rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 px-3 py-2.5
                                             text-gray-900 dark:text-gray-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     >
+                                        <option class="text-center"><-- Select Pending Status --></option>
                                         @foreach(($pendingStatus[$ticket->status_type->value] ?? collect()) as $s)
                                             <option value="{{ $s->id }}">{{ $s->name }}</option>
                                         @endforeach
@@ -239,7 +240,7 @@
                                             text-gray-800 dark:text-gray-200
                                             hover:bg-gray-50 dark:hover:bg-gray-900"
                                     >
-                                        Update Status
+                                        Update Pending Status
                                     </button>
                                 </form>
                             </div>
@@ -303,7 +304,7 @@
                                             text-green-700 dark:text-green-400
                                             shadow-sm hover:bg-green-50 dark:hover:bg-green-900"
                                     >
-                                        Close/Complete Ticket
+                                        Close / Complete Ticket
                                     </button>
                                 </form>
                             </div>
