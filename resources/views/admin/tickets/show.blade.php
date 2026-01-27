@@ -209,10 +209,10 @@
                                 \App\Enums\UserRole::Technician->value,
                             ], true);
 
-                            $isCompleted = $ticket->status_type === \App\Enums\StatusType::Completed;
+                            $isNew = $ticket->status_type === \App\Enums\StatusType::New;
                         @endphp
 
-                        @if ($canEditJargon && ! $isCompleted)
+                        @if ($canEditJargon && ! $isNew)
                             <div class="rounded-2xl border border-yellow-200 dark:yellow-gray-700 bg-white dark:bg-gray-800 p-5">
                                 <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">Change Pending Status</p>
 
