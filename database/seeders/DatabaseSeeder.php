@@ -151,7 +151,7 @@ class DatabaseSeeder extends Seeder
             'status_type' => StatusType::Completed,
         ]);
 
-z
+
         // Status type defaults
         // -----------------------------
         DB::table('status_type_defaults')->updateOrInsert(
