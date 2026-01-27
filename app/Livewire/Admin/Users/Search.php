@@ -41,7 +41,7 @@ class Search extends Component
         }
 
         $users = $query
-            ->orderBy('created_at', 'desc')
+            ->orderBy('last_name', 'asc')
             ->paginate(15);
 
         return view('admin.users.livewire.search', [
