@@ -69,9 +69,9 @@
                         @error('role') <p class="text-sm text-red-500 mt-1">{{ $message }}</p> @enderror
                     </div>
 
-                    @if($role === 'Controller' || $role === 'Administrator')
+                    @if($role === 'Technician' || $role === 'Controller' || $role === 'Administrator')
                         <div>
-                            <label class="block text-sm font-medium mb-1">Controller Coverage (Departments)</label>
+                            <label class="block text-sm font-medium mb-1">Department Coverage</label>
                             <select
                                 wire:model="covered_department_ids"
                                 multiple

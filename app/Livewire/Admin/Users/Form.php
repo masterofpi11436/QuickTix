@@ -73,7 +73,7 @@ class Form extends Component
             'department_id' => ['nullable', 'integer', Rule::exists('departments', 'id')],
 
             // pivot selection
-            'covered_department_ids' => ['array'],
+            'covered_department_ids' => ['nullable', 'array'],
             'covered_department_ids.*' => ['integer', Rule::exists('departments', 'id')],
         ];
     }
@@ -87,29 +87,33 @@ class Form extends Component
     {
         $validated = $this->validate();
 
-        if (empty($validated['password'])) {
-            unset($validated['password']); // keep existing password
-        }
+        // If you're not doing passwords yet, drop it so you don't overwrite anything.
+        unset($validated['password']);
 
         $user = $this->userId
             ? User::findOrFail($this->userId)
             : new User();
 
+        // Pull pivot IDs out BEFORE fill()
+        $coveredIds = $validated['covered_department_ids'] ?? [];
+        unset($validated['covered_department_ids']);
+
+        // If multi-department roles use coverage, you can optionally clear single department:
+        if (in_array(($validated['role'] ?? null), ['Controller', 'Technician', 'Administrator'], true)) {
+            $validated['department_id'] = null;
+        }
+
         $user->fill($validated);
         $user->save();
 
-        // Only Controllers get coverage departments; otherwise clear pivot
-        if (($validated['role'] ?? null) === 'Controller') {
-            $user->coveredDepartments()->sync($validated['covered_department_ids'] ?? []);
+        // Save/update pivot (sync does both)
+        if (in_array(($validated['role'] ?? null), ['Controller', 'Technician', 'Administrator'], true)) {
+            $user->coveredDepartments()->sync($coveredIds);
         } else {
             $user->coveredDepartments()->sync([]);
         }
 
-        session()->flash(
-            'success',
-            $this->userId ? 'User updated!' : 'User created!'
-        );
-
+        session()->flash('success', $this->userId ? 'User updated!' : 'User created!');
         return redirect()->route('admin.users.index');
     }
 
