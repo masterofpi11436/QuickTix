@@ -69,28 +69,56 @@
                         @error('role') <p class="text-sm text-red-500 mt-1">{{ $message }}</p> @enderror
                     </div>
 
-                    @if($role === 'Technician' || $role === 'Controller' || $role === 'Administrator')
+                    @if(in_array($role, ['Technician','Controller','Administrator'], true))
                         <div>
-                            <label class="block text-sm font-medium mb-1">Department Coverage</label>
-                            <select
-                                wire:model="covered_department_ids"
-                                multiple
-                                class="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700
-                                    bg-white dark:bg-gray-900 focus:ring focus:ring-blue-500/40"
-                            >
-                                @foreach($departments as $dept)
-                                    <option value="{{ $dept->id }}">{{ $dept->name }}</option>
-                                @endforeach
-                            </select>
+                            <div class="flex items-center justify-between mb-2">
+                                <label class="block text-sm font-medium">Department Coverage</label>
+
+                                <div class="flex gap-2 text-xs">
+                                    <button
+                                        type="button"
+                                        wire:click="$set('covered_department_ids', {{ $departments->pluck('id')->values()->toJson() }})"
+                                        class="underline text-gray-600 dark:text-gray-300"
+                                    >
+                                        Select all
+                                    </button>
+                                    <button
+                                        type="button"
+                                        wire:click="$set('covered_department_ids', [])"
+                                        class="underline text-gray-600 dark:text-gray-300"
+                                    >
+                                        Clear
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="max-h-56 overflow-auto rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900">
+                                <div class="p-3 space-y-2">
+                                    @foreach($departments as $dept)
+                                        <label class="flex items-center gap-2 text-sm">
+                                            <input
+                                                type="checkbox"
+                                                value="{{ $dept->id }}"
+                                                wire:model="covered_department_ids"
+                                                class="rounded border-gray-300 dark:border-gray-700"
+                                            >
+                                            <span>{{ $dept->name }}</span>
+                                        </label>
+                                    @endforeach
+                                </div>
+                            </div>
+
                             @error('covered_department_ids') <p class="text-sm text-red-500 mt-1">{{ $message }}</p> @enderror
                             @error('covered_department_ids.*') <p class="text-sm text-red-500 mt-1">{{ $message }}</p> @enderror
-                            <p class="text-xs text-gray-500 mt-1">Hold Ctrl/⌘ to select multiple.</p>
                         </div>
                     @else
                         <div>
                             <label class="block text-sm font-medium mb-1">Department</label>
-                            <select wire:model="department_id" class="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700
-                                    bg-white dark:bg-gray-900 focus:ring focus:ring-blue-500/40">
+                            <select
+                                wire:model="department_id"
+                                class="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700
+                                    bg-white dark:bg-gray-900 focus:ring focus:ring-blue-500/40"
+                            >
                                 <option value="">-- None --</option>
                                 @foreach($departments as $dept)
                                     <option value="{{ $dept->id }}">{{ $dept->name }}</option>
