@@ -151,7 +151,7 @@ class DatabaseSeeder extends Seeder
             'status_type' => StatusType::Completed,
         ]);
 
-        // -----------------------------
+z
         // Status type defaults
         // -----------------------------
         DB::table('status_type_defaults')->updateOrInsert(
@@ -169,5 +169,29 @@ class DatabaseSeeder extends Seeder
             ['status_id' => $completed->id, 'created_at' => now(), 'updated_at' => now()]
         );
 
+        // -----------------------------
+        // Ticket Templates (2)
+        // -----------------------------
+        DB::table('ticket_templates')->updateOrInsert(
+            ['title' => 'Lightbulb Broken'],
+            [
+                'description' => 'Light Bulb in the office needs replacing.',
+                'department_id' => 2,
+                'area_id' => 12,
+                'updated_at' => now(),
+                'created_at' => now(),
+            ]
+        );
+
+        DB::table('ticket_templates')->updateOrInsert(
+            ['title' => 'Lightbulb Broken'],
+            [
+                'description' => 'A computer or software issue needs IT assistance.',
+                'department_id' => 2,
+                'area_id' => 12,
+                'updated_at' => now(),
+                'created_at' => now(),
+            ]
+        );
     }
 }
