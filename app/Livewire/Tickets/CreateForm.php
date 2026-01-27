@@ -22,6 +22,39 @@ class CreateForm extends Component
     public string $area = '';
     public bool $show_area_dropdown = false;
 
+    public function updated($property, $value): void
+    {
+        if ($property !== 'ticket_template_id') {
+            return;
+        }
+
+        if (blank($value)) {
+            $this->title = '';
+            $this->description = '';
+            $this->department = '';
+            $this->area = '';
+            $this->area_search = '';
+            $this->show_area_dropdown = false;
+            return;
+        }
+
+        $template = TicketTemplate::with(['department', 'area'])->find((int) $value);
+
+        if (! $template) {
+            return;
+        }
+
+        $this->title = $template->title ?? '';
+        $this->description = $template->description ?? '';
+        $this->department = $template->department?->name ?? '';
+
+        $this->area = $template->area?->name ?? '';
+        $this->area_search = $this->area;
+
+        $this->show_area_dropdown = false;
+        $this->resetErrorBag(['title', 'description', 'department', 'area']);
+    }
+
     protected function rules(): array
     {
         return [

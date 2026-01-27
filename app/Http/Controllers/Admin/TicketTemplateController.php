@@ -13,9 +13,11 @@ class TicketTemplateController extends Controller
      */
     public function index()
     {
-        $tickettemplates = TicketTemplate::paginate(15);
+        $templates = TicketTemplate::with(['area', 'department'])
+            ->orderBy('title')
+            ->paginate(15);
 
-        return view('admin.tickettemplates.index', compact('tickettemplates'));
+        return view('admin.tickettemplates.index', compact('templates'));
     }
 
     /**
@@ -23,7 +25,7 @@ class TicketTemplateController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.tickettemplates.create');
     }
 
     /**
@@ -45,9 +47,9 @@ class TicketTemplateController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(TicketTemplate $tickettemplate)
     {
-        //
+        return view('admin.tickettemplates.edit', ['template' => $tickettemplate]);
     }
 
     /**
@@ -61,8 +63,13 @@ class TicketTemplateController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(TicketTemplate $tickettemplate)
     {
-        //
+        $tickettemplate->delete();
+
+        return redirect()
+            ->route('admin.tickettemplates.index')
+            ->with('success', 'Template deleted!');
     }
+
 }

@@ -13,14 +13,14 @@
                     <div>
                         <label class="block text-sm font-medium mb-1">Template (optional)</label>
                         <select
-                            wire:model="ticket_template_id"
+                            wire:model.live="ticket_template_id"
                             class="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700
                                    bg-white dark:bg-gray-900 focus:ring focus:ring-blue-500/40"
                         >
                             <option value="">-- none --</option>
                             @foreach($templates as $template)
                                 <option value="{{ $template->id }}">
-                                    #{{ $template->id }}{{ isset($template->name) ? ' - '.$template->name : '' }}
+                                    {{ $template->title }}
                                 </option>
                             @endforeach
                         </select>
@@ -32,7 +32,7 @@
                         <label class="block text-sm font-medium mb-1">Title</label>
                         <input
                             type="text"
-                            wire:model.defer="title"
+                            wire:model.live="title"
                             class="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700
                                    bg-white dark:bg-gray-900 focus:ring focus:ring-blue-500/40"
                         >
@@ -43,7 +43,7 @@
                     <div>
                         <label class="block text-sm font-medium mb-1">Description</label>
                         <textarea
-                            wire:model.defer="description"
+                            wire:model.live="description"
                             rows="4"
                             class="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700
                                    bg-white dark:bg-gray-900 focus:ring focus:ring-blue-500/40"
@@ -56,7 +56,7 @@
                         <div>
                             <label class="block text-sm font-medium mb-1">Department</label>
                             <select
-                                wire:model="department"
+                                wire:model.live="department"
                                 class="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700
                                        bg-white dark:bg-gray-900 focus:ring focus:ring-blue-500/40"
                             >
