@@ -19,6 +19,7 @@ use App\Http\Controllers\Controller\ControllerReportsController;
 use App\Http\Controllers\ReportingUser\ReportingUserTicketController;
 use App\Http\Controllers\ReportingUser\ReportingUserReportsController;
 
+use App\Http\Controllers\User\UserTicketController;
 
 Route::post('/logout', function (Request $request) {
     Auth::logout();
