@@ -16,6 +16,9 @@ use App\Http\Controllers\Controller\ControllerUserController;
 use App\Http\Controllers\Controller\ControllerTicketController;
 use App\Http\Controllers\Controller\ControllerReportsController;
 
+use App\Http\Controllers\ReportingUser\ReportingUserTicketController;
+use App\Http\Controllers\ReportingUser\ReportingUserReportsController;
+
 
 Route::post('/logout', function (Request $request) {
     Auth::logout();
@@ -107,6 +110,10 @@ Route::middleware(['auth', 'role:' . UserRole::ReportingUser->value])
     ->group(function () {
         Route::view('/dashboard', 'reporting-user.dashboard')->name('dashboard');
         Route::view('/profile', 'reporting-user.profile')->name('profile');
+        Route::resource('tickets', ReportingUserTicketController::class);
+
+        // Reoprt pages
+        Route::resource('reports', ReportingUserReportsController::class);
     });
 
 Route::middleware(['auth', 'role:' . UserRole::User->value])
@@ -115,4 +122,5 @@ Route::middleware(['auth', 'role:' . UserRole::User->value])
     ->group(function () {
         Route::view('/dashboard', 'user.dashboard')->name('dashboard');
         Route::view('/profile', 'user.profile')->name('profile');
+        Route::resource('tickets', UserTicketController::class);
     });
