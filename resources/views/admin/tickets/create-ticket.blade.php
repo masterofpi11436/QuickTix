@@ -11,5 +11,5 @@
         </div>
     </x-slot>
 
-    @livewire('Tickets.CreateForm')
+    @livewire('Admin.Tickets.CreateForm')
 </x-admin-app-layout>

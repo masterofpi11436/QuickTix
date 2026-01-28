@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Tickets;
+namespace App\Livewire\Controller\Tickets;
 
 use Livewire\Component;
 use App\Models\Ticket;
@@ -128,7 +128,7 @@ class CreateForm extends Component
         ]);
 
         session()->flash('success', 'Ticket created.');
-        return redirect()->route('admin.tickets.index');
+        return redirect()->route('controller.tickets.index');
     }
 
     public function render()
@@ -145,7 +145,7 @@ class CreateForm extends Component
                 ->get();
         }
 
-        return view('admin.tickets.livewire.create-ticket', [
+        return view('controller.tickets.livewire.create-ticket', [
             'templates' => TicketTemplate::query()->orderBy('id', 'desc')->get(),
             'departments' => Department::query()->orderBy('name')->get(),
             'areas' => $areas,

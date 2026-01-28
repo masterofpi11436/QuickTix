@@ -12,12 +12,9 @@ use App\Http\Controllers\Admin\ReportsController;
 use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\TicketTemplateController;
 
-use App\Http\Controllers\Controller\ControllerAreaController;
-use App\Http\Controllers\Controller\ControllerStatusController;
+use App\Http\Controllers\Controller\ControllerUserController;
 use App\Http\Controllers\Controller\ControllerTicketController;
 use App\Http\Controllers\Controller\ControllerReportsController;
-use App\Http\Controllers\Controller\ControllerDepartmentController;
-use App\Http\Controllers\Controller\ControllerTicketTemplateController;
 
 
 Route::post('/logout', function (Request $request) {
@@ -59,7 +56,6 @@ Route::middleware(['auth', 'role:' . UserRole::Administrator->value])
     ->group(function () {
         Route::view('/dashboard', 'admin.dashboard')->name('dashboard');
         Route::view('/profile', 'admin.profile')->name('profile');
-        Route::resource('users', UserController::class);
         Route::resource('tickettemplates', TicketTemplateController::class);
         Route::resource('tickets', TicketController::class);
         Route::put('tickets/{ticket}/assign', [TicketController::class, 'assign'])
@@ -69,6 +65,7 @@ Route::middleware(['auth', 'role:' . UserRole::Administrator->value])
 
         // Administrative pages
         Route::view('/administration', 'admin.administration')->name('administration');
+        Route::resource('users', UserController::class);
         Route::resource('statuses', StatusController::class);
         Route::resource('departments', DepartmentController::class);
         Route::resource('areas', AreaController::class);
@@ -83,7 +80,6 @@ Route::middleware(['auth', 'role:' . UserRole::Controller->value])
     ->group(function () {
         Route::view('/dashboard', 'controller.dashboard')->name('dashboard');
         Route::view('/profile', 'controller.profile')->name('profile');
-        Route::resource('tickettemplates', ControllerTicketController::class);
         Route::resource('tickets', ControllerTicketController::class);
         Route::put('tickets/{ticket}/assign', [ControllerTicketController::class, 'assign'])
             ->name('tickets.assign');
@@ -92,9 +88,7 @@ Route::middleware(['auth', 'role:' . UserRole::Controller->value])
 
         // Administrative pages
         Route::view('/administration', 'controller.administration')->name('administration');
-        Route::resource('statuses', ControllerStatusController::class);
-        Route::resource('departments', ControllerDepartmentController::class);
-        Route::resource('areas', ControllerAreaController::class);
+        Route::resource('users', ControllerUserController::class);
 
         // Reoprt pages
         Route::resource('reports', ControllerReportsController::class);

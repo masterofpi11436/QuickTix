@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\Controller;
 
 use App\Http\Controllers\Controller;
-use App\Models\Area;
+use App\Models\User;
 
-class ControllerAreaController extends Controller
+class ControllerUserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('controller.areas.index');
+        return view('Controller.users.index');
     }
 
     /**
@@ -20,26 +20,26 @@ class ControllerAreaController extends Controller
      */
     public function create()
     {
-        return view('controller.areas.create');
+        return view('Controller.users.create');
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Area $area)
+    public function edit(User $user)
     {
-        return view('controller.areas.edit', compact('area'));
+        return view('Controller.users.edit', compact('user'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Area $area)
+    public function destroy(User $user)
     {
-        $area->delete();
+        $user->delete();
 
         return redirect()
-            ->route('controller.areas.index')
-            ->with('success', 'Area deleted!');
+            ->route('controller.users.index')
+            ->with('success', 'User deleted!');
     }
 }

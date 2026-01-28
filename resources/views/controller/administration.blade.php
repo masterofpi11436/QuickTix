@@ -26,52 +26,13 @@
 
                     <!-- Users -->
                     <a href="{{ route('controller.users.index') }}"
-                    class="group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition">
+                        class="group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition">
                         <div class="p-6">
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 group-hover:text-indigo-600">
                                 Users
                             </h3>
                             <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                                Manage system users, roles, and access.
-                            </p>
-                        </div>
-                    </a>
-
-                    <!-- Statuses -->
-                    <a href="{{ route('controller.statuses.index') }}"
-                    class="group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition">
-                        <div class="p-6">
-                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 group-hover:text-indigo-600">
-                                Statuses
-                            </h3>
-                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                                Define ticket lifecycle states.
-                            </p>
-                        </div>
-                    </a>
-
-                    <!-- Departments -->
-                    <a href="{{ route('controller.departments.index') }}"
-                    class="group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition">
-                        <div class="p-6">
-                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 group-hover:text-indigo-600">
-                                Departments
-                            </h3>
-                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                                Organize teams and ownership.
-                            </p>
-                        </div>
-                    </a>
-
-                    <!-- Areas -->
-                    <a href="{{ route('controller.areas.index') }}"
-                    class="group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition">
-                        <div class="p-6">
-                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 group-hover:text-indigo-600">
-                                Areas
-                            </h3>
-                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                                Manage physical or logical service areas.
+                                Manage Users
                             </p>
                         </div>
                     </a>

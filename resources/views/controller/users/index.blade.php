@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __('Statuses') }}
+                {{ __('Users') }}
             </h2>
 
             <x-custom-button href="{{ route('controller.administration') }}" color="green">
@@ -11,5 +11,8 @@
         </div>
     </x-slot>
 
-    @livewire('Controller.Statuses.Form', ['id' => $status->id])
+    {{-- Flash Messages --}}
+    <x-flash-message type="success" />
+
+    @livewire('Controller.Users.Search')
 </x-controller-app-layout>

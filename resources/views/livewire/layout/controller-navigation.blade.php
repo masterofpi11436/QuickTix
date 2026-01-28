@@ -97,20 +97,8 @@ new class extends Component
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('controller.tickets.index')" :active="request()->routeIs('controller.tickets.index')" wire:navigate>
-                {{ __('Tickets') }}
-            </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('controller.users.index')" :active="request()->routeIs('controller.users.index')" wire:navigate>
-                {{ __('Users') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('controller.statuses.index')" :active="request()->routeIs('controller.statuses.index')" wire:navigate>
-                {{ __('Statuses') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('controller.departments.index')" :active="request()->routeIs('controller.departments.index')" wire:navigate>
-                {{ __('Departments') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('controller.areas.index')" :active="request()->routeIs('controller.areas.index')" wire:navigate>
-                {{ __('Areas') }}
+                {{ __('Tickets') }}
             </x-responsive-nav-link>
         </div>
 
