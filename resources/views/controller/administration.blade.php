@@ -1,4 +1,4 @@
-<x-admin-app-layout>
+<x-controller-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Administration') }}
@@ -25,7 +25,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
                     <!-- Users -->
-                    <a href="{{ route('admin.users.index') }}"
+                    <a href="{{ route('controller.users.index') }}"
                     class="group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition">
                         <div class="p-6">
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 group-hover:text-indigo-600">
@@ -38,7 +38,7 @@
                     </a>
 
                     <!-- Statuses -->
-                    <a href="{{ route('admin.statuses.index') }}"
+                    <a href="{{ route('controller.statuses.index') }}"
                     class="group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition">
                         <div class="p-6">
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 group-hover:text-indigo-600">
@@ -51,7 +51,7 @@
                     </a>
 
                     <!-- Departments -->
-                    <a href="{{ route('admin.departments.index') }}"
+                    <a href="{{ route('controller.departments.index') }}"
                     class="group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition">
                         <div class="p-6">
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 group-hover:text-indigo-600">
@@ -64,7 +64,7 @@
                     </a>
 
                     <!-- Areas -->
-                    <a href="{{ route('admin.areas.index') }}"
+                    <a href="{{ route('controller.areas.index') }}"
                     class="group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition">
                         <div class="p-6">
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 group-hover:text-indigo-600">
@@ -80,4 +80,4 @@
             </div>
         </div>
     </div>
-</x-admin-app-layout>
+</x-controller-app-layout>

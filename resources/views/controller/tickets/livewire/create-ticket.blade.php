@@ -116,7 +116,7 @@
                     </div>
 
                     <div class="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 pt-4">
-                        <a href="{{route('admin.tickets.index')}}"
+                        <a href="{{route('controller.tickets.index')}}"
                            class="w-full sm:w-auto inline-flex justify-center items-center px-4 py-2 rounded-md
                                 border border-gray-300 dark:border-gray-700">
                             Cancel

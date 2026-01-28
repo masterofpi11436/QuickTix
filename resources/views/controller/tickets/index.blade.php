@@ -1,4 +1,4 @@
-<x-admin-app-layout>
+<x-controller-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Tickets') }}
@@ -20,7 +20,7 @@
 
                         <div class="flex flex-col items-end gap-2">
                             <div class="flex flex-col sm:flex-row gap-2 sm:items-center">
-                                <x-custom-button href="{{ route('admin.tickets.create') }}" color="blue">
+                                <x-custom-button href="{{ route('controller.tickets.create') }}" color="blue">
                                     Create Ticket
                                 </x-custom-button>
                             </div>
@@ -71,11 +71,11 @@
                                                 <td class="px-4 py-3">{{ $ticket->department }}</td>
                                                 <td class="px-4 py-3">
                                                     <div class="flex flex-wrap gap-2">
-                                                        <x-custom-button href="{{ route('admin.tickets.show', $ticket) }}" color="blue">View</x-custom-button>
+                                                        <x-custom-button href="{{ route('controller.tickets.show', $ticket) }}" color="blue">View</x-custom-button>
 
                                                         @if (($ticket->status_type->value ?? $ticket->status_type) !== 'completed')
                                                             <x-custom-button
-                                                                href="{{ route('admin.tickets.destroy', $ticket) }}"
+                                                                href="{{ route('controller.tickets.destroy', $ticket) }}"
                                                                 method="DELETE"
                                                                 color="red"
                                                             >
@@ -115,10 +115,10 @@
                                             </div>
 
                                             <div class="flex justify-end space-x-3">
-                                                <x-custom-button href="{{ route('admin.tickets.show', $ticket) }}" color="blue">View</x-custom-button>
+                                                <x-custom-button href="{{ route('controller.tickets.show', $ticket) }}" color="blue">View</x-custom-button>
                                                 @if (($ticket->status_type->value ?? $ticket->status_type) !== 'completed')
                                                     <x-custom-button
-                                                        href="{{ route('admin.tickets.destroy', $ticket) }}"
+                                                        href="{{ route('controller.tickets.destroy', $ticket) }}"
                                                         method="DELETE"
                                                         color="red"
                                                     >
@@ -137,4 +137,4 @@
             </div>
         </div>
     </div>
-</x-admin-app-layout>
+</x-controller-app-layout>

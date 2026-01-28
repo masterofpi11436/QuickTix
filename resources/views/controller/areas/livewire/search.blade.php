@@ -20,7 +20,7 @@
                                     focus:outline-none focus:ring focus:ring-blue-500/40"
                             >
 
-                            <x-custom-button href="{{ route('admin.areas.create') }}" color="blue">
+                            <x-custom-button href="{{ route('controller.areas.create') }}" color="blue">
                                 Create Area
                             </x-custom-button>
                         </div>
@@ -52,12 +52,12 @@
 
                                     <td class="px-4 py-3">
                                         <div class="flex flex-wrap gap-2">
-                                            <x-custom-button href="{{ route('admin.areas.edit', $area) }}" color="yellow">
+                                            <x-custom-button href="{{ route('controller.areas.edit', $area) }}" color="yellow">
                                                 Edit
                                             </x-custom-button>
 
                                             <x-custom-button
-                                                href="{{ route('admin.areas.destroy', $area) }}"
+                                                href="{{ route('controller.areas.destroy', $area) }}"
                                                 method="DELETE"
                                                 color="red"
                                             >
@@ -92,12 +92,12 @@
                                 </div>
 
                                 <div class="flex flex-wrap justify-end gap-2 mt-3">
-                                    <x-custom-button href="{{ route('admin.areas.edit', $area) }}" color="yellow">
+                                    <x-custom-button href="{{ route('controller.areas.edit', $area) }}" color="yellow">
                                         Edit
                                     </x-custom-button>
 
                                     <x-custom-button
-                                        href="{{ route('admin.areas.destroy', $area) }}"
+                                        href="{{ route('controller.areas.destroy', $area) }}"
                                         method="DELETE"
                                         color="red"
                                     >

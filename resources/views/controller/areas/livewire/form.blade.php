@@ -32,7 +32,7 @@
                     </div>
 
                     <div class="flex justify-end gap-2 pt-4">
-                        <a href="{{ route('admin.areas.index') }}"
+                        <a href="{{ route('controller.areas.index') }}"
                            class="inline-flex items-center px-4 py-2 rounded-md border">
                             Cancel
                         </a>

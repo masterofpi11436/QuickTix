@@ -46,7 +46,7 @@
                                     focus:outline-none focus:ring focus:ring-blue-500/40"
                             >
 
-                            <x-custom-button href="{{ route('admin.tickettemplates.create') }}" color="blue">
+                            <x-custom-button href="{{ route('controller.tickettemplates.create') }}" color="blue">
                                 Create Template
                             </x-custom-button>
                         </div>
@@ -100,13 +100,13 @@
                                     {{-- Actions --}}
                                     <td class="px-4 py-3">
                                         <div class="flex flex-wrap gap-2">
-                                            <x-custom-button href="{{ route('admin.tickettemplates.edit', $template) }}" color="yellow">
+                                            <x-custom-button href="{{ route('controller.tickettemplates.edit', $template) }}" color="yellow">
                                                 Edit
                                             </x-custom-button>
 
                                             {{-- If your x-custom-button can't actually submit DELETE, replace this with a real form --}}
                                             <x-custom-button
-                                                href="{{ route('admin.tickettemplates.destroy', $template) }}"
+                                                href="{{ route('controller.tickettemplates.destroy', $template) }}"
                                                 method="DELETE"
                                                 color="red"
                                             >
@@ -166,12 +166,12 @@
 
                                 {{-- Actions --}}
                                 <div class="flex flex-wrap justify-end gap-2 mt-4">
-                                    <x-custom-button href="{{ route('admin.tickettemplates.edit', $template) }}" color="yellow">
+                                    <x-custom-button href="{{ route('controller.tickettemplates.edit', $template) }}" color="yellow">
                                         Edit
                                     </x-custom-button>
 
                                     <x-custom-button
-                                        href="{{ route('admin.tickettemplates.destroy', $template) }}"
+                                        href="{{ route('controller.tickettemplates.destroy', $template) }}"
                                         method="DELETE"
                                         color="red"
                                     >

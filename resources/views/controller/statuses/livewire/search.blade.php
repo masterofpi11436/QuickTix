@@ -46,7 +46,7 @@
                                     focus:outline-none focus:ring focus:ring-blue-500/40"
                             >
 
-                            <x-custom-button href="{{ route('admin.statuses.create') }}" color="blue">
+                            <x-custom-button href="{{ route('controller.statuses.create') }}" color="blue">
                                 Create Status
                             </x-custom-button>
                         </div>
@@ -89,12 +89,12 @@
                                     {{-- Actions --}}
                                     <td class="px-4 py-3">
                                         <div class="flex flex-wrap gap-2">
-                                            <x-custom-button href="{{ route('admin.statuses.edit', $status) }}" color="yellow">
+                                            <x-custom-button href="{{ route('controller.statuses.edit', $status) }}" color="yellow">
                                                 Edit
                                             </x-custom-button>
 
                                             <x-custom-button
-                                                href="{{ route('admin.statuses.destroy', $status) }}"
+                                                href="{{ route('controller.statuses.destroy', $status) }}"
                                                 method="DELETE"
                                                 color="red"
                                             >
@@ -134,12 +134,12 @@
 
                                 {{-- Actions --}}
                                 <div class="flex flex-wrap justify-end gap-2">
-                                    <x-custom-button href="{{ route('admin.statuses.edit', $status) }}" color="yellow">
+                                    <x-custom-button href="{{ route('controller.statuses.edit', $status) }}" color="yellow">
                                         Edit
                                     </x-custom-button>
 
                                     <x-custom-button
-                                        href="{{ route('admin.statuses.destroy', $status) }}"
+                                        href="{{ route('controller.statuses.destroy', $status) }}"
                                         method="DELETE"
                                         color="red"
                                     >

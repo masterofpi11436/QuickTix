@@ -1,4 +1,4 @@
-<x-admin-app-layout>
+<x-controller-app-layout>
     <x-slot name="header">
         <div class="flex items-center justify-between gap-4">
             <div class="min-w-0">
@@ -11,7 +11,7 @@
             </div>
 
             <div class="shrink-0">
-                <x-custom-button href="{{ route('admin.tickets.index') }}" color="green">
+                <x-custom-button href="{{ route('controller.tickets.index') }}" color="green">
                     Back
                 </x-custom-button>
             </div>
@@ -117,7 +117,7 @@
                                     <p class="mt-2 text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{{ trim($ticket->assigned_to_name ?? 'No notes submitted by technician.') }}</p>
                                 </div>
                             @else
-                                <form method="POST" action="{{ route('admin.tickets.assign', $ticket) }}" class="space-y-4">
+                                <form method="POST" action="{{ route('controller.tickets.assign', $ticket) }}" class="space-y-4">
                                     @csrf
                                     @method('PUT')
 
@@ -221,7 +221,7 @@
                             <div class="rounded-2xl border border-yellow-200 dark:yellow-gray-700 bg-white dark:bg-gray-800 p-5">
                                 <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">Change Pending Status</p>
 
-                                <form method="POST" action="{{ route('admin.status-type-defaults.update', $ticket->status_type->value) }}" class="mt-3 space-y-3">
+                                <form method="POST" action="{{ route('controller.status-type-defaults.update', $ticket->status_type->value) }}" class="mt-3 space-y-3">
                                     @csrf
                                     @method('PUT')
 
@@ -254,7 +254,7 @@
                         {{-- Completed / Close Ticket --}}
                         @if ($ticket->status_type === \App\Enums\StatusType::InProgress)
                             <div class="rounded-2xl border border-green-200 dark:border-green-700 bg-white dark:bg-gray-800 p-5">
-                                <form method="POST" action="{{ route('admin.tickets.update', $ticket) }}" class="space-y-4">
+                                <form method="POST" action="{{ route('controller.tickets.update', $ticket) }}" class="space-y-4">
                                     @csrf
                                     @method('PUT')
 
@@ -321,7 +321,7 @@
 
                             <form
                                 method="POST"
-                                action="{{ route('admin.tickets.destroy', $ticket) }}"
+                                action="{{ route('controller.tickets.destroy', $ticket) }}"
                                 class="mt-3"
                                 onsubmit="return confirm('Are you sure you want to permanently delete this ticket? This action cannot be undone.')"
                             >
@@ -346,4 +346,4 @@
             </div>
         </div>
     </div>
-</x-admin-app-layout>
+</x-controller-app-layout>

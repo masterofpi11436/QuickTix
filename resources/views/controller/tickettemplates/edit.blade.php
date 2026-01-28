@@ -1,4 +1,4 @@
-<x-admin-app-layout>
+<x-controller-app-layout>
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
@@ -7,5 +7,5 @@
         </div>
     </x-slot>
 
-    @livewire('admin.ticket-templates.form', ['id' => $template->id])
-</x-admin-app-layout>
+    @livewire('Controller.ticket-templates.form', ['id' => $template->id])
+</x-controller-app-layout>

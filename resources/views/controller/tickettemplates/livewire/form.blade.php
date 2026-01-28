@@ -65,7 +65,7 @@
 
                     <div class="flex justify-end gap-2 pt-4">
                         <a
-                            href="{{ route('admin.tickettemplates.index') }}"
+                            href="{{ route('controller.tickettemplates.index') }}"
                             class="inline-flex items-center px-4 py-2 rounded-md border"
                         >
                             Cancel

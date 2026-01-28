@@ -12,6 +12,14 @@ use App\Http\Controllers\Admin\ReportsController;
 use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\TicketTemplateController;
 
+use App\Http\Controllers\Controller\ControllerAreaController;
+use App\Http\Controllers\Controller\ControllerStatusController;
+use App\Http\Controllers\Controller\ControllerTicketController;
+use App\Http\Controllers\Controller\ControllerReportsController;
+use App\Http\Controllers\Controller\ControllerDepartmentController;
+use App\Http\Controllers\Controller\ControllerTicketTemplateController;
+
+
 Route::post('/logout', function (Request $request) {
     Auth::logout();
 
@@ -75,22 +83,21 @@ Route::middleware(['auth', 'role:' . UserRole::Controller->value])
     ->group(function () {
         Route::view('/dashboard', 'controller.dashboard')->name('dashboard');
         Route::view('/profile', 'controller.profile')->name('profile');
-        Route::resource('users', UserController::class);
-        Route::resource('tickettemplates', TicketTemplateController::class);
-        Route::resource('tickets', TicketController::class);
-        Route::put('tickets/{ticket}/assign', [TicketController::class, 'assign'])
+        Route::resource('tickettemplates', ControllerTicketController::class);
+        Route::resource('tickets', ControllerTicketController::class);
+        Route::put('tickets/{ticket}/assign', [ControllerTicketController::class, 'assign'])
             ->name('tickets.assign');
-        Route::put('status-type-defaults/{statusType}', [TicketController::class, 'updateStatusTypeDefault'])
+        Route::put('status-type-defaults/{statusType}', [ControllerTicketController::class, 'updateStatusTypeDefault'])
             ->name('status-type-defaults.update');
 
         // Administrative pages
         Route::view('/administration', 'controller.administration')->name('administration');
-        Route::resource('statuses', StatusController::class);
-        Route::resource('departments', DepartmentController::class);
-        Route::resource('areas', AreaController::class);
+        Route::resource('statuses', ControllerStatusController::class);
+        Route::resource('departments', ControllerDepartmentController::class);
+        Route::resource('areas', ControllerAreaController::class);
 
         // Reoprt pages
-        Route::resource('reports', ReportsController::class);
+        Route::resource('reports', ControllerReportsController::class);
     });
 
 Route::middleware(['auth', 'role:' . UserRole::Technician->value])
