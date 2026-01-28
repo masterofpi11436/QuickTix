@@ -30,8 +30,11 @@ new class extends Component
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('controller.dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
-                        {{ __('Dashboard') }}
+                    <x-nav-link :href="route('controller.tickets.index')" :active="request()->routeIs('controller.tickets.index')" wire:navigate>
+                        {{ __('Tickets') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('controller.reports.index')" :active="request()->routeIs('controller.reports.index')" wire:navigate>
+                        {{ __('Reports') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -57,15 +60,24 @@ new class extends Component
                             {{ __('Profile') }}
                         </x-dropdown-link>
 
+                        <x-dropdown-link :href="route('controller.administration')" wire:navigate>
+                            {{ __('Administration') }}
+                        </x-dropdown-link>
+
                         <!-- Theme Toggle -->
                         <x-theme-toggle variant="dropdown" />
 
                         <!-- Authentication -->
-                        <button wire:click="logout" class="w-full text-start">
-                            <x-dropdown-link>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+
+                            <x-dropdown-link
+                                href="{{ route('logout') }}"
+                                onclick="event.preventDefault(); this.closest('form').submit();"
+                            >
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
-                        </button>
+                        </form>
                     </x-slot>
                 </x-dropdown>
             </div>
@@ -85,8 +97,20 @@ new class extends Component
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('controller.dashboard')" :active="request()->routeIs('controller.dashboard')" wire:navigate>
-                {{ __('Dashboard') }}
+            <x-responsive-nav-link :href="route('controller.tickets.index')" :active="request()->routeIs('controller.tickets.index')" wire:navigate>
+                {{ __('Tickets') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('controller.users.index')" :active="request()->routeIs('controller.users.index')" wire:navigate>
+                {{ __('Users') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('controller.statuses.index')" :active="request()->routeIs('controller.statuses.index')" wire:navigate>
+                {{ __('Statuses') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('controller.departments.index')" :active="request()->routeIs('controller.departments.index')" wire:navigate>
+                {{ __('Departments') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('controller.areas.index')" :active="request()->routeIs('controller.areas.index')" wire:navigate>
+                {{ __('Areas') }}
             </x-responsive-nav-link>
         </div>
 

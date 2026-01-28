@@ -75,6 +75,22 @@ Route::middleware(['auth', 'role:' . UserRole::Controller->value])
     ->group(function () {
         Route::view('/dashboard', 'controller.dashboard')->name('dashboard');
         Route::view('/profile', 'controller.profile')->name('profile');
+        Route::resource('users', UserController::class);
+        Route::resource('tickettemplates', TicketTemplateController::class);
+        Route::resource('tickets', TicketController::class);
+        Route::put('tickets/{ticket}/assign', [TicketController::class, 'assign'])
+            ->name('tickets.assign');
+        Route::put('status-type-defaults/{statusType}', [TicketController::class, 'updateStatusTypeDefault'])
+            ->name('status-type-defaults.update');
+
+        // Administrative pages
+        Route::view('/administration', 'controller.administration')->name('administration');
+        Route::resource('statuses', StatusController::class);
+        Route::resource('departments', DepartmentController::class);
+        Route::resource('areas', AreaController::class);
+
+        // Reoprt pages
+        Route::resource('reports', ReportsController::class);
     });
 
 Route::middleware(['auth', 'role:' . UserRole::Technician->value])
