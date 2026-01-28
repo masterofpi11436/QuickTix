@@ -87,7 +87,6 @@ Route::middleware(['auth', 'role:' . UserRole::Controller->value])
             ->name('status-type-defaults.update');
 
         // Administrative pages
-        Route::view('/administration', 'controller.administration')->name('administration');
         Route::resource('users', ControllerUserController::class);
 
         // Reoprt pages

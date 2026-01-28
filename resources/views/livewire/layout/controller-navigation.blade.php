@@ -36,6 +36,9 @@ new class extends Component
                     <x-nav-link :href="route('controller.reports.index')" :active="request()->routeIs('controller.reports.index')" wire:navigate>
                         {{ __('Reports') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('controller.users.index')" :active="request()->routeIs('controller.users.index')" wire:navigate>
+                        {{ __('Manage Users') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -58,10 +61,6 @@ new class extends Component
                     <x-slot name="content">
                         <x-dropdown-link :href="route('controller.profile')" wire:navigate>
                             {{ __('Profile') }}
-                        </x-dropdown-link>
-
-                        <x-dropdown-link :href="route('controller.administration')" wire:navigate>
-                            {{ __('Administration') }}
                         </x-dropdown-link>
 
                         <!-- Theme Toggle -->
@@ -97,8 +96,14 @@ new class extends Component
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('controller.users.index')" :active="request()->routeIs('controller.users.index')" wire:navigate>
+            <x-responsive-nav-link :href="route('controller.tickets.index')" :active="request()->routeIs('controller.tickets.index')" wire:navigate>
                 {{ __('Tickets') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('controller.reports.index')" :active="request()->routeIs('controller.reports.index')" wire:navigate>
+                {{ __('Reports') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('controller.users.index')" :active="request()->routeIs('controller.users.index')" wire:navigate>
+                {{ __('Manage Users') }}
             </x-responsive-nav-link>
         </div>
 
