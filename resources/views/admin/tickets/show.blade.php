@@ -109,8 +109,12 @@
                         <div class="rounded-2xl border border-blue-200 dark:border-blue-700 bg-white dark:bg-gray-800 p-5">
                             @if ($ticket->status_type === \App\Enums\StatusType::Completed)
                                 <div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/30 p-4">
-                                    <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">This ticket is complete.</p>
+                                    <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">Technician Notes:</p>
                                     <p class="mt-2 text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{{ trim($ticket->notes ?? 'No notes submitted by technician.') }}</p>
+                                </div>
+                                <div class="mt-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/30 p-4">
+                                    <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">Completed By:</p>
+                                    <p class="mt-2 text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{{ trim($ticket->assigned_to_name ?? 'No notes submitted by technician.') }}</p>
                                 </div>
                             @else
                                 <form method="POST" action="{{ route('admin.tickets.assign', $ticket) }}" class="space-y-4">
