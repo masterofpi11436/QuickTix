@@ -124,12 +124,13 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // -----------------------------
-        // Departments (4)
+        // Departments (5)
         // -----------------------------
-        Department::create(['name' => 'MIU', 'description' => 'IT department that handles IT related issues for the organization']);
-        Department::create(['name' => 'Keefe', 'description' => 'Handles commissary']);
-        Department::create(['name' => 'IC Solutions', 'description' => 'Handles inmate tablets and video visitation issues']);
-        Department::create(['name' => 'Maintenance', 'description' => 'Handles plumbing and physical labor type of work']);
+        Department::create(['name' => 'Engineering', 'description' => 'Design and test new ideas.']);
+        Department::create(['name' => 'Maintenance', 'description' => 'Fixes lights, toilets, and TVs']);
+        Department::create(['name' => 'Quality Control', 'description' => 'Spot checks outgoing shipments']);
+        Department::create(['name' => 'Information Technology', 'description' => 'Fixes Computers']);
+        Department::create(['name' => 'Human Resource', 'description' => 'Hires and fires people. Looks out for the company, not the employee(s)']);
 
 
         // -----------------------------
@@ -149,6 +150,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Completed',
             'status_type' => StatusType::Completed,
         ]);
+
 
         // Status type defaults
         // -----------------------------
