@@ -7,6 +7,7 @@ use App\Models\Status;
 use App\Models\Ticket;
 use App\Enums\UserRole;
 use App\Enums\StatusType;
+use App\Models\Department;
 use Illuminate\Http\Request;
 use App\Models\StatusTypeDefault;
 use App\Http\Controllers\Controller;
@@ -86,7 +87,24 @@ class ControllerTicketController extends Controller
             ->get()
             ->groupBy('status_type');
 
-        return view('controller.tickets.show', compact('ticket', 'assignees', 'completedStatuses', 'statusLabels', 'pendingStatus'));
+        $departments = Department::query()
+            ->select(['name'])
+            ->orderBy('name')
+            ->get();
+
+        return view('controller.tickets.show', compact('ticket', 'assignees', 'completedStatuses', 'statusLabels', 'pendingStatus', 'departments'));
+    }
+
+    public function updateDepartment(Request $request, Ticket $ticket)
+    {
+        $data = $request->validate([
+            'department' => ['required', 'string', 'max:255'],
+        ]);
+
+        $ticket->department = $data['department'];
+        $ticket->save();
+
+        return back()->with('success', 'Department updated.');
     }
 
     public function updateStatusTypeDefault(Request $request, string $statusType)

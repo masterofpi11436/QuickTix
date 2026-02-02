@@ -201,6 +201,65 @@
                             @endif
                         </div>
 
+                        {{-- Department --}}
+                        <div class="rounded-2xl border border-purple-200 dark:border-purple-700 bg-white dark:bg-gray-800 p-5">
+                            <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">
+                                Change Department
+                            </p>
+
+                            <form
+                                method="POST"
+                                action="{{ route('admin.tickets.update-department', $ticket) }}"
+                                class="mt-4 space-y-4"
+                            >
+                                @csrf
+                                @method('PUT')
+
+                                <div>
+                                    <label
+                                        for="department"
+                                        class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                                    >
+                                        Department
+                                    </label>
+
+                                    <select
+                                        id="department"
+                                        name="department"
+                                        class="mt-2 w-full rounded-xl border border-gray-300 dark:border-gray-600
+                                            bg-white dark:bg-gray-800 px-3 py-2.5
+                                            text-gray-900 dark:text-gray-100 shadow-sm
+                                            focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                    >
+                                        @foreach ($departments as $department)
+                                            <option
+                                                value="{{ $department->name }}"
+                                                @selected(old('department', $ticket->department) === $department)
+                                            >
+                                                {{ $department->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+
+                                    @error('department')
+                                        <div class="mt-2 text-sm text-red-600">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    class="w-full inline-flex items-center justify-center rounded-lg
+                                        bg-transparent
+                                        border border-purple-600 dark:border-purple-400
+                                        px-4 py-2 text-sm font-semibold
+                                        text-purple-700 dark:text-purple-400
+                                        shadow-sm hover:bg-purple-50 dark:hover:bg-purple-900"
+                                >
+                                    Update Department
+                                </button>
+                            </form>
+                        </div>
+
                         {{-- Status --}}
                         @php
                             $role = auth()->user()?->role instanceof \App\Enums\UserRole

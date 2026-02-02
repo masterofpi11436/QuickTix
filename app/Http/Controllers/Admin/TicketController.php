@@ -10,6 +10,7 @@ use App\Enums\StatusType;
 use Illuminate\Http\Request;
 use App\Models\StatusTypeDefault;
 use App\Http\Controllers\Controller;
+use App\Models\Department;
 use Illuminate\Support\Facades\Auth;
 
 class TicketController extends Controller
@@ -86,7 +87,24 @@ class TicketController extends Controller
             ->get()
             ->groupBy('status_type');
 
-        return view('admin.tickets.show', compact('ticket', 'assignees', 'completedStatuses', 'statusLabels', 'pendingStatus'));
+            $departments = Department::query()
+                ->select(['name'])
+                ->orderBy('name')
+                ->get();
+
+        return view('admin.tickets.show', compact('ticket', 'assignees', 'completedStatuses', 'statusLabels', 'pendingStatus', 'departments'));
+    }
+
+    public function updateDepartment(Request $request, Ticket $ticket)
+    {
+        $data = $request->validate([
+            'department' => ['required', 'string', 'max:255'],
+        ]);
+
+        $ticket->department = $data['department'];
+        $ticket->save();
+
+        return back()->with('success', 'Department updated.');
     }
 
     public function updateStatusTypeDefault(Request $request, string $statusType)

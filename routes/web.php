@@ -66,6 +66,8 @@ Route::middleware(['auth', 'role:' . UserRole::Administrator->value])
             ->name('tickets.assign');
         Route::put('status-type-defaults/{statusType}', [TicketController::class, 'updateStatusTypeDefault'])
             ->name('status-type-defaults.update');
+        Route::put('/tickets/{ticket}/department', [TicketController::class, 'updateDepartment'])
+        ->name('tickets.update-department');
 
         // Administrative pages
         Route::view('/administration', 'admin.administration')->name('administration');
@@ -89,6 +91,8 @@ Route::middleware(['auth', 'role:' . UserRole::Controller->value])
             ->name('tickets.assign');
         Route::put('status-type-defaults/{statusType}', [ControllerTicketController::class, 'updateStatusTypeDefault'])
             ->name('status-type-defaults.update');
+        Route::put('/tickets/{ticket}/department', [ControllerTicketController::class, 'updateDepartment'])
+            ->name('tickets.update-department');
 
         // Administrative pages
         Route::resource('users', ControllerUserController::class);
