@@ -87,8 +87,9 @@ class Form extends Component
     {
         $validated = $this->validate();
 
-        // If you're not doing passwords yet, drop it so you don't overwrite anything.
+        // Unset fields not authorized to change
         unset($validated['password']);
+        unset($validated['role']);
 
         $user = $this->userId
             ? User::findOrFail($this->userId)
