@@ -53,22 +53,6 @@
                         @error('email') <p class="text-sm text-red-500 mt-1">{{ $message }}</p> @enderror
                     </div>
 
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Role</label>
-                        <select
-                            wire:model="role"
-                            class="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700
-                                bg-white dark:bg-gray-900 focus:ring focus:ring-blue-500/40"
-                        >
-                            <option value="User">User</option>
-                            <option value="Reporting User">Reporting User</option>
-                            <option value="Technician">Technician</option>
-                            <option value="Controller">Controller</option>
-                            <option value="Administrator">Administrator</option>
-                        </select>
-                        @error('role') <p class="text-sm text-red-500 mt-1">{{ $message }}</p> @enderror
-                    </div>
-
                     @if(in_array($role, ['Technician','Controller','Administrator'], true))
                         <div>
                             <div class="flex items-center justify-between mb-2">
