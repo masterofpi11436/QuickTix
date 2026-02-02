@@ -4,6 +4,7 @@ use App\Enums\UserRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\AllowedDomainController;
 use App\Http\Controllers\Admin\AreaController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\StatusController;
@@ -75,6 +76,7 @@ Route::middleware(['auth', 'role:' . UserRole::Administrator->value])
         Route::resource('statuses', StatusController::class);
         Route::resource('departments', DepartmentController::class);
         Route::resource('areas', AreaController::class);
+        Route::resource('allowed-domains', AllowedDomainController::class);
 
         // Reoprt pages
         Route::resource('reports', ReportsController::class);

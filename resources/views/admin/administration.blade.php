@@ -76,6 +76,19 @@
                         </div>
                     </a>
 
+                    <!-- Allowed Domains -->
+                    <a href="{{ route('admin.allowed-domains.index') }}"
+                    class="group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition">
+                        <div class="p-6">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 group-hover:text-indigo-600">
+                                Allowed Domains
+                            </h3>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                                Control which email domains can sign in.
+                            </p>
+                        </div>
+                    </a>
+
                 </div>
             </div>
         </div>

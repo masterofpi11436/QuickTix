@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Forms;
 
+use App\Models\AllowedDomain;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
@@ -29,6 +30,12 @@ class LoginForm extends Form
     public function authenticate(): void
     {
         $this->ensureIsNotRateLimited();
+
+        if (! $this->isDomainAllowed($this->email)) {
+            throw ValidationException::withMessages([
+                'form.email' => 'Your email domain is not allowed.',
+            ]);
+        }
 
         if (! Auth::attempt($this->only(['email', 'password']), $this->remember)) {
             RateLimiter::hit($this->throttleKey());
@@ -68,5 +75,23 @@ class LoginForm extends Form
     protected function throttleKey(): string
     {
         return Str::transliterate(Str::lower($this->email).'|'.request()->ip());
+    }
+
+    protected function isDomainAllowed(string $email): bool
+    {
+        if (AllowedDomain::query()->count() === 0) {
+            return true;
+        }
+
+        $domain = Str::lower(Str::after($email, '@'));
+
+        if ($domain === '') {
+            return false;
+        }
+
+        return AllowedDomain::query()
+            ->where('is_active', true)
+            ->where('name', $domain)
+            ->exists();
     }
 }
