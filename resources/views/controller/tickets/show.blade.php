@@ -202,14 +202,16 @@
                         </div>
 
                         {{-- Department --}}
-                        <div class="rounded-2xl border border-purple-200 dark:border-purple-700 bg-white dark:bg-gray-800 p-5">
+
+                        @if ($ticket->status_type !== \App\Enums\StatusType::Completed)
+                            <div class="rounded-2xl border border-purple-200 dark:border-purple-700 bg-white dark:bg-gray-800 p-5">
                             <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">
                                 Change Department
                             </p>
 
                             <form
                                 method="POST"
-                                action="{{ route('controller.tickets.update-department', $ticket) }}"
+                                action="{{ route('admin.tickets.update-department', $ticket) }}"
                                 class="mt-4 space-y-4"
                             >
                                 @csrf
@@ -259,6 +261,7 @@
                                 </button>
                             </form>
                         </div>
+                        @endif
 
                         {{-- Status --}}
                         @php
