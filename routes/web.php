@@ -21,6 +21,7 @@ use App\Http\Controllers\ReportingUser\ReportingUserTicketController;
 use App\Http\Controllers\ReportingUser\ReportingUserReportsController;
 
 use App\Http\Controllers\User\UserTicketController;
+use App\Http\Controllers\Technician\TechnicianTicketController;
 
 Route::post('/logout', function (Request $request) {
     Auth::logout();
@@ -106,6 +107,12 @@ Route::middleware(['auth', 'role:' . UserRole::Technician->value])
     ->name('technician.')
     ->group(function () {
         Route::view('/dashboard', 'technician.dashboard')->name('dashboard');
+        Route::resource('tickets', TechnicianTicketController::class)
+            ->only(['index', 'show', 'create', 'update']);
+        Route::put('tickets/{ticket}/assign', [TechnicianTicketController::class, 'assign'])
+            ->name('tickets.assign');
+        Route::put('status-type-defaults/{statusType}', [TechnicianTicketController::class, 'updateStatusTypeDefault'])
+            ->name('status-type-defaults.update');
     });
 
 Route::middleware(['auth', 'role:' . UserRole::ReportingUser->value])
