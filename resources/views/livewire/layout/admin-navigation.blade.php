@@ -59,10 +59,6 @@ new class extends Component
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('admin.profile')" wire:navigate>
-                            {{ __('Profile') }}
-                        </x-dropdown-link>
-
                         <x-dropdown-link :href="route('admin.administration')" wire:navigate>
                             {{ __('Administration') }}
                         </x-dropdown-link>
@@ -128,10 +124,6 @@ new class extends Component
             </div>
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('admin.profile')" wire:navigate>
-                    {{ __('Profile') }}
-                </x-responsive-nav-link>
-
                 <!-- Theme Toggle -->
                 <x-theme-toggle variant="responsive" />
 

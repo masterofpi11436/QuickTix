@@ -42,7 +42,12 @@ new #[Layout('layouts.guest')] class extends Component
             <x-input-error :messages="$errors->get('email')" class="mt-2 text-red-400" />
         </div>
 
-        <div class="flex items-center justify-end mt-4">
+        <div class="flex items-center justify-between mt-4">
+            <a class="underline text-sm text-white hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                href="{{ route('login') }}"
+                wire:navigate>
+                {{ __('Back to login') }}
+            </a>
             <x-primary-button class="bg-indigo-600 hover:bg-indigo-700 text-white">
                 {{ __('Email Password Reset Link') }}
             </x-primary-button>

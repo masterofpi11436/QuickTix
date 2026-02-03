@@ -60,7 +60,6 @@ Route::middleware(['auth', 'role:' . UserRole::Administrator->value])
     ->name('admin.')
     ->group(function () {
         Route::view('/dashboard', 'admin.dashboard')->name('dashboard');
-        Route::view('/profile', 'admin.profile')->name('profile');
         Route::resource('tickettemplates', TicketTemplateController::class);
         Route::resource('tickets', TicketController::class);
         Route::put('tickets/{ticket}/assign', [TicketController::class, 'assign'])
@@ -87,7 +86,6 @@ Route::middleware(['auth', 'role:' . UserRole::Controller->value])
     ->name('controller.')
     ->group(function () {
         Route::view('/dashboard', 'controller.dashboard')->name('dashboard');
-        Route::view('/profile', 'controller.profile')->name('profile');
         Route::resource('tickets', ControllerTicketController::class);
         Route::put('tickets/{ticket}/assign', [ControllerTicketController::class, 'assign'])
             ->name('tickets.assign');
@@ -108,7 +106,6 @@ Route::middleware(['auth', 'role:' . UserRole::Technician->value])
     ->name('technician.')
     ->group(function () {
         Route::view('/dashboard', 'technician.dashboard')->name('dashboard');
-        Route::view('/profile', 'technician.profile')->name('profile');
     });
 
 Route::middleware(['auth', 'role:' . UserRole::ReportingUser->value])
@@ -116,7 +113,6 @@ Route::middleware(['auth', 'role:' . UserRole::ReportingUser->value])
     ->name('reporting-user.')
     ->group(function () {
         Route::view('/dashboard', 'reporting-user.dashboard')->name('dashboard');
-        Route::view('/profile', 'reporting-user.profile')->name('profile');
         Route::resource('tickets', ReportingUserTicketController::class);
 
         // Reoprt pages
@@ -128,6 +124,5 @@ Route::middleware(['auth', 'role:' . UserRole::User->value])
     ->name('user.')
     ->group(function () {
         Route::view('/dashboard', 'user.dashboard')->name('dashboard');
-        Route::view('/profile', 'user.profile')->name('profile');
         Route::resource('tickets', UserTicketController::class);
     });

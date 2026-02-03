@@ -57,10 +57,6 @@ new class extends Component
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('reporting-user.profile')" wire:navigate>
-                            {{ __('Profile') }}
-                        </x-dropdown-link>
-
                         <!-- Theme Toggle -->
                         <x-theme-toggle variant="dropdown" />
 
@@ -106,10 +102,6 @@ new class extends Component
             </div>
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('reporting-user.tickets.create')" wire:navigate>
-                    {{ __('Profile') }}
-                </x-responsive-nav-link>
-
                 <!-- Theme Toggle -->
                 <x-theme-toggle variant="responsive" />
 
