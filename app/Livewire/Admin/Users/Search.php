@@ -46,6 +46,7 @@ class Search extends Component
 
         return view('admin.users.livewire.search', [
             'users' => $users,
+            'totalUsers' => $query->count(),
         ]);
     }
 }

@@ -5,7 +5,12 @@
 
                 {{-- Header + Search + Create Button --}}
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-3">
-                    <h3 class="text-lg font-semibold">User List</h3>
+                    <h3 class="text-lg font-semibold flex items-center gap-2">
+                        User List
+                        <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
+                            ({{ $totalUsers }})
+                        </span>
+                    </h3>
 
                     <div class="flex flex-col items-end gap-2">
                         @if (session()->has('create-edit-delete-message'))
