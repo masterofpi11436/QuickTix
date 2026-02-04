@@ -7,5 +7,5 @@
         </div>
     </x-slot>
 
-    @livewire('admin.ticket-templates.form', ['id' => $template->id])
+    @livewire('Admin.TicketTemplates.Form', ['id' => $template->id])
 </x-admin-app-layout>
