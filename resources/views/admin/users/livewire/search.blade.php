@@ -6,7 +6,7 @@
                 {{-- Header + Search + Create Button --}}
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-3">
                     <h3 class="text-lg font-semibold flex items-center gap-2">
-                        User List
+                        Total Users
                         <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
                             ({{ $totalUsers }})
                         </span>
@@ -49,6 +49,7 @@
                                     border-gray-300 dark:border-gray-700
                                     bg-white dark:bg-gray-900 text-sm
                                     focus:outline-none focus:ring focus:ring-blue-500/40"
+                                title="Search users by name, email, role, or department"
                             >
 
                             <x-custom-button href="{{ route('admin.users.create') }}" color="blue">
