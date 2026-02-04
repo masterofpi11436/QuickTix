@@ -11,18 +11,6 @@
         $ticketsQuery = \App\Models\Ticket::with('submittedBy')
             ->where('assigned_to_user_id', $userId);
 
-        $newCount = (clone $ticketsQuery)
-            ->where('status_type', \App\Enums\StatusType::New)
-            ->count();
-
-        $inProgressCount = (clone $ticketsQuery)
-            ->where('status_type', \App\Enums\StatusType::InProgress)
-            ->count();
-
-        $completedCount = (clone $ticketsQuery)
-            ->where('status_type', \App\Enums\StatusType::Completed)
-            ->count();
-
         $newTickets = (clone $ticketsQuery)
             ->where('status_type', \App\Enums\StatusType::New)
             ->orderByDesc('created_at')
@@ -38,30 +26,6 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-
-            {{-- Stat cards --}}
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-6">
-                    <div class="text-sm text-gray-500 dark:text-gray-400">Assigned New</div>
-                    <div class="mt-2 text-3xl font-semibold text-gray-900 dark:text-gray-100">
-                        {{ $newCount }}
-                    </div>
-                </div>
-
-                <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-6">
-                    <div class="text-sm text-gray-500 dark:text-gray-400">Assigned In Progress</div>
-                    <div class="mt-2 text-3xl font-semibold text-gray-900 dark:text-gray-100">
-                        {{ $inProgressCount }}
-                    </div>
-                </div>
-
-                <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-6">
-                    <div class="text-sm text-gray-500 dark:text-gray-400">Assigned Completed</div>
-                    <div class="mt-2 text-3xl font-semibold text-gray-900 dark:text-gray-100">
-                        {{ $completedCount }}
-                    </div>
-                </div>
-            </div>
 
             {{-- Two panels --}}
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -93,7 +57,7 @@
                             </a>
                         @empty
                             <div class="p-6 text-center text-gray-500 dark:text-gray-400">
-                                No in-progress tickets assigned to you.
+                                No new tickets assigned to you.
                             </div>
                         @endforelse
                     </div>
@@ -102,7 +66,7 @@
                 {{-- New panel --}}
                 <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg overflow-hidden">
                     <div class="p-6 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Assigned New</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Recently Completed Ticets</h3>
                     </div>
 
                     <div class="divide-y divide-gray-200 dark:divide-gray-700">

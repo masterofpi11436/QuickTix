@@ -33,7 +33,7 @@
                         @php
                             $sections = [
                                 'new' => 'New',
-                                'in_progress' => 'In Progress',
+                                'in_progress' => 'Assigned and In Progress',
                                 'completed' => 'Completed',
                             ];
                         @endphp
@@ -52,6 +52,7 @@
                                 <table class="hidden sm:table min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                     <thead class="bg-gray-50 dark:bg-gray-700">
                                         <tr>
+                                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-200 uppercase tracking-wider">Ticket #</th>
                                             <th class="px-4 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-200 uppercase tracking-wider">Submitted By</th>
                                             <th class="px-4 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-200 uppercase tracking-wider">Title</th>
                                             <th class="px-4 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-200 uppercase tracking-wider">Description</th>
@@ -64,6 +65,7 @@
                                     <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                                         @forelse ($group as $ticket)
                                             <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                                                <td class="px-4 py-3">{{ $ticket->id }}</td>
                                                 <td class="px-4 py-3">{{ $ticket->submittedBy?->first_name }} {{ $ticket->submittedBy?->last_name }}</td>
                                                 <td class="px-4 py-3">{{ $ticket->title }}</td>
                                                 <td class="px-4 py-3">{{ $ticket->description }}</td>
