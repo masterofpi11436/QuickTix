@@ -34,7 +34,7 @@
                             $sections = [
                                 'new' => 'New',
                                 'in_progress' => 'Assigned and In Progress',
-                                'completed' => 'Completed',
+                                'completed' => '10 Recently Completed',
                             ];
                         @endphp
 
