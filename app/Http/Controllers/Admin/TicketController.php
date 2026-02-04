@@ -39,6 +39,17 @@ class TicketController extends Controller
         return view('admin.tickets.index', compact('ticketsByType'));
     }
 
+    public function completedTickets()
+    {
+        $completedTickets = Ticket::query()
+            ->where('status_type', StatusType::Completed)
+            ->with('submittedBy')
+            ->latest('completed_at')
+            ->paginate(10);
+
+        return view('admin.tickets.all-tickets', compact('completedTickets'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */

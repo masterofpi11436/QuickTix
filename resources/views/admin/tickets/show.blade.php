@@ -11,9 +11,15 @@
             </div>
 
             <div class="shrink-0">
-                <x-custom-button href="{{ route('admin.tickets.index') }}" color="green">
-                    Back
-                </x-custom-button>
+                @if ($ticket->status_type === \App\Enums\StatusType::Completed)
+                    <x-custom-button href="{{ route('admin.tickets.completed-tickets') }}" color="green">
+                        Back to Completed Tickets
+                    </x-custom-button>
+                @else
+                    <x-custom-button href="{{ route('admin.tickets.index') }}" color="green">
+                        Back
+                    </x-custom-button>
+                @endif
             </div>
         </div>
     </x-slot>

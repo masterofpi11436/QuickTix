@@ -63,6 +63,8 @@ Route::middleware(['auth', 'role:' . UserRole::Administrator->value])
         Route::view('/dashboard', 'admin.dashboard')->name('dashboard');
         Route::resource('tickettemplates', TicketTemplateController::class);
         Route::resource('tickets', TicketController::class);
+        Route::get('tickets-complete', [TicketController::class, 'completedTickets'])
+            ->name('tickets.completed-tickets');
         Route::put('tickets/{ticket}/assign', [TicketController::class, 'assign'])
             ->name('tickets.assign');
         Route::put('status-type-defaults/{statusType}', [TicketController::class, 'updateStatusTypeDefault'])

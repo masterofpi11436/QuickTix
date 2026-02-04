@@ -45,6 +45,9 @@
                                 <div class="flex items-center justify-between mb-3">
                                     <h3 class="text-lg font-semibold">
                                         {{ $title }} <span class="text-sm text-gray-500">({{ $group->count() }})</span>
+                                        @if ($key === 'completed')
+                                            <x-custom-button href="{{ route('admin.tickets.completed-tickets') }}" color="blue">View All</x-custom-button>
+                                        @endif
                                     </h3>
                                 </div>
 
@@ -113,6 +116,18 @@
                                                 <span class="text-sm text-gray-500 dark:text-gray-400">Department:</span>
                                                 <span class="font-medium text-gray-900 dark:text-gray-100">{{ $ticket->department }}</span>
                                             </div>
+
+                                            @if ($ticket->status_type === \App\Enums\StatusType::InProgress)
+                                                <div class="flex justify-between mb-2">
+                                                    <span class="text-sm text-gray-500 dark:text-gray-400">Assigned To:</span>
+                                                    <span class="font-medium text-gray-900 dark:text-gray-100">{{ $ticket->assigned_to_name }}</span>
+                                                </div>
+                                            @elseif ($ticket->status_type === \App\Enums\StatusType::Completed)
+                                                <div class="flex justify-between mb-2">
+                                                    <span class="text-sm text-gray-500 dark:text-gray-400">Completed By:</span>
+                                                    <span class="font-medium text-gray-900 dark:text-gray-100">{{ $ticket->assigned_to_name }}</span>
+                                                </div>
+                                            @endif
 
                                             <div class="flex justify-end space-x-3">
                                                 <x-custom-button href="{{ route('admin.tickets.show', $ticket) }}" color="blue">View</x-custom-button>
