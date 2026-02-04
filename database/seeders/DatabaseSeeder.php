@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Status;
 use App\Enums\StatusType;
 use App\Models\Department;
+use Database\Seeders\TicketSeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -193,5 +194,10 @@ class DatabaseSeeder extends Seeder
                 'created_at' => now(),
             ]
         );
+
+        // -----------------------------
+        // Tickets (100)
+        // -----------------------------
+        $this->call(TicketSeeder::class);
     }
 }
