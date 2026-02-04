@@ -18,6 +18,7 @@
 
         $completedCount = (clone $ticketsQuery)
             ->where('status_type', \App\Enums\StatusType::Completed)
+            ->where('completed_at', '>=', \Carbon\Carbon::now()->subDays(30))
             ->count();
 
         $unassignedCount = (clone $ticketsQuery)
@@ -43,7 +44,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
             {{-- Stat cards --}}
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-6">
                     <div class="text-sm text-gray-500 dark:text-gray-400">New</div>
                     <div class="mt-2 text-3xl font-semibold text-gray-900 dark:text-gray-100">
@@ -62,13 +63,6 @@
                     <div class="text-sm text-gray-500 dark:text-gray-400">Completed</div>
                     <div class="mt-2 text-3xl font-semibold text-gray-900 dark:text-gray-100">
                         {{ $completedCount }}
-                    </div>
-                </div>
-
-                <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg p-6">
-                    <div class="text-sm text-gray-500 dark:text-gray-400">Unassigned</div>
-                    <div class="mt-2 text-3xl font-semibold text-gray-900 dark:text-gray-100">
-                        {{ $unassignedCount }}
                     </div>
                 </div>
             </div>

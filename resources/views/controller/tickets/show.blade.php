@@ -233,6 +233,8 @@
                                             text-gray-900 dark:text-gray-100 shadow-sm
                                             focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                                     >
+                                        <option value="">-- Select Department --</option>
+
                                         @foreach ($departments as $department)
                                             <option
                                                 value="{{ $department->name }}"
