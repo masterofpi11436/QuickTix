@@ -130,6 +130,6 @@ Route::middleware(['auth', 'role:' . UserRole::User->value])
     ->prefix('user')
     ->name('user.')
     ->group(function () {
-        Route::view('/dashboard', 'user.dashboard')->name('dashboard');
+        Route::get('/dashboard', [UserTicketController::class, 'dashboard'])->name('dashboard');
         Route::resource('tickets', UserTicketController::class);
     });

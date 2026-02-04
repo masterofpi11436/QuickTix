@@ -17,10 +17,15 @@ class UserTicketController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function dashboard()
     {
-        $openTickets = Ticket::with(['submittedBy'])
-            ->whereIn('status_type', ['new', 'in_progress'])
+        $newTickets = Ticket::with(['submittedBy'])
+            ->where('status_type', 'new')
+            ->latest()
+            ->get();
+
+        $inProgress = Ticket::with(['submittedBy'])
+            ->where('status_type', 'in_progress')
             ->latest()
             ->get();
 
@@ -31,11 +36,17 @@ class UserTicketController extends Controller
             ->get();
 
         $ticketsByType = collect()
-            ->merge($openTickets)
+            ->merge($newTickets)
+            ->merge($inProgress)
             ->merge($completedTickets)
             ->groupBy('status_type');
 
-        return view('user.tickets.index', compact('ticketsByType'));
+        return view('user.dashboard', compact('ticketsByType'));
+    }
+
+    public function index()
+    {
+        //
     }
 
     /**
