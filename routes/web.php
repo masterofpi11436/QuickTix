@@ -81,7 +81,10 @@ Route::middleware(['auth', 'role:' . UserRole::Administrator->value])
         Route::resource('allowed-domains', AllowedDomainController::class);
 
         // Reoprt pages
-        Route::resource('reports', ReportsController::class);
+        Route::get('reports', [ReportsController::class, 'index'])->name('reports.index');
+        Route::get('reports/open-by-department', [ReportsController::class, 'openByDepartment'])->name('reports.openByDepartment');
+        Route::get('reports/open-by-tech', [ReportsController::class, 'openByTech'])->name('reports.openByTech');
+        Route::get('reports/completed', [ReportsController::class, 'completed'])->name('reports.completed');
     });
 
 Route::middleware(['auth', 'role:' . UserRole::Controller->value])

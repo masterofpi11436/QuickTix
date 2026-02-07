@@ -4,48 +4,271 @@
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 {{ __('Reports') }}
             </h2>
+
+            <div class="flex items-center gap-2">
+                <a href="{{ route('admin.reports.openByDepartment') }}"
+                   class="px-3 py-2 text-sm rounded-md bg-gray-800 text-gray-100 hover:bg-gray-700">
+                    Open by Department
+                </a>
+                <a href="{{ route('admin.reports.openByTech') }}"
+                   class="px-3 py-2 text-sm rounded-md bg-gray-800 text-gray-100 hover:bg-gray-700">
+                    Open by Technician
+                </a>
+                <a href="{{ route('admin.reports.completed') }}"
+                   class="px-3 py-2 text-sm rounded-md bg-gray-800 text-gray-100 hover:bg-gray-700">
+                    Completed
+                </a>
+            </div>
         </div>
     </x-slot>
 
-    <div class="p-6 grid max-w-7xl mx-auto grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="max-w-7xl mx-auto p-6 space-y-6">
 
-        <!-- Departments Report -->
-        <div class="bg-gray-800 rounded-lg shadow p-5">
-            <h3 class="text-lg font-semibold text-white mb-2">Departments</h3>
+        {{-- Filters (optional, but useful even on index) --}}
+        <form method="GET" class="bg-white dark:bg-gray-900 rounded-lg shadow p-4">
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-3">
+                <div>
+                    <label class="block text-xs text-gray-500 mb-1">From</label>
+                    <input type="date" name="from" value="{{ request('from') }}"
+                           class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-500 mb-1">To</label>
+                    <input type="date" name="to" value="{{ request('to') }}"
+                           class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-500 mb-1">Department</label>
+                    <input type="text" name="department" value="{{ request('department') }}" placeholder="All"
+                           class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-500 mb-1">Technician</label>
+                    <input type="text" name="tech" value="{{ request('tech') }}" placeholder="All"
+                           class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100">
+                </div>
+                <div class="flex items-end gap-2">
+                    <button class="w-full px-3 py-2 rounded-md bg-indigo-600 text-white hover:bg-indigo-500">
+                        Apply
+                    </button>
+                    <a href="{{ route('admin.reports.index') }}"
+                       class="px-3 py-2 rounded-md bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
+                        Reset
+                    </a>
+                </div>
+            </div>
+        </form>
+
+        {{-- KPI row --}}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
+            <div class="rounded-lg shadow p-4 bg-white dark:bg-gray-900">
+                <div class="text-xs text-gray-500">New</div>
+                <div class="text-2xl font-semibold dark:text-gray-100">{{ $counts['new'] ?? '—' }}</div>
+                <div class="text-xs text-gray-500 mt-1">Unstarted tickets</div>
+            </div>
+
+            <div class="rounded-lg shadow p-4 bg-white dark:bg-gray-900">
+                <div class="text-xs text-gray-500">In Progress</div>
+                <div class="text-2xl font-semibold dark:text-gray-100">{{ $counts['in_progress'] ?? '—' }}</div>
+                <div class="text-xs text-gray-500 mt-1">Assigned / being worked</div>
+            </div>
+
+            <div class="rounded-lg shadow p-4 bg-white dark:bg-gray-900">
+                <div class="text-xs text-gray-500">Completed</div>
+                <div class="text-2xl font-semibold dark:text-gray-100">{{ $counts['completed'] ?? '—' }}</div>
+                <div class="text-xs text-gray-500 mt-1">Closed tickets</div>
+            </div>
+
+            <div class="rounded-lg shadow p-4 bg-white dark:bg-gray-900">
+                <div class="text-xs text-gray-500">Open Total</div>
+                <div class="text-2xl font-semibold dark:text-gray-100">{{ $counts['open'] ?? '—' }}</div>
+                <div class="text-xs text-gray-500 mt-1">New + In Progress</div>
+            </div>
+
+            <div class="rounded-lg shadow p-4 bg-white dark:bg-gray-900">
+                <div class="text-xs text-gray-500">Unassigned</div>
+                <div class="text-2xl font-semibold dark:text-gray-100">{{ $counts['unassigned'] ?? '—' }}</div>
+                <div class="text-xs text-gray-500 mt-1">Needs assignment</div>
+            </div>
+
+            <div class="rounded-lg shadow p-4 bg-white dark:bg-gray-900">
+                <div class="text-xs text-gray-500">Overdue</div>
+                <div class="text-2xl font-semibold dark:text-gray-100">{{ $counts['overdue'] ?? '—' }}</div>
+                <div class="text-xs text-gray-500 mt-1">&gt; {{ $overdueDays ?? 7 }} days in progress</div>
+            </div>
         </div>
 
-        <!-- New Reports -->
-        <div class="bg-gray-800 rounded-lg shadow p-5">
-            <h3 class="text-lg font-semibold text-white mb-2">New Reports</h3>
-            <p class="text-gray-400 text-sm">
-                Group by Department
-            </p>
+        {{-- Middle: breakdowns --}}
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {{-- Open by Department --}}
+            <div class="bg-white dark:bg-gray-900 rounded-lg shadow">
+                <div class="p-4 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
+                    <div>
+                        <div class="font-semibold dark:text-gray-100">Open by Department</div>
+                        <div class="text-xs text-gray-500">Top departments with open work</div>
+                    </div>
+                    <a href="{{ route('admin.reports.openByDepartment') }}"
+                       class="text-sm text-indigo-600 hover:text-indigo-500">
+                        View
+                    </a>
+                </div>
+
+                <div class="p-4">
+                    @if(!empty($openByDepartment) && count($openByDepartment))
+                        <ul class="space-y-3">
+                            @foreach($openByDepartment as $row)
+                                <li class="flex items-center justify-between">
+                                    <span class="text-sm dark:text-gray-100">{{ $row->department }}</span>
+                                    <span class="text-sm font-semibold dark:text-gray-100">{{ $row->total }}</span>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @else
+                        <div class="text-sm text-gray-500">No data.</div>
+                    @endif
+                </div>
+            </div>
+
+            {{-- Open by Technician --}}
+            <div class="bg-white dark:bg-gray-900 rounded-lg shadow">
+                <div class="p-4 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
+                    <div>
+                        <div class="font-semibold dark:text-gray-100">Open by Technician</div>
+                        <div class="text-xs text-gray-500">Workload distribution</div>
+                    </div>
+                    <a href="{{ route('admin.reports.openByTech') }}"
+                       class="text-sm text-indigo-600 hover:text-indigo-500">
+                        View
+                    </a>
+                </div>
+
+                <div class="p-4">
+                    @if(!empty($openByTech) && count($openByTech))
+                        <ul class="space-y-3">
+                            @foreach($openByTech as $row)
+                                <li class="flex items-center justify-between">
+                                    <span class="text-sm dark:text-gray-100">{{ $row->tech }}</span>
+                                    <span class="text-sm font-semibold dark:text-gray-100">{{ $row->total }}</span>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @else
+                        <div class="text-sm text-gray-500">No data.</div>
+                    @endif
+                </div>
+            </div>
+
+            {{-- Performance --}}
+            <div class="bg-white dark:bg-gray-900 rounded-lg shadow">
+                <div class="p-4 border-b border-gray-200 dark:border-gray-800">
+                    <div class="font-semibold dark:text-gray-100">Performance</div>
+                    <div class="text-xs text-gray-500">Simple health metrics</div>
+                </div>
+
+                <div class="p-4 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div class="text-sm text-gray-500">Avg time to close</div>
+                        <div class="text-sm font-semibold dark:text-gray-100">
+                            @if(isset($avgCloseHours) && $avgCloseHours !== null)
+                                {{ number_format($avgCloseHours, 1) }} hrs
+                            @else
+                                —
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="rounded-md bg-gray-50 dark:bg-gray-800 p-3">
+                        <div class="text-xs text-gray-500 mb-1">Suggested next reports</div>
+                        <ul class="text-sm space-y-1">
+                            <li>
+                                <a class="text-indigo-600 hover:text-indigo-500" href="{{ route('admin.reports.completed') }}">
+                                    Completed by date range
+                                </a>
+                            </li>
+                            <li>
+                                <a class="text-indigo-600 hover:text-indigo-500" href="{{ route('admin.reports.openByDepartment') }}">
+                                    SLA / Overdue by department
+                                </a>
+                            </li>
+                            <li>
+                                <a class="text-indigo-600 hover:text-indigo-500" href="{{ route('admin.reports.openByTech') }}">
+                                    Technician workload + aging
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <!-- In Progress Reports -->
-        <div class="bg-gray-800 rounded-lg shadow p-5">
-            <h3 class="text-lg font-semibold text-white mb-2">In Progress</h3>
-            <p class="text-gray-400 text-sm">
-                Group by Department
-            </p>
-            <p class="text-gray-400 text-sm">
-                Group by Technician
-            </p>
-        </div>
+        {{-- Trends --}}
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="bg-white dark:bg-gray-900 rounded-lg shadow p-4">
+                <div class="flex items-center justify-between mb-3">
+                    <div>
+                        <div class="font-semibold dark:text-gray-100">Created (Last 30 days)</div>
+                        <div class="text-xs text-gray-500">Tickets created per day</div>
+                    </div>
+                </div>
 
-        <!-- Closed Reports -->
-        <div class="bg-gray-800 rounded-lg shadow p-5">
-            <h3 class="text-lg font-semibold text-white mb-2">Closed Reports</h3>
-            <p class="text-gray-400 text-sm">
-                View reports by date 7, 30, 60, 90, and a date picker.
-            </p>
-            <p class="text-gray-400 text-sm">
-                Group by Department
-            </p>
-            <p class="text-gray-400 text-sm">
-                Group by Technician
-            </p>
+                <canvas id="createdChart" height="120"></canvas>
+            </div>
+
+            <div class="bg-white dark:bg-gray-900 rounded-lg shadow p-4">
+                <div class="flex items-center justify-between mb-3">
+                    <div>
+                        <div class="font-semibold dark:text-gray-100">Completed (Last 30 days)</div>
+                        <div class="text-xs text-gray-500">Tickets closed per day</div>
+                    </div>
+                </div>
+
+                <canvas id="completedChart" height="120"></canvas>
+            </div>
         </div>
 
     </div>
+
+    {{-- Chart.js --}}
+    @push('scripts')
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            const createdLabels = @json(($createdLast30 ?? collect())->pluck('day'));
+            const createdData   = @json(($createdLast30 ?? collect())->pluck('total'));
+
+            const completedLabels = @json(($completedLast30 ?? collect())->pluck('day'));
+            const completedData   = @json(($completedLast30 ?? collect())->pluck('total'));
+
+            const createdCtx = document.getElementById('createdChart');
+            if (createdCtx) {
+                new Chart(createdCtx, {
+                    type: 'line',
+                    data: {
+                        labels: createdLabels,
+                        datasets: [{ label: 'Created', data: createdData, tension: 0.3 }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: { legend: { display: true } },
+                        scales: { y: { beginAtZero: true } }
+                    }
+                });
+            }
+
+            const completedCtx = document.getElementById('completedChart');
+            if (completedCtx) {
+                new Chart(completedCtx, {
+                    type: 'line',
+                    data: {
+                        labels: completedLabels,
+                        datasets: [{ label: 'Completed', data: completedData, tension: 0.3 }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: { legend: { display: true } },
+                        scales: { y: { beginAtZero: true } }
+                    }
+                });
+            }
+        </script>
+    @endpush
 </x-admin-app-layout>
