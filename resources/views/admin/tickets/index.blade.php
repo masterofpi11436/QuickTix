@@ -69,7 +69,9 @@
                                             <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
                                                 <td class="px-4 py-3">{{ $ticket->submittedBy?->first_name }} {{ $ticket->submittedBy?->last_name }}</td>
                                                 <td class="px-4 py-3">{{ $ticket->title }}</td>
-                                                <td class="px-4 py-3">{{ $ticket->description }}</td>
+                                                <td class="px-4 py-3" title="{{ $ticket->description }}">
+                                                    {{ \Illuminate\Support\Str::words($ticket->description, 5, '…') }}
+                                                </td>
                                                 <td class="px-4 py-3">{{ $ticket->area }}</td>
                                                 <td class="px-4 py-3">{{ $ticket->department }}</td>
                                                 <td class="px-4 py-3">

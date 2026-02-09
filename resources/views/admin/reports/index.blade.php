@@ -272,3 +272,8 @@
         </script>
     @endpush
 </x-admin-app-layout>
+
+by tech
+-Most work, least work
+-time for for work to get
+-ticket areas

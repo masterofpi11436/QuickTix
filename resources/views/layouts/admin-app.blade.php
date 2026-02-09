@@ -35,7 +35,5 @@
 
         @stack('scripts')
         <script src="{{ asset('javascript/flash-message-expiry.js') }}"></script>
-
-        // Notifying of tickets that are crucial for the organization
     </body>
 </html>
