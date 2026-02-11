@@ -4,16 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use Carbon\Carbon;
 use App\Models\Ticket;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
 class ReportsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $now = Carbon::now();
-        $overdueDays = 7;
-        $overdueCutoff = $now->copy()->subDays($overdueDays);
+        $overdueCutoff = $now->copy()->subDays(7);
 
         $counts = [
             'new' => Ticket::where('status_type', 'new')->count(),
@@ -76,7 +76,7 @@ class ReportsController extends Controller
             ->get();
 
         return view('admin.reports.index', compact(
-            'counts', 'openByDepartment', 'openByTech', 'avgCloseHours', 'slowestAverageTech', 'fastestAverageTech', 'createdLast30', 'completedLast30', 'overdueDays'
+            'counts', 'openByDepartment', 'openByTech', 'avgCloseHours', 'slowestAverageTech', 'fastestAverageTech', 'createdLast30', 'completedLast30'
         ));
     }
 

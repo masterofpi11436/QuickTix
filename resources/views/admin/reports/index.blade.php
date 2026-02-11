@@ -9,41 +9,6 @@
 
     <div class="max-w-7xl mx-auto p-6 space-y-6">
 
-        {{-- Filters (optional, but useful even on index) --}}
-        <form method="GET" class="bg-white dark:bg-gray-900 rounded-lg shadow p-4">
-            <div class="grid grid-cols-1 md:grid-cols-5 gap-3">
-                <div>
-                    <label class="block text-xs text-gray-500 mb-1">From</label>
-                    <input type="date" name="from" value="{{ request('from') }}"
-                           class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100">
-                </div>
-                <div>
-                    <label class="block text-xs text-gray-500 mb-1">To</label>
-                    <input type="date" name="to" value="{{ request('to') }}"
-                           class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100">
-                </div>
-                <div>
-                    <label class="block text-xs text-gray-500 mb-1">Department</label>
-                    <input type="text" name="department" value="{{ request('department') }}" placeholder="All"
-                           class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100">
-                </div>
-                <div>
-                    <label class="block text-xs text-gray-500 mb-1">Technician</label>
-                    <input type="text" name="tech" value="{{ request('tech') }}" placeholder="All"
-                           class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100">
-                </div>
-                <div class="flex items-end gap-2">
-                    <button class="w-full px-3 py-2 rounded-md bg-indigo-600 text-white hover:bg-indigo-500">
-                        Apply
-                    </button>
-                    <a href="{{ route('admin.reports.index') }}"
-                       class="px-3 py-2 rounded-md bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
-                        Reset
-                    </a>
-                </div>
-            </div>
-        </form>
-
         {{-- KPI row --}}
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             <div class="rounded-lg shadow p-4 bg-white dark:bg-gray-900">
