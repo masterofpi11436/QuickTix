@@ -13,9 +13,6 @@ use Illuminate\Support\Carbon;
 
 class TicketSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         $faker = fake();
@@ -66,7 +63,17 @@ class TicketSeeder extends Seeder
 
         $templateIds = TicketTemplate::query()->pluck('id')->all();
 
-        for ($i = 0; $i < 100; $i++) {
+        // One consistent "now" and bounds for the entire seeding run
+        $now = Carbon::now();
+        $tenYearsAgo = (clone $now)->subYears(10);
+
+        // Optional: cap timestamps to a max time-of-day (5pm today), never future
+        $maxAt = (clone $now)->setTime(17, 0, 0);
+        if ($maxAt->gt($now)) {
+            $maxAt = clone $now;
+        }
+
+        for ($i = 0; $i < 1000; $i++) {
             $statusType = $faker->randomElement([
                 StatusType::New,
                 StatusType::InProgress,
@@ -75,22 +82,47 @@ class TicketSeeder extends Seeder
 
             $submittedBy = $users->random();
 
+            // created_at: within last 10 years, never after $maxAt
+            $createdAt = Carbon::instance($faker->dateTimeBetween($tenYearsAgo, $maxAt));
+
             $assignedTo = null;
             $assignedBy = null;
             $assignedAt = null;
             $completedAt = null;
 
+            // If completed, completion is 1 minute .. 5 weeks after created_at (but never future / after maxAt)
+            if ($statusType === StatusType::Completed) {
+                $minSeconds = 60;
+                $maxSeconds = 5 * 7 * 24 * 60 * 60; // 5 weeks
+
+                $candidateCompleted = (clone $createdAt)->addSeconds(
+                    $faker->numberBetween($minSeconds, $maxSeconds)
+                );
+
+                // cap to maxAt (also ensures not in future)
+                $completedAt = $candidateCompleted->gt($maxAt) ? clone $maxAt : $candidateCompleted;
+            }
+
+            // If not new, assign after created_at, and before completion (if any) or maxAt
             if ($statusType !== StatusType::New) {
                 $assignedTo = $users->random();
                 $assignedBy = $users->random();
-                $assignedAt = Carbon::now()
-                    ->subDays($faker->numberBetween(0, 30))
-                    ->subHours($faker->numberBetween(0, 12));
+
+                $assignedEnd = $completedAt ?? $maxAt;
+
+                // guard against invalid range
+                if ($createdAt->gte($assignedEnd)) {
+                    $assignedAt = clone $createdAt;
+                } else {
+                    $assignedAt = Carbon::instance($faker->dateTimeBetween($createdAt, $assignedEnd));
+                }
             }
 
-            if ($statusType === StatusType::Completed && $assignedAt !== null) {
-                $completedAt = (clone $assignedAt)->addHours($faker->numberBetween(1, 72));
-            }
+            // updated_at: after created_at and <= maxAt (and if completed, keep it <= completedAt)
+            $updatedEnd = $completedAt ?? $maxAt;
+            $updatedAt = $createdAt->gte($updatedEnd)
+                ? clone $createdAt
+                : Carbon::instance($faker->dateTimeBetween($createdAt, $updatedEnd));
 
             Ticket::create([
                 'ticket_template_id' => empty($templateIds) ? null : $faker->randomElement($templateIds),
@@ -111,6 +143,9 @@ class TicketSeeder extends Seeder
                 'area' => $faker->randomElement($areas),
 
                 'status_type' => $statusType->value,
+
+                'created_at' => $createdAt,
+                'updated_at' => $updatedAt,
 
                 'assigned_at' => $assignedAt,
                 'completed_at' => $completedAt,

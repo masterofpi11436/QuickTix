@@ -23,6 +23,7 @@ class TicketController extends Controller
         $openTickets = Ticket::with(['submittedBy'])
             ->whereIn('status_type', ['new', 'in_progress'])
             ->latest()
+            ->limit(10)
             ->get();
 
         $completedTickets = Ticket::with(['submittedBy'])
