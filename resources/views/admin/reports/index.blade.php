@@ -4,21 +4,6 @@
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 {{ __('Reports') }}
             </h2>
-
-            <div class="flex items-center gap-2">
-                <a href="{{ route('admin.reports.openByDepartment') }}"
-                   class="px-3 py-2 text-sm rounded-md bg-gray-800 text-gray-100 hover:bg-gray-700">
-                    Open by Department
-                </a>
-                <a href="{{ route('admin.reports.openByTech') }}"
-                   class="px-3 py-2 text-sm rounded-md bg-gray-800 text-gray-100 hover:bg-gray-700">
-                    Open by Technician
-                </a>
-                <a href="{{ route('admin.reports.completed') }}"
-                   class="px-3 py-2 text-sm rounded-md bg-gray-800 text-gray-100 hover:bg-gray-700">
-                    Completed
-                </a>
-            </div>
         </div>
     </x-slot>
 
@@ -60,35 +45,26 @@
         </form>
 
         {{-- KPI row --}}
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             <div class="rounded-lg shadow p-4 bg-white dark:bg-gray-900">
                 <div class="text-xs text-gray-500">New</div>
                 <div class="text-2xl font-semibold dark:text-gray-100">{{ $counts['new'] ?? '—' }}</div>
-                <div class="text-xs text-gray-500 mt-1">Unstarted tickets</div>
             </div>
 
             <div class="rounded-lg shadow p-4 bg-white dark:bg-gray-900">
                 <div class="text-xs text-gray-500">In Progress</div>
                 <div class="text-2xl font-semibold dark:text-gray-100">{{ $counts['in_progress'] ?? '—' }}</div>
-                <div class="text-xs text-gray-500 mt-1">Assigned / being worked</div>
             </div>
 
             <div class="rounded-lg shadow p-4 bg-white dark:bg-gray-900">
                 <div class="text-xs text-gray-500">Completed</div>
                 <div class="text-2xl font-semibold dark:text-gray-100">{{ $counts['completed'] ?? '—' }}</div>
-                <div class="text-xs text-gray-500 mt-1">Closed tickets</div>
             </div>
 
             <div class="rounded-lg shadow p-4 bg-white dark:bg-gray-900">
                 <div class="text-xs text-gray-500">Open Total</div>
                 <div class="text-2xl font-semibold dark:text-gray-100">{{ $counts['open'] ?? '—' }}</div>
                 <div class="text-xs text-gray-500 mt-1">New + In Progress</div>
-            </div>
-
-            <div class="rounded-lg shadow p-4 bg-white dark:bg-gray-900">
-                <div class="text-xs text-gray-500">Unassigned</div>
-                <div class="text-2xl font-semibold dark:text-gray-100">{{ $counts['unassigned'] ?? '—' }}</div>
-                <div class="text-xs text-gray-500 mt-1">Needs assignment</div>
             </div>
 
             <div class="rounded-lg shadow p-4 bg-white dark:bg-gray-900">
@@ -105,7 +81,7 @@
                 <div class="p-4 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
                     <div>
                         <div class="font-semibold dark:text-gray-100">Open by Department</div>
-                        <div class="text-xs text-gray-500">Top departments with open work</div>
+                        <div class="text-xs text-gray-500">Top Departments with Open Work</div>
                     </div>
                     <a href="{{ route('admin.reports.openByDepartment') }}"
                        class="text-sm text-indigo-600 hover:text-indigo-500">
@@ -134,7 +110,7 @@
                 <div class="p-4 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
                     <div>
                         <div class="font-semibold dark:text-gray-100">Open by Technician</div>
-                        <div class="text-xs text-gray-500">Workload distribution</div>
+                        <div class="text-xs text-gray-500">Workload Distribution</div>
                     </div>
                     <a href="{{ route('admin.reports.openByTech') }}"
                        class="text-sm text-indigo-600 hover:text-indigo-500">
@@ -162,7 +138,7 @@
             <div class="bg-white dark:bg-gray-900 rounded-lg shadow">
                 <div class="p-4 border-b border-gray-200 dark:border-gray-800">
                     <div class="font-semibold dark:text-gray-100">Performance</div>
-                    <div class="text-xs text-gray-500">Simple health metrics</div>
+                    <div class="text-xs text-gray-500">Simple Tech Metrics</div>
                 </div>
 
                 <div class="p-4 space-y-4">
@@ -172,30 +148,31 @@
                             @if(isset($avgCloseHours) && $avgCloseHours !== null)
                                 {{ number_format($avgCloseHours, 1) }} hrs
                             @else
-                                —
+                                ---.--
                             @endif
                         </div>
                     </div>
 
-                    <div class="rounded-md bg-gray-50 dark:bg-gray-800 p-3">
-                        <div class="text-xs text-gray-500 mb-1">Suggested next reports</div>
-                        <ul class="text-sm space-y-1">
-                            <li>
-                                <a class="text-indigo-600 hover:text-indigo-500" href="{{ route('admin.reports.completed') }}">
-                                    Completed by date range
-                                </a>
-                            </li>
-                            <li>
-                                <a class="text-indigo-600 hover:text-indigo-500" href="{{ route('admin.reports.openByDepartment') }}">
-                                    SLA / Overdue by department
-                                </a>
-                            </li>
-                            <li>
-                                <a class="text-indigo-600 hover:text-indigo-500" href="{{ route('admin.reports.openByTech') }}">
-                                    Technician workload + aging
-                                </a>
-                            </li>
-                        </ul>
+                    <div class="flex items-center justify-between">
+                        <div class="text-sm text-gray-500">Slowest Average Tech</div>
+                        <div class="text-sm font-semibold dark:text-gray-100">
+                            @if(isset($slowestAverageTech) && $slowestAverageTech !== null)
+                                {{ $slowestAverageTech->assigned_to_name }} ({{ number_format($slowestAverageTech->avg_hours, 1) }} hrs)
+                            @else
+                                ---.--
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <div class="text-sm text-gray-500">Fastest Average Tech</div>
+                        <div class="text-sm font-semibold dark:text-gray-100">
+                            @if(isset($fastestAverageTech) && $fastestAverageTech !== null)
+                                {{ $fastestAverageTech->assigned_to_name }} ({{ number_format($fastestAverageTech->avg_hours, 1) }} hrs)
+                            @else
+                                ---.--
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
@@ -272,8 +249,3 @@
         </script>
     @endpush
 </x-admin-app-layout>
-
-by tech
--Most work, least work
--time for for work to get
--ticket areas

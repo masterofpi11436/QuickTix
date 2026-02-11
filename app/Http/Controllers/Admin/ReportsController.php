@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use Carbon\Carbon;
 use App\Models\Ticket;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
@@ -49,6 +48,20 @@ class ReportsController extends Controller
             ->select(DB::raw('AVG(TIMESTAMPDIFF(HOUR, created_at, completed_at)) as avg_hours'))
             ->value('avg_hours');
 
+        $slowestAverageTech = Ticket::where('status_type', 'completed')
+            ->whereNotNull('completed_at')
+            ->select('assigned_to_name', DB::raw('AVG(TIMESTAMPDIFF(HOUR, created_at, completed_at)) as avg_hours'))
+            ->groupBy('assigned_to_name')
+            ->orderByDesc('avg_hours')
+            ->first();
+
+        $fastestAverageTech = Ticket::where('status_type', 'completed')
+            ->whereNotNull('completed_at')
+            ->select('assigned_to_name', DB::raw('AVG(TIMESTAMPDIFF(HOUR, created_at, completed_at)) as avg_hours'))
+            ->groupBy('assigned_to_name')
+            ->orderBy('avg_hours')
+            ->first();
+
         $createdLast30 = Ticket::select(DB::raw('DATE(created_at) as day'), DB::raw('COUNT(*) as total'))
             ->where('created_at', '>=', $now->copy()->subDays(30))
             ->groupBy('day')
@@ -63,7 +76,7 @@ class ReportsController extends Controller
             ->get();
 
         return view('admin.reports.index', compact(
-            'counts', 'openByDepartment', 'openByTech', 'avgCloseHours', 'createdLast30', 'completedLast30', 'overdueDays'
+            'counts', 'openByDepartment', 'openByTech', 'avgCloseHours', 'slowestAverageTech', 'fastestAverageTech', 'createdLast30', 'completedLast30', 'overdueDays'
         ));
     }
 
