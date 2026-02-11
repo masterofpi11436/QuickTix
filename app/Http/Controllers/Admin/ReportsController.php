@@ -13,7 +13,8 @@ class ReportsController extends Controller
     public function index(Request $request)
     {
         $now = Carbon::now();
-        $overdueCutoff = $now->copy()->subDays(7);
+        $overdueDays = 7;
+        $overdueCutoff = $now->copy()->subDays($overdueDays);
 
         $counts = [
             'new' => Ticket::where('status_type', 'new')->count(),
@@ -76,7 +77,7 @@ class ReportsController extends Controller
             ->get();
 
         return view('admin.reports.index', compact(
-            'counts', 'openByDepartment', 'openByTech', 'avgCloseHours', 'slowestAverageTech', 'fastestAverageTech', 'createdLast30', 'completedLast30'
+            'counts', 'openByDepartment', 'openByTech', 'avgCloseHours', 'slowestAverageTech', 'fastestAverageTech', 'createdLast30', 'completedLast30', 'overdueDays'
         ));
     }
 

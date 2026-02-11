@@ -35,7 +35,7 @@
             <div class="rounded-lg shadow p-4 bg-white dark:bg-gray-900">
                 <div class="text-xs text-gray-500">Overdue</div>
                 <div class="text-2xl font-semibold dark:text-gray-100">{{ $counts['overdue'] ?? '—' }}</div>
-                <div class="text-xs text-gray-500 mt-1">&gt; {{ $overdueDays ?? 7 }} days in progress</div>
+                <div class="text-xs text-gray-500 mt-1">&gt; {{ $overdueDays }} days in progress</div>
             </div>
         </div>
 
