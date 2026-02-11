@@ -2,6 +2,7 @@
 composer install
 npm install
 php artisan key:generate
+python3 area.py area.txt
 sudo /etc/init.d/apache2 stop
 sudo /opt/lampp/lampp start
 https://localhost/phpmyadmin
