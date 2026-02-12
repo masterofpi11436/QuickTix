@@ -73,7 +73,7 @@ class TicketSeeder extends Seeder
             $maxAt = clone $now;
         }
 
-        for ($i = 0; $i < 1000; $i++) {
+        for ($i = 0; $i < 100000; $i++) {
             $statusType = $faker->randomElement([
                 StatusType::New,
                 StatusType::InProgress,
