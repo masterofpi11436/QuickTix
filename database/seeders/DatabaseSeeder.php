@@ -185,19 +185,29 @@ class DatabaseSeeder extends Seeder
         );
 
         DB::table('ticket_templates')->updateOrInsert(
-            ['title' => 'Lightbulb Broken'],
+            ['title' => 'Computer Issue'],
             [
                 'description' => 'A computer or software issue needs IT assistance.',
+                'department_id' => 1,
+                'area_id' => 34,
+                'updated_at' => now(),
+                'created_at' => now(),
+            ]
+        );
+
+        DB::table('ticket_templates')->updateOrInsert(
+            ['title' => 'Broken Item Issue'],
+            [
+                'description' => 'An item in the office is broken and needs repair.',
                 'department_id' => 2,
-                'area_id' => 12,
                 'updated_at' => now(),
                 'created_at' => now(),
             ]
         );
 
         // -----------------------------
-        // Tickets (100)
+        // Tickets
         // -----------------------------
-        $this->call(TicketSeeder::class);
+        // $this->call(TicketSeeder::class);
     }
 }
