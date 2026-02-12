@@ -25,6 +25,7 @@ class TechnicianTicketController extends Controller
         $openTickets = (clone $ticketsQuery)
             ->whereIn('status_type', [StatusType::New, StatusType::InProgress])
             ->latest()
+            ->limit(10)
             ->get();
 
         $completedTickets = (clone $ticketsQuery)
