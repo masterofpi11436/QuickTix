@@ -2,15 +2,8 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Models\User;
-use App\Models\Status;
 use App\Models\Ticket;
-use App\Enums\UserRole;
-use App\Enums\StatusType;
-use Illuminate\Http\Request;
-use App\Models\StatusTypeDefault;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 
 class UserTicketController extends Controller
 {
