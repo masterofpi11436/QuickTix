@@ -83,7 +83,8 @@ Route::middleware(['auth', 'role:' . UserRole::Administrator->value])
         // Reoprt pages
         Route::get('reports', [ReportsController::class, 'index'])->name('reports.index');
         Route::get('reports/open-by-department', [ReportsController::class, 'openByDepartment'])->name('reports.openByDepartment');
-        Route::get('reports/open-by-tech', [ReportsController::class, 'openByTech'])->name('reports.openByTech');
+        Route::get('reports/completed-by-tech', [ReportsController::class, 'completedTicketByTech'])->name('reports.completed-by-tech');
+        Route::get('reports/completed-by-department', [ReportsController::class, 'completedTicketByDepartment'])->name('reports.completed-by-department');
         Route::get('reports/completed', [ReportsController::class, 'completed'])->name('reports.completed');
     });
 

@@ -81,4 +81,28 @@ class ReportsController extends Controller
         ));
     }
 
+    public function completedTicketByTech(Request $request)
+    {
+        $completedByTech = Ticket::where('status_type', 'completed')
+            ->whereNotNull('completed_at')
+            ->select('assigned_to_name', DB::raw('COUNT(*) as total'))
+            ->groupBy('assigned_to_name')
+            ->orderByDesc('total')
+            ->get();
+
+        return view('admin.reports.completed-by-tech', compact('completedByTech'));
+    }
+
+    public function completedTicketByDepartment(Request $request)
+    {
+        $completedByDepartment = Ticket::where('status_type', 'completed')
+            ->whereNotNull('completed_at')
+            ->select('department', DB::raw('COUNT(*) as total'))
+            ->groupBy('department')
+            ->orderByDesc('total')
+            ->get();
+
+        return view('admin.reports.completed-by-department', compact('completedByDepartment'));
+    }
+
 }
