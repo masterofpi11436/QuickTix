@@ -76,7 +76,7 @@ class ReportingUserReportsController extends Controller
             ->orderBy('day')
             ->get();
 
-        return view('admin.reports.index', compact(
+        return view('reporting-user.reports.index', compact(
             'counts', 'openByDepartment', 'openByTech', 'avgCloseHours', 'slowestAverageTech', 'fastestAverageTech', 'createdLast30', 'completedLast30', 'overdueDays'
         ));
     }
