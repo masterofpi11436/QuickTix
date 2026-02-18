@@ -2,13 +2,13 @@
 
 namespace App\Livewire\Technician\Tickets;
 
-use App\Enums\StatusType;
-use App\Models\Area;
-use App\Models\Department;
+use Livewire\Component;
 use App\Models\Ticket;
 use App\Models\TicketTemplate;
+use App\Models\Department;
+use App\Models\Area;
+use App\Enums\StatusType;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Component;
 
 class CreateForm extends Component
 {
@@ -63,6 +63,7 @@ class CreateForm extends Component
             'description' => ['required', 'string'],
             'department' => ['required', 'string', 'max:255'],
             'area' => ['required', 'string', 'max:255'],
+            'area_search' => ['nullable', 'string', 'max:255'],
         ];
     }
 
@@ -70,9 +71,7 @@ class CreateForm extends Component
     {
         $this->show_area_dropdown = true;
 
-        if ($this->area !== $this->area_search) {
-            $this->area = '';
-        }
+        $this->area = trim($this->area_search);
     }
 
     public function selectArea(string $name): void
@@ -98,11 +97,6 @@ class CreateForm extends Component
             return;
         }
 
-        if (! Area::where('name', $validated['area'])->exists()) {
-            $this->addError('area', 'Selected area is invalid.');
-            return;
-        }
-
         Ticket::create([
             'ticket_template_id' => $validated['ticket_template_id'],
             'title' => $validated['title'],
@@ -121,14 +115,14 @@ class CreateForm extends Component
             'department' => $validated['department'],
             'area' => $validated['area'],
 
-            'status_type' => StatusType::New,
+            'status_type' => StatusType::New, // always new on create
 
             'assigned_at' => null,
             'completed_at' => null,
         ]);
 
         session()->flash('success', 'Ticket created.');
-        return redirect()->route('technician.tickets.index');
+        return redirect()->route('controller.tickets.index');
     }
 
     public function render()
@@ -145,7 +139,7 @@ class CreateForm extends Component
                 ->get();
         }
 
-        return view('technician.tickets.livewire.create-ticket', [
+        return view('controller.tickets.livewire.create-ticket', [
             'templates' => TicketTemplate::query()->orderBy('id', 'desc')->get(),
             'departments' => Department::query()->orderBy('name')->get(),
             'areas' => $areas,

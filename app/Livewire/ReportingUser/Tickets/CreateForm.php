@@ -63,6 +63,7 @@ class CreateForm extends Component
             'description' => ['required', 'string'],
             'department' => ['required', 'string', 'max:255'],
             'area' => ['required', 'string', 'max:255'],
+            'area_search' => ['nullable', 'string', 'max:255'],
         ];
     }
 
@@ -70,9 +71,7 @@ class CreateForm extends Component
     {
         $this->show_area_dropdown = true;
 
-        if ($this->area !== $this->area_search) {
-            $this->area = '';
-        }
+        $this->area = trim($this->area_search);
     }
 
     public function selectArea(string $name): void
@@ -95,11 +94,6 @@ class CreateForm extends Component
 
         if (! Department::where('name', $validated['department'])->exists()) {
             $this->addError('department', 'Selected department is invalid.');
-            return;
-        }
-
-        if (! Area::where('name', $validated['area'])->exists()) {
-            $this->addError('area', 'Selected area is invalid.');
             return;
         }
 
@@ -128,7 +122,7 @@ class CreateForm extends Component
         ]);
 
         session()->flash('success', 'Ticket created.');
-        return redirect()->route('reporting-user.dashboard');
+        return redirect()->route('controller.tickets.index');
     }
 
     public function render()
@@ -145,7 +139,7 @@ class CreateForm extends Component
                 ->get();
         }
 
-        return view('reporting-user.tickets.livewire.create-ticket', [
+        return view('controller.tickets.livewire.create-ticket', [
             'templates' => TicketTemplate::query()->orderBy('id', 'desc')->get(),
             'departments' => Department::query()->orderBy('name')->get(),
             'areas' => $areas,
