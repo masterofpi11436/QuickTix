@@ -32,7 +32,6 @@
                         {{-- TABLE (Tablets and Desktops) --}}
                         @php
                             $sections = [
-                                'new' => 'New',
                                 'in_progress' => 'In Progress',
                                 'completed' => 'Completed',
                             ];

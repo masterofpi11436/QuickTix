@@ -114,8 +114,8 @@ Route::middleware(['auth', 'role:' . UserRole::Technician->value])
         Route::view('/dashboard', 'technician.dashboard')->name('dashboard');
         Route::resource('tickets', TechnicianTicketController::class)
             ->only(['index', 'show', 'create', 'update']);
-        Route::put('tickets/{ticket}/assign', [TechnicianTicketController::class, 'assign'])
-            ->name('tickets.assign');
+        Route::put('tickets/{ticket}/update-notes', [TechnicianTicketController::class, 'updateNotes'])
+            ->name('tickets.update-notes');
         Route::put('status-type-defaults/{statusType}', [TechnicianTicketController::class, 'updateStatusTypeDefault'])
             ->name('status-type-defaults.update');
     });

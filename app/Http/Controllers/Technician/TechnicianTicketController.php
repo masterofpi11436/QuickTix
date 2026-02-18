@@ -23,7 +23,7 @@ class TechnicianTicketController extends Controller
             ->where('assigned_to_user_id', $user?->id);
 
         $openTickets = (clone $ticketsQuery)
-            ->whereIn('status_type', [StatusType::New, StatusType::InProgress])
+            ->whereIn('status_type', [StatusType::InProgress])
             ->latest()
             ->limit(10)
             ->get();
@@ -47,8 +47,6 @@ class TechnicianTicketController extends Controller
      */
     public function show(Ticket $ticket)
     {
-        $this->authorizeTicketVisibility($ticket);
-
         $ticket->load('submittedBy');
 
         $completedStatuses = Status::query()
@@ -77,10 +75,8 @@ class TechnicianTicketController extends Controller
         return view('technician.tickets.create-ticket');
     }
 
-    public function assign(Request $request, Ticket $ticket)
+    public function updateNotes(Request $request, Ticket $ticket)
     {
-        $this->authorizeTicketVisibility($ticket);
-
         $user = Auth::user();
 
         if ($ticket->assigned_to_user_id && $ticket->assigned_to_user_id !== $user?->id) {
@@ -94,14 +90,6 @@ class TechnicianTicketController extends Controller
         if (array_key_exists('technical_notes', $data)) {
             $ticket->technical_notes = $data['technical_notes'];
         }
-
-        $ticket->assigned_to_user_id = $user?->id;
-        $ticket->assigned_to_name = $user ? trim($user->first_name . ' ' . $user->last_name) : null;
-
-        $ticket->assigned_by_user_id = $user?->id;
-        $ticket->assigned_by_name = $user ? trim($user->first_name . ' ' . $user->last_name) : null;
-
-        $ticket->assigned_at = now();
 
         if ($ticket->status_type === StatusType::New || empty($ticket->status_type)) {
             $ticket->status_type = StatusType::InProgress;
@@ -119,8 +107,6 @@ class TechnicianTicketController extends Controller
      */
     public function update(Request $request, Ticket $ticket)
     {
-        $this->authorizeTicketVisibility($ticket);
-
         $user = Auth::user();
 
         if ($ticket->assigned_to_user_id !== $user?->id) {
@@ -167,21 +153,5 @@ class TechnicianTicketController extends Controller
             ->update(['status_id' => $data['status_id']]);
 
         return back()->with('success', 'Status Updated.');
-    }
-
-    protected function authorizeTicketVisibility(Ticket $ticket): void
-    {
-        $user = Auth::user();
-        $departmentName = $user?->department?->name;
-
-        if ($ticket->assigned_to_user_id === $user?->id) {
-            return;
-        }
-
-        if ($departmentName && $ticket->department === $departmentName) {
-            return;
-        }
-
-        abort(403);
     }
 }

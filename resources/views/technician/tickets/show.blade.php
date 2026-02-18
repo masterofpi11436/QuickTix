@@ -122,7 +122,7 @@
                                     <p class="mt-2 text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{{ trim($ticket->assigned_to_name ?? 'Unknown') }}</p>
                                 </div>
                             @else
-                                <form method="POST" action="{{ route('technician.tickets.assign', $ticket) }}" class="space-y-4">
+                                <form method="POST" action="{{ route('technician.tickets.update-notes', $ticket) }}" class="space-y-4">
                                     @csrf
                                     @method('PUT')
 
@@ -162,11 +162,13 @@
                         @php
                             $isNew = $ticket->status_type === \App\Enums\StatusType::New;
                             $isCompleted = $ticket->status_type === \App\Enums\StatusType::Completed;
+                            $pendingStatusCount = count($pendingStatus[$ticket->status_type->value] ?? []);
+                            $completedStatusCount = count($completedStatus[$ticket->status_type->value] ?? []);
                         @endphp
 
-                        @if (! $isNew && ! $isCompleted)
+                        @if (! $isNew && ! $isCompleted && $pendingStatusCount > 1)
                             <div class="rounded-2xl border border-yellow-200 dark:yellow-gray-700 bg-white dark:bg-gray-800 p-5">
-                                <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">Change Pending Status</p>
+                                <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">Change Status</p>
 
                                 <form method="POST" action="{{ route('technician.status-type-defaults.update', $ticket->status_type->value) }}" class="mt-3 space-y-3">
                                     @csrf
@@ -206,33 +208,32 @@
                                     @method('PUT')
 
                                     <div>
-                                        <label for="completed_status_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                            Completed/Close Ticket
-                                        </label>
-                                        <select
-                                            id="completed_status_id"
-                                            name="completed_status_id"
-                                            required
-                                            class="mt-2 w-full rounded-xl border border-gray-300 dark:border-gray-600
-                                                bg-white dark:bg-gray-800 px-3 py-2.5
-                                                text-gray-900 dark:text-gray-100 shadow-sm
-                                                focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                                        >
-                                            @foreach ($completedStatuses as $s)
-                                                <option value="{{ $s->id }}" @selected(old('completed_status_id') == $s->id)>
-                                                    {{ $s->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
+                                        @if (count($completedStatuses) > 1)
+                                            <select
+                                                id="completed_status_id"
+                                                name="completed_status_id"
+                                                required
+                                                class="mt-2 w-full rounded-xl border border-gray-300 dark:border-gray-600
+                                                    bg-white dark:bg-gray-800 px-3 py-2.5
+                                                    text-gray-900 dark:text-gray-100 shadow-sm
+                                                    focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                                            >
+                                                @foreach ($completedStatuses as $s)
+                                                    <option value="{{ $s->id }}" @selected(old('completed_status_id') == $s->id)>
+                                                        {{ $s->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
 
-                                        @error('completed_status_id')
-                                            <div class="mt-2 text-sm text-red-600">{{ $message }}</div>
-                                        @enderror
+                                            @error('completed_status_id')
+                                                <div class="mt-2 text-sm text-red-600">{{ $message }}</div>
+                                            @enderror
+                                        @endif
                                     </div>
 
                                     <div>
                                         <label for="complete_notes" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                            Notes (optional)
+                                            Final Notes
                                         </label>
                                         <textarea
                                             id="complete_notes"
@@ -256,7 +257,7 @@
                                             text-green-700 dark:text-green-400
                                             shadow-sm hover:bg-green-50 dark:hover:bg-green-900"
                                     >
-                                        Close / Complete Ticket
+                                        Complete Ticket
                                     </button>
                                 </form>
                             </div>
