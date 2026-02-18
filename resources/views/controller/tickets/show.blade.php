@@ -279,9 +279,10 @@
 
                             $isNew = $ticket->status_type === \App\Enums\StatusType::New;
                             $isCompleted = $ticket->status_type === \App\Enums\StatusType::Completed;
+                            $pendingStatusCount = count($pendingStatus[$ticket->status_type->value] ?? []);
                         @endphp
 
-                        @if ($canEditJargon && ! $isNew && ! $isCompleted)
+                        @if ($canEditJargon && ! $isNew && ! $isCompleted && $pendingStatusCount > 1)
                             <div class="rounded-2xl border border-yellow-200 dark:yellow-gray-700 bg-white dark:bg-gray-800 p-5">
                                 <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">Change Pending Status</p>
 
