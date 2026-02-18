@@ -4,12 +4,10 @@
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 {{ __('Completed Tickets by Technician') }}
             </h2>
-        </div>
 
-        <div class="mt-2">
-            <custom-button-link :href="route('admin.reports.index')" class="text-sm text-indigo-600 hover:text-indigo-500">
+            <x-custom-button href="{{ route('admin.reports.index') }}" color="green">
                 Back to Reports
-            </custom-button-link>
+            </x-custom-button>
         </div>
     </x-slot>
 
