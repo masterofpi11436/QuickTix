@@ -48,10 +48,6 @@
                         <div class="font-semibold dark:text-gray-100">Open by Department</div>
                         <div class="text-xs text-gray-500">Top Departments with Open Work</div>
                     </div>
-                    <a href="{{ route('admin.reports.openByDepartment') }}"
-                       class="text-sm text-indigo-600 hover:text-indigo-500">
-                        View
-                    </a>
                 </div>
 
                 <div class="p-4">
@@ -77,10 +73,6 @@
                         <div class="font-semibold dark:text-gray-100">Open by Technician</div>
                         <div class="text-xs text-gray-500">Workload Distribution</div>
                     </div>
-                    <a href="{{ route('admin.reports.openByTech') }}"
-                       class="text-sm text-indigo-600 hover:text-indigo-500">
-                        View
-                    </a>
                 </div>
 
                 <div class="p-4">
