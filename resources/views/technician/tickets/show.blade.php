@@ -107,55 +107,39 @@
 
                         {{-- Assign to Self / Technical Notes --}}
                         <div class="rounded-2xl border border-blue-200 dark:border-blue-700 bg-white dark:bg-gray-800 p-5">
-                            @if ($ticket->status_type === \App\Enums\StatusType::Completed)
-                                <div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/30 p-4">
-                                    <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">Technician Notes:</p>
-                                    <p class="mt-2 text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{{ trim($ticket->notes ?? 'No notes submitted by technician.') }}</p>
-                                </div>
-                                <div class="mt-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/30 p-4">
-                                    <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">Completed By:</p>
-                                    <p class="mt-2 text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{{ trim($ticket->assigned_to_name ?? 'Not assigned') }}</p>
-                                </div>
-                            @elseif ($ticket->assigned_to_user_id && $ticket->assigned_to_user_id !== auth()->id())
-                                <div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/30 p-4">
-                                    <p class="text-sm font-semibold text-gray-900 dark:text-gray-100">Assigned To:</p>
-                                    <p class="mt-2 text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{{ trim($ticket->assigned_to_name ?? 'Unknown') }}</p>
-                                </div>
-                            @else
-                                <form method="POST" action="{{ route('technician.tickets.update-notes', $ticket) }}" class="space-y-4">
-                                    @csrf
-                                    @method('PUT')
+                            <form method="POST" action="{{ route('technician.tickets.update-notes', $ticket) }}" class="space-y-4">
+                                @csrf
+                                @method('PUT')
 
-                                    <div>
-                                        <label for="technical_notes" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                            Technical Notes (optional)
-                                        </label>
-                                        <textarea
-                                            id="technical_notes"
-                                            name="technical_notes"
-                                            rows="5"
-                                            class="mt-2 w-full rounded-xl border border-gray-300 dark:border-gray-600
-                                                bg-white dark:bg-gray-800 px-3 py-2.5 text-gray-900 dark:text-gray-100"
-                                        >{{ old('technical_notes', $ticket->technical_notes) }}</textarea>
+                                <div>
+                                    <label for="technical_notes" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                        Technical Notes (optional)
+                                    </label>
+                                    <textarea
+                                        id="technical_notes"
+                                        name="technical_notes"
+                                        rows="5"
+                                        class="mt-2 w-full rounded-xl border border-gray-300 dark:border-gray-600
+                                            bg-white dark:bg-gray-800 px-3 py-2.5 text-gray-900 dark:text-gray-100"
+                                    >{{ old('technical_notes', $ticket->technical_notes) }}</textarea>
 
-                                        @error('technical_notes')
-                                            <div class="mt-2 text-sm text-red-600">{{ $message }}</div>
-                                        @enderror
-                                    </div>
+                                    @error('technical_notes')
+                                        <div class="mt-2 text-sm text-red-600">{{ $message }}</div>
+                                    @enderror
+                                </div>
 
-                                    <button
-                                        type="submit"
-                                        class="w-full inline-flex items-center justify-center rounded-lg
-                                            bg-transparent dark:bg-transparent
-                                            border border-blue-600 dark:border-blue-400
-                                            px-4 py-2 text-sm font-semibold
-                                            text-blue-700 dark:text-blue-400
-                                            shadow-sm hover:bg-blue-50 dark:hover:bg-blue-900"
-                                    >
-                                        {{ $ticket->assigned_to_user_id ? 'Update Notes' : 'Assign to Me' }}
-                                    </button>
-                                </form>
-                            @endif
+                                <button
+                                    type="submit"
+                                    class="w-full inline-flex items-center justify-center rounded-lg
+                                        bg-transparent dark:bg-transparent
+                                        border border-blue-600 dark:border-blue-400
+                                        px-4 py-2 text-sm font-semibold
+                                        text-blue-700 dark:text-blue-400
+                                        shadow-sm hover:bg-blue-50 dark:hover:bg-blue-900"
+                                >
+                                    {{ $ticket->assigned_to_user_id ? 'Update Notes' : 'Assign to Me' }}
+                                </button>
+                            </form>
                         </div>
 
                         {{-- Status --}}
