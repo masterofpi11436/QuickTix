@@ -129,7 +129,11 @@ Route::middleware(['auth', 'role:' . UserRole::ReportingUser->value])
         Route::resource('tickets', ReportingUserTicketController::class);
 
         // Reoprt pages
-        Route::resource('reports', ReportingUserReportsController::class);
+    Route::get('reports', [ReportingUserReportsController::class, 'index'])->name('reports.index');
+        Route::get('reports/open-by-department', [ReportingUserReportsController::class, 'openByDepartment'])->name('reports.openByDepartment');
+        Route::get('reports/completed-by-tech', [ReportingUserReportsController::class, 'completedTicketByTech'])->name('reports.completed-by-tech');
+        Route::get('reports/completed-by-department', [ReportingUserReportsController::class, 'completedTicketByDepartment'])->name('reports.completed-by-department');
+        Route::get('reports/completed', [ReportingUserReportsController::class, 'completed'])->name('reports.completed');
     });
 
 Route::middleware(['auth', 'role:' . UserRole::User->value])
