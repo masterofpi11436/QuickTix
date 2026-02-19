@@ -73,7 +73,7 @@ class TicketSeeder extends Seeder
             $maxAt = clone $now;
         }
 
-        for ($i = 0; $i < 100000; $i++) {
+        for ($i = 0; $i < 1000; $i++) {
             $statusType = $faker->randomElement([
                 StatusType::New,
                 StatusType::InProgress,
@@ -103,19 +103,24 @@ class TicketSeeder extends Seeder
                 $completedAt = $candidateCompleted->gt($maxAt) ? clone $maxAt : $candidateCompleted;
             }
 
+            // choose which roles are allowed
+            $assignees = $users->whereIn('role', ['Technician', 'Controller']);         // assigned_to
+            $assigners = $users->whereIn('role', ['Controller', 'Administrator']);     // assigned_by
+
+            // fallback (avoid crashing if buckets are empty)
+            if ($assignees->isEmpty()) $assignees = $users;
+            if ($assigners->isEmpty()) $assigners = $users;
+
             // If not new, assign after created_at, and before completion (if any) or maxAt
             if ($statusType !== StatusType::New) {
-                $assignedTo = $users->random();
-                $assignedBy = $users->random();
+                $assignedTo = $assignees->random();
+                $assignedBy = $assigners->random();
 
                 $assignedEnd = $completedAt ?? $maxAt;
 
-                // guard against invalid range
-                if ($createdAt->gte($assignedEnd)) {
-                    $assignedAt = clone $createdAt;
-                } else {
-                    $assignedAt = Carbon::instance($faker->dateTimeBetween($createdAt, $assignedEnd));
-                }
+                $assignedAt = $createdAt->gte($assignedEnd)
+                    ? clone $createdAt
+                    : Carbon::instance($faker->dateTimeBetween($createdAt, $assignedEnd));
             }
 
             // updated_at: after created_at and <= maxAt (and if completed, keep it <= completedAt)
