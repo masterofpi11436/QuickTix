@@ -81,28 +81,175 @@ class ReportsController extends Controller
         ));
     }
 
-    public function completedTicketByTech(Request $request)
-    {
-        $completedByTech = Ticket::where('status_type', 'completed')
-            ->whereNotNull('completed_at')
-            ->select('assigned_to_name', DB::raw('COUNT(*) as total'))
-            ->groupBy('assigned_to_name')
-            ->orderByDesc('total')
-            ->get();
+public function completedTicketByTech(Request $request)
+{
+    $query = Ticket::query()
+        ->where('status_type', 'completed')
+        ->whereNotNull('completed_at');
 
-        return view('admin.reports.completed-by-tech', compact('completedByTech'));
+    $from = null;
+    $to   = null;
+
+    // Priority: range > month+year > year > all time
+    if ($request->filled('start') || $request->filled('end')) {
+
+        if ($request->filled('start')) {
+            $from = Carbon::parse($request->query('start'))->startOfDay();
+        }
+
+        if ($request->filled('end')) {
+            $to = Carbon::parse($request->query('end'))->addDay()->startOfDay(); // inclusive end
+        }
+
+        $filterLabel = trim(($request->query('start') ?: '…') . ' to ' . ($request->query('end') ?: '…'));
     }
+    elseif ($request->filled('month') && $request->filled('year')) {
+
+        $year  = (int) $request->query('year');
+        $month = (int) $request->query('month');
+
+        $from = Carbon::create($year, $month, 1)->startOfDay();
+        $to   = (clone $from)->addMonth();
+
+        $filterLabel = $from->format('F Y');
+    }
+    elseif ($request->filled('year')) {
+
+        $year = (int) $request->query('year');
+
+        $from = Carbon::create($year, 1, 1)->startOfDay();
+        $to   = (clone $from)->addYear();
+
+        $filterLabel = (string) $year;
+    }
+    else {
+        $filterLabel = 'All time';
+    }
+
+    if ($from) $query->where('completed_at', '>=', $from);
+    if ($to)   $query->where('completed_at', '<',  $to);
+
+    $completedByTech = $query
+        ->select('assigned_to_name', DB::raw('COUNT(*) as total'))
+        ->groupBy('assigned_to_name')
+        ->orderByDesc('total')
+        ->get();
+
+    $totalTickets = (int) $completedByTech->sum('total');
+    $techCount    = (int) $completedByTech->count();
+    $top          = $completedByTech->first();
+    $maxTotal     = (int) ($completedByTech->max('total') ?? 0);
+
+    $rows = $completedByTech->values()->map(function ($row, $index) use ($totalTickets, $maxTotal) {
+        $total = (int) $row->total;
+
+        return (object) [
+            'rank'       => $index + 1,
+            'tech'       => $row->assigned_to_name ?: 'Unassigned',
+            'total'      => $total,
+            'percentage' => $totalTickets > 0 ? round(($total / $totalTickets) * 100, 1) : 0,
+            'bar_width'  => $maxTotal > 0 ? round(($total / $maxTotal) * 100, 1) : 0,
+        ];
+    });
+
+    $years = collect(range(now()->year, now()->year - 10));
+
+    return view('admin.reports.completed-by-tech', [
+        'rows'          => $rows,
+        'totalTickets'  => $totalTickets,
+        'techCount'     => $techCount,
+        'top'           => $top,
+        'maxTotal'      => $maxTotal,
+        'years'         => $years,
+        'selectedYear'  => (int) $request->query('year'),
+        'selectedMonth' => (int) $request->query('month'),
+        'filterLabel'   => $filterLabel,
+    ]);
+}
 
     public function completedTicketByDepartment(Request $request)
     {
-        $completedByDepartment = Ticket::where('status_type', 'completed')
-            ->whereNotNull('completed_at')
+        $query = Ticket::query()
+            ->where('status_type', 'completed')
+            ->whereNotNull('completed_at');
+
+        $from = null;
+        $to   = null;
+
+        // Priority: range > month+year > year
+        if ($request->filled('start') || $request->filled('end')) {
+
+            if ($request->filled('start')) {
+                $from = Carbon::parse($request->query('start'))->startOfDay();
+            }
+
+            if ($request->filled('end')) {
+                $to = Carbon::parse($request->query('end'))->addDay()->startOfDay();
+            }
+
+            $filterLabel = trim(($request->query('start') ?: '…') . ' to ' . ($request->query('end') ?: '…'));
+        }
+        elseif ($request->filled('month') && $request->filled('year')) {
+
+            $year  = (int) $request->query('year');
+            $month = (int) $request->query('month');
+
+            $from = Carbon::create($year, $month, 1)->startOfDay();
+            $to   = (clone $from)->addMonth();
+
+            $filterLabel = $from->format('F Y');
+        }
+        elseif ($request->filled('year')) {
+
+            $year = (int) $request->query('year');
+
+            $from = Carbon::create($year, 1, 1)->startOfDay();
+            $to   = (clone $from)->addYear();
+
+            $filterLabel = (string) $year;
+        }
+        else {
+            $filterLabel = 'All time';
+        }
+
+        if ($from) $query->where('completed_at', '>=', $from);
+        if ($to)   $query->where('completed_at', '<',  $to);
+
+        $completedByDepartment = $query
             ->select('department', DB::raw('COUNT(*) as total'))
             ->groupBy('department')
             ->orderByDesc('total')
             ->get();
 
-        return view('admin.reports.completed-by-department', compact('completedByDepartment'));
-    }
+        $totalTickets = (int) $completedByDepartment->sum('total');
+        $deptCount    = (int) $completedByDepartment->count();
+        $top          = $completedByDepartment->first();
+        $maxTotal     = (int) ($completedByDepartment->max('total') ?? 0);
 
+        $rows = $completedByDepartment->values()->map(function ($row, $index) use ($totalTickets, $maxTotal) {
+            $total = (int) $row->total;
+
+            return (object) [
+                'rank'       => $index + 1,
+                'department' => $row->department ?: 'Unassigned',
+                'total'      => $total,
+                'percentage' => $totalTickets > 0 ? round(($total / $totalTickets) * 100, 1) : 0,
+                'bar_width'  => $maxTotal > 0 ? round(($total / $maxTotal) * 100, 1) : 0,
+            ];
+        });
+
+        $years = collect(range(now()->year, now()->year - 10));
+
+        return view('admin.reports.completed-by-department', [
+            'rows'          => $rows,
+            'totalTickets'  => $totalTickets,
+            'deptCount'     => $deptCount,
+            'top'           => $top,
+            'maxTotal'      => $maxTotal,
+            'years'         => $years,
+            'selectedYear'  => (int) $request->query('year'),
+            'selectedMonth' => (int) $request->query('month'),
+            'filterLabel'   => $filterLabel,
+        ]);
+    }
 }
