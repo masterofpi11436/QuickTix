@@ -1,3 +1,5 @@
+{{-- resources/views/admin/reports/completed-by-department.blade.php --}}
+
 <x-admin-app-layout>
     <x-slot name="header">
         <div class="flex items-center justify-between">
@@ -6,7 +8,8 @@
                     {{ __('Completed Tickets by Department') }}
                 </h2>
                 <div class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                    Showing: <span class="font-medium text-gray-700 dark:text-gray-200">{{ $filterLabel ?? 'All time' }}</span>
+                    Showing:
+                    <span class="font-medium text-gray-700 dark:text-gray-200">{{ $filterLabel }}</span>
                 </div>
             </div>
 
@@ -22,8 +25,30 @@
             {{-- Filters --}}
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 sm:p-6">
                 <form method="GET" action="{{ route('admin.reports.completed-by-department') }}" class="space-y-4">
+                    <div class="text-sm text-gray-500 dark:text-gray-400">
+                        Select departments (optional) and/or choose a time window, then click <span class="font-semibold">Apply</span>.
+                        Priority is <span class="font-semibold">Custom range</span> → <span class="font-semibold">Month+Year</span> → <span class="font-semibold">Year</span> → <span class="font-semibold">All time</span>.
+                    </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+
+                        {{-- Departments (multi-select) --}}
+                        <div class="rounded-lg border border-gray-200 dark:border-gray-700 p-4 md:col-span-1">
+                            <div class="font-semibold text-gray-900 dark:text-gray-100 text-sm mb-3">Departments</div>
+
+                            <select name="departments[]" multiple
+                                    class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 h-40">
+                                @foreach ($departments as $dept)
+                                    <option value="{{ $dept }}" {{ in_array($dept, $selectedDepartments, true) ? 'selected' : '' }}>
+                                        {{ $dept }}
+                                    </option>
+                                @endforeach
+                            </select>
+
+                            <div class="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                                Hold Ctrl (Windows) / Cmd (Mac) for multiple.
+                            </div>
+                        </div>
 
                         {{-- Custom range --}}
                         <div class="rounded-lg border border-gray-200 dark:border-gray-700 p-4">
@@ -31,11 +56,11 @@
 
                             <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">Start date</label>
                             <input type="date" name="start" value="{{ request('start') }}"
-                                class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100">
+                                   class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100">
 
                             <label class="block text-xs text-gray-500 dark:text-gray-400 mt-3 mb-1">End date</label>
                             <input type="date" name="end" value="{{ request('end') }}"
-                                class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100">
+                                   class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100">
                         </div>
 
                         {{-- Month --}}
@@ -59,6 +84,10 @@
                                 <option value="11" {{ $selectedMonth === 11 ? 'selected' : '' }}>November</option>
                                 <option value="12" {{ $selectedMonth === 12 ? 'selected' : '' }}>December</option>
                             </select>
+
+                            <div class="mt-3 text-xs text-gray-500 dark:text-gray-400">
+                                Uses the Year selector.
+                            </div>
                         </div>
 
                         {{-- Year --}}
@@ -86,11 +115,10 @@
                         </button>
 
                         <a href="{{ route('admin.reports.completed-by-department') }}"
-                        class="text-sm text-gray-600 dark:text-gray-300 underline">
+                           class="text-sm text-gray-600 dark:text-gray-300 underline">
                             Reset
                         </a>
                     </div>
-
                 </form>
             </div>
 
@@ -121,7 +149,7 @@
                 </div>
             </div>
 
-            {{-- Table --}}
+            {{-- Breakdown table --}}
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden">
                 <div class="p-4 sm:p-6 border-b border-gray-200 dark:border-gray-700">
                     <div class="font-semibold text-gray-900 dark:text-gray-100">Breakdown</div>
@@ -180,6 +208,62 @@
                 </div>
             </div>
 
+            {{-- Trend chart --}}
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden">
+                <div class="p-4 sm:p-6 border-b border-gray-200 dark:border-gray-700">
+                    <div class="font-semibold text-gray-900 dark:text-gray-100">Trend</div>
+                    <div class="text-sm text-gray-500 dark:text-gray-400">{{ $trendTitle }}</div>
+                </div>
+
+                <div class="p-4 sm:p-6">
+                    <div class="w-full" style="height: 320px;">
+                        <canvas id="completedDeptTrend"></canvas>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script>
+        (function () {
+            const el = document.getElementById('completedDeptTrend');
+            if (!el) return;
+
+            const labels = @json($trendLabels);
+            const data = @json($trendData);
+
+            if (window.__completedDeptTrendChart) {
+                window.__completedDeptTrendChart.destroy();
+            }
+
+            window.__completedDeptTrendChart = new Chart(el, {
+                type: 'line',
+                data: {
+                    labels,
+                    datasets: [{
+                        label: 'Completed',
+                        data,
+                        tension: 0.25,
+                        fill: false,
+                        pointRadius: 0,
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        legend: { display: true },
+                        tooltip: { enabled: true }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, ticks: { precision: 0 } }
+                    }
+                }
+            });
+        })();
+    </script>
 </x-admin-app-layout>
