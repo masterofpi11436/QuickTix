@@ -70,7 +70,7 @@
                             <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">Month</label>
                             <select name="month"
                                     class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100">
-                                <option value="">—</option>
+                                <option value="">-</option>
                                 <option value="1"  {{ $selectedMonth === 1  ? 'selected' : '' }}>January</option>
                                 <option value="2"  {{ $selectedMonth === 2  ? 'selected' : '' }}>February</option>
                                 <option value="3"  {{ $selectedMonth === 3  ? 'selected' : '' }}>March</option>
@@ -97,7 +97,7 @@
                             <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">Year</label>
                             <select name="year"
                                     class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100">
-                                <option value="">—</option>
+                                <option value="">-</option>
                                 @foreach ($years as $year)
                                     <option value="{{ $year }}" {{ $selectedYear === $year ? 'selected' : '' }}>
                                         {{ $year }}
