@@ -36,8 +36,8 @@
                         <div class="rounded-lg border border-gray-200 dark:border-gray-700 p-4 md:col-span-1">
                             <div class="font-semibold text-gray-900 dark:text-gray-100 text-sm mb-3">Departments</div>
 
-                            <select name="departments[]" multiple
-                                    class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 h-40">
+                            <select id="deptSelect" name="departments[]" multiple
+                                    class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 h-64">
                                 @foreach ($departments as $dept)
                                     <option value="{{ $dept }}" {{ in_array($dept, $selectedDepartments, true) ? 'selected' : '' }}>
                                         {{ $dept }}
@@ -46,7 +46,7 @@
                             </select>
 
                             <div class="text-xs text-gray-500 dark:text-gray-400 mt-2">
-                                Hold Ctrl (Windows) / Cmd (Mac) for multiple.
+                                Click items to select/unselect (no Ctrl/Cmd needed).
                             </div>
                         </div>
 
@@ -263,6 +263,28 @@
                         y: { beginAtZero: true, ticks: { precision: 0 } }
                     }
                 }
+            });
+        })();
+    </script>
+    <script>
+        (function () {
+            const sel = document.getElementById('deptSelect');
+            if (!sel) return;
+
+            // Make simple clicks toggle an option without needing Ctrl/Cmd.
+            // Uses mousedown to prevent the browser's default "single select" behavior.
+            sel.addEventListener('mousedown', function (e) {
+                const opt = e.target;
+                if (!(opt instanceof HTMLOptionElement)) return;
+
+                e.preventDefault();
+
+                opt.selected = !opt.selected;
+
+                // Keep focus and visual state stable
+                const start = sel.scrollTop;
+                sel.focus();
+                sel.scrollTop = start;
             });
         })();
     </script>
