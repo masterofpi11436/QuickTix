@@ -139,41 +139,98 @@
 
         {{-- Trends --}}
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div class="bg-white dark:bg-gray-900 rounded-lg shadow p-4">
+
+            {{-- Created --}}
+            <div class="bg-white dark:bg-gray-900 rounded-lg shadow p-4 h-[300px] flex flex-col">
                 <div class="flex items-center justify-between mb-3">
                     <div>
-                        <div class="font-semibold dark:text-gray-100">Created (Last 30 days)</div>
-                        <div class="text-xs text-gray-500">Tickets created per day</div>
+                        <div class="font-semibold dark:text-gray-100">
+                            Created (Last 30 days)
+                        </div>
+                        <div class="text-xs text-gray-500">
+                            Tickets created per day
+                        </div>
                     </div>
                 </div>
 
-                <canvas id="createdChart"
-                    height="120"
-                    data-labels='@json(($createdLast30 ?? collect())->pluck("day"))'
-                    data-data='@json(($createdLast30 ?? collect())->pluck("total"))'>
-                </canvas>
+                <div class="flex-1">
+                    <canvas id="createdChart"
+                        class="w-full h-full"
+                        data-labels='@json(($createdLast30 ?? collect())->pluck("day"))'
+                        data-data='@json(($createdLast30 ?? collect())->pluck("total"))'>
+                    </canvas>
+                </div>
             </div>
 
-            <div class="bg-white dark:bg-gray-900 rounded-lg shadow p-4">
+            {{-- Completed --}}
+            <div class="bg-white dark:bg-gray-900 rounded-lg shadow p-4 h-[300px] flex flex-col">
                 <div class="flex items-center justify-between mb-3">
                     <div>
-                        <div class="font-semibold dark:text-gray-100">Completed (Last 30 days)</div>
-                        <div class="text-xs text-gray-500">Tickets closed per day</div>
+                        <div class="font-semibold dark:text-gray-100">
+                            Completed (Last 30 days)
+                        </div>
+                        <div class="text-xs text-gray-500">
+                            Tickets closed per day
+                        </div>
                     </div>
                 </div>
 
-                <canvas id="completedChart"
-                    height="120"
-                    data-labels='@json(($completedLast30 ?? collect())->pluck("day"))'
-                    data-data='@json(($completedLast30 ?? collect())->pluck("total"))'>
-                </canvas>
+                <div class="flex-1">
+                    <canvas id="completedChart"
+                        class="w-full h-full"
+                        data-labels='@json(($completedLast30 ?? collect())->pluck("day"))'
+                        data-data='@json(($completedLast30 ?? collect())->pluck("total"))'>
+                    </canvas>
+                </div>
             </div>
         </div>
-
     </div>
 
     {{-- Chart.js --}}
-    @push('scripts')
-        @vite('resources/js/created-completed-charts.js')
-    @endpush
+@push('scripts')
+<script>
+    window.addEventListener('load', function () {
+        function initLineChart(canvasId, labelText, labels, data) {
+            const el = document.getElementById(canvasId);
+            if (!el) return;
+
+            // Destroy existing chart attached to this canvas (Chart.js built-in)
+            const existing = Chart.getChart(el);
+            if (existing) existing.destroy();
+
+            // Or keep your own handle as well (optional)
+            const key = '__chart_' + canvasId;
+            if (window[key]) window[key].destroy();
+
+            window[key] = new Chart(el, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{ label: labelText, data: data, tension: 0.3 }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: true } },
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+        }
+
+        initLineChart(
+            'createdChart',
+            'Created',
+            {!! json_encode(($createdLast30 ?? collect())->pluck('day')) !!},
+            {!! json_encode(($createdLast30 ?? collect())->pluck('total')) !!}
+        );
+
+        initLineChart(
+            'completedChart',
+            'Completed',
+            {!! json_encode(($completedLast30 ?? collect())->pluck('day')) !!},
+            {!! json_encode(($completedLast30 ?? collect())->pluck('total')) !!}
+        );
+    });
+</script>
+@endpush
 </x-admin-app-layout>

@@ -215,10 +215,7 @@
 
                 <div class="p-4 sm:p-6">
                     <div class="w-full" style="height: 320px;">
-                        <canvas id="completedDeptTrend"
-                            data-labels='@json($trendLabels)'
-                            data-data='@json($trendData)'>
-                        </canvas>
+                        <canvas id="completedDeptTrend"></canvas>
                     </div>
                 </div>
             </div>
@@ -226,25 +223,47 @@
         </div>
     </div>
 
-    @push('scripts')
-        @vite('resources/js/completed-by-dept.js')
+   @push('scripts')
         <script>
-            (function () {
-                const sel = document.getElementById('deptSelect');
-                if (!sel) return;
+            window.addEventListener('load', function () {
+                const el = document.getElementById('completedDeptTrend');
+                if (!el) return;
 
-                sel.addEventListener('mousedown', function (e) {
-                    const opt = e.target;
-                    if (!(opt instanceof HTMLOptionElement)) return;
+                const labels = {!! json_encode($trendLabels) !!};
+                const data   = {!! json_encode($trendData) !!};
 
-                    e.preventDefault();
-                    opt.selected = !opt.selected;
+                // Optional: prevent duplicates if Livewire/partial reloads
+                if (window.__completedDeptTrendChart) {
+                    window.__completedDeptTrendChart.destroy();
+                }
 
-                    const start = sel.scrollTop;
-                    sel.focus();
-                    sel.scrollTop = start;
+                window.__completedDeptTrendChart = new Chart(el, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Completed',
+                            data: data,
+                            tension: 0.25,
+                            fill: false,
+                            pointRadius: 0,
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        interaction: { mode: 'index', intersect: false },
+                        plugins: {
+                            legend: { display: true },
+                            tooltip: { enabled: true }
+                        },
+                        scales: {
+                            y: { beginAtZero: true, ticks: { precision: 0 } }
+                        }
+                    }
                 });
-            })();
+            });
         </script>
     @endpush
 </x-admin-app-layout>

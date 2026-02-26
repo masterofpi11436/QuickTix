@@ -33,6 +33,7 @@
             </main>
         </div>
 
+        <script src="{{ asset('js/chart.umd.js') }}"></script>
         @stack('scripts')
         <script src="{{ asset('javascript/flash-message-expiry.js') }}"></script>
     </body>
