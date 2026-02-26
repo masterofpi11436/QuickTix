@@ -1,9 +1,14 @@
 <x-reporting-user-app-layout>
     <x-slot name="header">
         <div class="flex items-center justify-between">
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __('Completed Tickets by Technician') }}
-            </h2>
+            <div>
+                <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                    {{ __('Completed Tickets by Technician') }}
+                </h2>
+                <div class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                    Showing: <span class="font-medium text-gray-700 dark:text-gray-200">{{ $filterLabel }}</span>
+                </div>
+            </div>
 
             <x-custom-button href="{{ route('reporting-user.reports.index') }}" color="green">
                 Back to Reports
@@ -11,15 +16,90 @@
         </div>
     </x-slot>
 
-    @php
-        $totalTickets = (int) ($completedByTech->sum('total'));
-        $techCount = (int) ($completedByTech->count());
-        $top = $completedByTech->first();
-        $maxTotal = (int) ($completedByTech->max('total') ?? 0);
-    @endphp
-
     <div class="py-6">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+
+            {{-- Filters (no radios) --}}
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 sm:p-6">
+                <form method="GET" action="{{ route('reporting-user.reports.completed-by-tech') }}" class="space-y-4">
+                    <div class="text-sm text-gray-500 dark:text-gray-400">
+                        Fill any section and click <span class="font-semibold">Apply</span>.
+                        Priority is <span class="font-semibold">Custom range</span> → <span class="font-semibold">Month+Year</span> → <span class="font-semibold">Year</span>.
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+                        {{-- Custom range --}}
+                        <div class="rounded-lg border border-gray-200 dark:border-gray-700 p-4">
+                            <div class="font-semibold text-gray-900 dark:text-gray-100 text-sm mb-3">Custom range</div>
+
+                            <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">Start date</label>
+                            <input type="date" name="start" value="{{ request('start') }}"
+                                   class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100">
+
+                            <label class="block text-xs text-gray-500 dark:text-gray-400 mt-3 mb-1">End date</label>
+                            <input type="date" name="end" value="{{ request('end') }}"
+                                   class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100">
+                        </div>
+
+                        {{-- Month --}}
+                        <div class="rounded-lg border border-gray-200 dark:border-gray-700 p-4">
+                            <div class="font-semibold text-gray-900 dark:text-gray-100 text-sm mb-3">Month</div>
+
+                            <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">Month</label>
+                            <select name="month"
+                                    class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100">
+                                <option value="">—</option>
+                                <option value="1"  {{ $selectedMonth === 1  ? 'selected' : '' }}>January</option>
+                                <option value="2"  {{ $selectedMonth === 2  ? 'selected' : '' }}>February</option>
+                                <option value="3"  {{ $selectedMonth === 3  ? 'selected' : '' }}>March</option>
+                                <option value="4"  {{ $selectedMonth === 4  ? 'selected' : '' }}>April</option>
+                                <option value="5"  {{ $selectedMonth === 5  ? 'selected' : '' }}>May</option>
+                                <option value="6"  {{ $selectedMonth === 6  ? 'selected' : '' }}>June</option>
+                                <option value="7"  {{ $selectedMonth === 7  ? 'selected' : '' }}>July</option>
+                                <option value="8"  {{ $selectedMonth === 8  ? 'selected' : '' }}>August</option>
+                                <option value="9"  {{ $selectedMonth === 9  ? 'selected' : '' }}>September</option>
+                                <option value="10" {{ $selectedMonth === 10 ? 'selected' : '' }}>October</option>
+                                <option value="11" {{ $selectedMonth === 11 ? 'selected' : '' }}>November</option>
+                                <option value="12" {{ $selectedMonth === 12 ? 'selected' : '' }}>December</option>
+                            </select>
+
+                            <div class="mt-3 text-xs text-gray-500 dark:text-gray-400">
+                                Uses the Year selector to the right.
+                            </div>
+                        </div>
+
+                        {{-- Year --}}
+                        <div class="rounded-lg border border-gray-200 dark:border-gray-700 p-4">
+                            <div class="font-semibold text-gray-900 dark:text-gray-100 text-sm mb-3">Year</div>
+
+                            <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">Year</label>
+                            <select name="year"
+                                    class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100">
+                                <option value="">—</option>
+                                @foreach ($years as $year)
+                                    <option value="{{ $year }}" {{ $selectedYear === $year ? 'selected' : '' }}>
+                                        {{ $year }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <button type="submit"
+                                class="px-4 py-2 rounded-md bg-indigo-600 text-white text-sm font-semibold">
+                            Apply
+                        </button>
+
+                        <a href="{{ route('reporting-user.reports.completed-by-tech') }}"
+                           class="text-sm text-gray-600 dark:text-gray-300 underline">
+                            Reset
+                        </a>
+                    </div>
+                </form>
+            </div>
 
             {{-- Summary --}}
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -67,18 +147,14 @@
                         </thead>
 
                         <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                            @forelse ($completedByTech as $i => $row)
-                                @php
-                                    $pct = $totalTickets > 0 ? ($row->total / $totalTickets) * 100 : 0;
-                                    $bar = $maxTotal > 0 ? ($row->total / $maxTotal) * 100 : 0;
-                                @endphp
+                            @forelse ($rows as $row)
                                 <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/30">
                                     <td class="px-4 sm:px-6 py-4">
                                         <div class="font-medium text-gray-900 dark:text-gray-100 break-words">
-                                            {{ $row->assigned_to_name ?? 'Unassigned' }}
+                                            {{ $row->tech }}
                                         </div>
                                         <div class="text-xs text-gray-500 dark:text-gray-400">
-                                            Rank #{{ $i + 1 }}
+                                            Rank #{{ $row->rank }}
                                         </div>
                                     </td>
 
@@ -87,12 +163,12 @@
                                     </td>
 
                                     <td class="px-4 sm:px-6 py-4 text-right text-gray-700 dark:text-gray-300">
-                                        {{ number_format($pct, 1) }}%
+                                        {{ number_format($row->percentage, 1) }}%
                                     </td>
 
                                     <td class="px-4 sm:px-6 py-4">
                                         <div class="w-full bg-gray-200 dark:bg-gray-700 rounded h-2">
-                                            <div class="bg-indigo-600 h-2 rounded" style="width: {{ $bar }}%"></div>
+                                            <div class="bg-indigo-600 h-2 rounded" style="width: {{ $row->bar_width }}%"></div>
                                         </div>
                                         <div class="mt-1 text-xs text-gray-500 dark:text-gray-400">
                                             {{ number_format($row->total) }} / {{ number_format($maxTotal) }}

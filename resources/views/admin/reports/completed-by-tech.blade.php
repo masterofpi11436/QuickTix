@@ -1,5 +1,3 @@
-{{-- resources/views/admin/reports/completed-by-tech.blade.php --}}
-
 <x-admin-app-layout>
     <x-slot name="header">
         <div class="flex items-center justify-between">

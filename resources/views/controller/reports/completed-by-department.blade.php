@@ -1,4 +1,4 @@
-<x-admin-app-layout>
+<x-controller-app-layout>
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <div>
@@ -11,7 +11,7 @@
                 </div>
             </div>
 
-            <x-custom-button href="{{ route('admin.reports.index') }}" color="green">
+            <x-custom-button href="{{ route('controller.reports.index') }}" color="green">
                 Back to Reports
             </x-custom-button>
         </div>
@@ -22,7 +22,7 @@
 
             {{-- Filters --}}
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 sm:p-6">
-                <form method="GET" action="{{ route('admin.reports.completed-by-department') }}" class="space-y-4">
+                <form method="GET" action="{{ route('controller.reports.completed-by-department') }}" class="space-y-4">
                     <div class="text-sm text-gray-500 dark:text-gray-400">
                         Select departments (optional) and/or choose a time window, then click <span class="font-semibold">Apply</span>.
                         Priority is <span class="font-semibold">Custom range</span> → <span class="font-semibold">Month+Year</span> → <span class="font-semibold">Year</span> → <span class="font-semibold">All time</span>.
@@ -112,7 +112,7 @@
                             Apply
                         </button>
 
-                        <a href="{{ route('admin.reports.completed-by-department') }}"
+                        <a href="{{ route('controller.reports.completed-by-department') }}"
                            class="text-sm text-gray-600 dark:text-gray-300 underline">
                             Reset
                         </a>
@@ -286,4 +286,4 @@
             });
         })();
     </script>
-</x-admin-app-layout>
+</x-controller-app-layout>
