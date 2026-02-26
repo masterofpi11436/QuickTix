@@ -147,7 +147,11 @@
                     </div>
                 </div>
 
-                <canvas id="createdChart" height="120"></canvas>
+                <canvas id="createdChart"
+                    height="120"
+                    data-labels='@json(($createdLast30 ?? collect())->pluck("day"))'
+                    data-data='@json(($createdLast30 ?? collect())->pluck("total"))'>
+                </canvas>
             </div>
 
             <div class="bg-white dark:bg-gray-900 rounded-lg shadow p-4">
@@ -158,7 +162,11 @@
                     </div>
                 </div>
 
-                <canvas id="completedChart" height="120"></canvas>
+                <canvas id="completedChart"
+                    height="120"
+                    data-labels='@json(($completedLast30 ?? collect())->pluck("day"))'
+                    data-data='@json(($completedLast30 ?? collect())->pluck("total"))'>
+                </canvas>
             </div>
         </div>
 
@@ -166,45 +174,6 @@
 
     {{-- Chart.js --}}
     @push('scripts')
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script>
-            const createdLabels = @json(($createdLast30 ?? collect())->pluck('day'));
-            const createdData   = @json(($createdLast30 ?? collect())->pluck('total'));
-
-            const completedLabels = @json(($completedLast30 ?? collect())->pluck('day'));
-            const completedData   = @json(($completedLast30 ?? collect())->pluck('total'));
-
-            const createdCtx = document.getElementById('createdChart');
-            if (createdCtx) {
-                new Chart(createdCtx, {
-                    type: 'line',
-                    data: {
-                        labels: createdLabels,
-                        datasets: [{ label: 'Created', data: createdData, tension: 0.3 }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: { legend: { display: true } },
-                        scales: { y: { beginAtZero: true } }
-                    }
-                });
-            }
-
-            const completedCtx = document.getElementById('completedChart');
-            if (completedCtx) {
-                new Chart(completedCtx, {
-                    type: 'line',
-                    data: {
-                        labels: completedLabels,
-                        datasets: [{ label: 'Completed', data: completedData, tension: 0.3 }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: { legend: { display: true } },
-                        scales: { y: { beginAtZero: true } }
-                    }
-                });
-            }
-        </script>
+        @vite('resources/js/created-completed-charts.js')
     @endpush
 </x-reporting-user-app-layout>

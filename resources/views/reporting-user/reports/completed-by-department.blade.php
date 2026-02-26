@@ -215,7 +215,10 @@
 
                 <div class="p-4 sm:p-6">
                     <div class="w-full" style="height: 320px;">
-                        <canvas id="completedDeptTrend"></canvas>
+                        <canvas id="completedDeptTrend"
+                            data-labels='@json($trendLabels)'
+                            data-data='@json($trendData)'>
+                        </canvas>
                     </div>
                 </div>
             </div>
@@ -223,67 +226,25 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-    <script>
-        (function () {
-            const el = document.getElementById('completedDeptTrend');
-            if (!el) return;
+    @push('scripts')
+        @vite('resources/js/completed-by-dept.js')
+        <script>
+            (function () {
+                const sel = document.getElementById('deptSelect');
+                if (!sel) return;
 
-            const labels = @json($trendLabels);
-            const data = @json($trendData);
+                sel.addEventListener('mousedown', function (e) {
+                    const opt = e.target;
+                    if (!(opt instanceof HTMLOptionElement)) return;
 
-            if (window.__completedDeptTrendChart) {
-                window.__completedDeptTrendChart.destroy();
-            }
+                    e.preventDefault();
+                    opt.selected = !opt.selected;
 
-            window.__completedDeptTrendChart = new Chart(el, {
-                type: 'line',
-                data: {
-                    labels,
-                    datasets: [{
-                        label: 'Completed',
-                        data,
-                        tension: 0.25,
-                        fill: false,
-                        pointRadius: 0,
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    interaction: { mode: 'index', intersect: false },
-                    plugins: {
-                        legend: { display: true },
-                        tooltip: { enabled: true }
-                    },
-                    scales: {
-                        y: { beginAtZero: true, ticks: { precision: 0 } }
-                    }
-                }
-            });
-        })();
-    </script>
-    <script>
-        (function () {
-            const sel = document.getElementById('deptSelect');
-            if (!sel) return;
-
-            // Make simple clicks toggle an option without needing Ctrl/Cmd.
-            // Uses mousedown to prevent the browser's default "single select" behavior.
-            sel.addEventListener('mousedown', function (e) {
-                const opt = e.target;
-                if (!(opt instanceof HTMLOptionElement)) return;
-
-                e.preventDefault();
-
-                opt.selected = !opt.selected;
-
-                // Keep focus and visual state stable
-                const start = sel.scrollTop;
-                sel.focus();
-                sel.scrollTop = start;
-            });
-        })();
-    </script>
+                    const start = sel.scrollTop;
+                    sel.focus();
+                    sel.scrollTop = start;
+                });
+            })();
+        </script>
+    @endpush
 </x-reporting-user-app-layout>
